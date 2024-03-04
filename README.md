@@ -5,11 +5,28 @@ Anastasiia Prokopishena
 - Електронна пошта: prokopishena.anastasia@gmail.com
 - Telegram: https://t.me/yoon_hwoo
 
-## Початок роботи
-Додайте власні вказівки для початку роботи тут.
+## Getting Started
+
+### Clone the Repository
+1. Open your command line or terminal on your computer.
+2. Use the git clone command to clone the repository:
+https://github.com/nastya-prokopishena/Prokpishena.University.Personalized-Fitness-Coaching-Platform.git
+
+### Install .NET SDK
+1. Ensure that you have installed the .NET SDK.
+2. In the terminal, navigate to the project directory:
+cd your-repository
+
+### Run the Project Locally
+1. In the terminal, use the following command to run the project:
+dotnet run
+2. Open your web browser and go to link (with HTTPS)
+
+
 
 ## Документація проекту
-Додайте документацію проекту тут.
+
+### Getting Started
 
 ## Розклад завдань проекту
 Додайте розклад розбиття завдань тут.
