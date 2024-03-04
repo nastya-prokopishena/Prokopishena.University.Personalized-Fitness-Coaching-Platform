@@ -1,9 +1,15 @@
 # Prokpishena.University.Personalized-Fitness-Coaching-Platform
 
 ## Автор
-Anastasiia Prokopishena
-- Електронна пошта: prokopishena.anastasia@gmail.com
+- Name and surname: Anastasiia Prokopishena
+- Email: prokopishena.anastasia@gmail.com
 - Telegram: https://t.me/yoon_hwoo
+- Name of Project: Personalized Fitness Coaching Platform
+- Email of the student: anastasiia.prokopishena@lnu.edu.ua
+- Link to github, where source code is stored: https://github.com/nastya-prokopishena/Prokpishena.University.Personalized-Fitness-Coaching-Platform.git
+
+## Project Description
+The Personalized Fitness Coaching Platform is a web-based service designed to connect users with personal trainers for tailored workout plans and ongoing health support. Through the platform, users can set health goals, access customized exercise routines, track their progress, and communicate with their designated trainers.
 
 ## Getting Started
 
@@ -23,11 +29,6 @@ dotnet run
 2. Open your web browser and go to link (with HTTPS)
 
 
-
-## Документація проекту
-
-### Getting Started
-
 ## Розклад завдань проекту
 Додайте розклад розбиття завдань тут.
 
@@ -35,7 +36,7 @@ dotnet run
 - [ ] Implement feature: User Registration with Google Account (OAuth 2.0)
 - [ ] Set up Azure environment for project deployment
 - [x] Create initial project structure on Github repository
-- [ ] Draft Getting Started documentation for local project setup
+- [x] Draft Getting Started documentation for local project setup
 - [ ] Begin designing architecture and infrastructure diagrams
 
 ### Week 2:
