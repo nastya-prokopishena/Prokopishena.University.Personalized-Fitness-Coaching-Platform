@@ -1,0 +1,34 @@
+{
+  "name": "prokopishena.university.personalized-fitness-coaching-platform",
+  "version": "1.0.0",
+  "description": "- Name and surname: Anastasiia Prokopishena\r - Email: prokopishena.anastasia@gmail.com\r - Telegram: https://t.me/yoon_hwoo\r - Name of Project: Personalized Fitness Coaching Platform\r - Email of the student: anastasiia.prokopishena@lnu.edu.ua\r - Link to github, where source code is stored: https://github.com/nastya-prokopishena/Prokpishena.University.Personalized-Fitness-Coaching-Platform.git",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.18.3",
+    "express-session": "^1.18.0",
+    "knex": "^3.1.0",
+    "mssql": "^10.0.2",
+    "nodemailer": "^6.9.13",
+    "objection": "^3.1.4",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.11.3",
+    "sequelize": "^6.37.1",
+    "tedious": "^18.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
+    "babel-loader": "^9.1.3",
+    "webpack": "^5.90.3",
+    "webpack-cli": "^5.1.4"
+  }
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Training Plans</title>
+  <script src="/static/script/trainingPlan.js"></script>
+</head>
+<body>
+    <h1>Create Training Plan</h1>
+    <form id="create-training-form">
+        <label for="start-date">Start Date:</label>
+        <input type="date" id="start-date" name="start-date"><br><br>
+        
+        <label for="end-date">End Date:</label>
+        <input type="date" id="end-date" name="end-date"><br><br>
+        
+        <label for="weekly-sessions">Weekly Sessions:</label>
+        <input type="number" id="weekly-sessions" name="weekly-sessions"><br><br>
+        
+        <div id="session-days">
+            <!-- Days of the week will be dynamically added here based on the number of weekly sessions -->
+        </div>
+
+        <button type="submit">Create Training Plan</button>
+</body>
+</html>

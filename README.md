@@ -1,6 +1,6 @@
-# Prokpishena.University.Personalized-Fitness-Coaching-Platform
+# Prokopishena.University.Personalized-Fitness-Coaching-Platform
 
-## Автор
+## Author information
 - Name and surname: Anastasiia Prokopishena
 - Email: prokopishena.anastasia@gmail.com
 - Telegram: https://t.me/yoon_hwoo
@@ -34,7 +34,7 @@ dotnet run
 
 ### Week 1:
 - [ ] Implement feature: User Registration with Google Account (OAuth 2.0)
-- [ ] Set up Azure environment for project deployment
+- [x] Set up Azure environment for project deployment
 - [x] Create initial project structure on Github repository
 - [x] Draft Getting Started documentation for local project setup
 - [ ] Begin designing architecture and infrastructure diagrams
