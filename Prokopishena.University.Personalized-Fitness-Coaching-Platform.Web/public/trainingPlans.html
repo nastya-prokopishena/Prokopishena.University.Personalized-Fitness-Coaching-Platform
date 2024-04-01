@@ -7,6 +7,96 @@
   <script src="/static/script/trainingPlan.js"></script>
 </head>
 <body>
+  <section class="profile">
+    <h1>Профіль користувача</h1>
+    <div class="profile__information" id="profile-display">
+          <h2 class="profile__information-title">Відображення інформації про себе</h2>
+          <p class="profile__information-name">Ім'я: <span id="display-name"></span></p>
+          <p class="profile__information-surname">Прізвище: <span id="display-surname"></span></p>
+          <p class="profile__information-email">Електронна пошта: <span id="display-email"></span></p>
+          <p class="profile__information-date-of-birth">Дата народження: <span id="display-birthdate"></span></p>
+          <p class="profile__information-phone-number">Phone number: <span id="display-phone-number"></span></p>
+          <p class="profile__information-gender">Gender: <span id="display-gender"></span></p>
+          <p class="profile__information-role">Роль: <span id="display-role"></span></p>
+          <button class="profile_information-button" id="edit-profile">Змінити інформацію про себе</button>
+          <button class="profile_further-information-button" id="add-profile">Додаткові данні </button>
+      
+    </div>
+    <div id="edit-profile-form" class="profile__information-change" style="display: none;">
+      <h2 class="profile__information-title">Редагування інформації про себе</h2>
+      <form class="profile__information-form" id="profile-form">
+          <label class="profile__information-label" for="new-name">Ім'я:</label>
+          <input class="profile__information-input" type="text" id="new-name" name="new-name"><br>
+
+          <label class="profile__information-label" for="new-surname">Прізвище:</label>
+          <input class="profile__information-input" type="text" id="new-surname" name="new-surname"><br>
+
+          <label class="profile__information-label" for="new-email">Електронна пошта:</label>
+          <input class="profile__information-input" type="email" id="new-email" name="new-email"><br>
+
+          <label class="profile__information-label" for="new-birthdate">Дата народження:</label>
+          <input class="profile__information-input" type="text" id="new-birthdate" name="new-birthdate"><br>
+
+          <label class="profile__information-label" for="edit-phone-number">Phone number:</label>
+          <input class="profile__information-input" type="text" id="edit-phone-number" name="edit-phone-number"><br><br>
+        
+          <label class="profile__information-label" for="edit-gender">Gender:</label>
+          <select class="profile__information-select" id="edit-gender" name="edit-gender">
+            <option class="select-option" value="male">Male</option>
+            <option class="select-option" value="female">Female</option>
+            <option class="select-option" value="other">Other</option>
+        </select><br><br>
+
+          <input class="profile__information-submit" type="submit" value="Зберегти">
+          <button class="profile_information-button" id="cancel-edit">Відмінити</button>
+
+      </form>
+  </div>
+    <div class="profile_form-role" id="role-selection" >
+      <h2>Виберіть вашу роль:</h2>
+      <button class="role-button" data-role="client">Клієнт</button>
+      <button class="role-button" data-role="trainer">Тренер</button>
+    </div>
+    <form class="profile_form" id="client-profile-form" action="/client-profile" method="POST">
+      <label class="profile_form-label" for="weight">Weight:</label>
+      <input class="profile_form-input" type="text" id="weight" name="weight" required><br><br>
+
+      <label class="profile_form-label" for="height">Height:</label>
+      <input class="profile_form-input" type="text" id="height" name="height" required><br><br>
+
+      <label class="profile_form-label" for="strength-level">Strength Level:</label>
+      <select id="strength-level" name="strength-level" required>
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+      </select><br><br>
+
+      <label class="profile_form-label" for="endurance-level">Endurance Level:</label>
+      <select id="endurance-level" name="endurance-level" required>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+      </select><br><br>
+
+      <label class="profile_form-label" for="flexibility-level">Flexibility Level:</label>
+      <select id="flexibility-level" name="flexibility-level" required>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+      </select><br><br>
+
+      <label class="profile_form-label" for="training-goals">Training Goals:</label>
+      <select id="training-goals" name="training-goals" multiple required>
+          <option value="weight-loss">Weight Loss</option>
+          <option value="muscle-gain">Muscle Gain</option>
+          <option value="endurance">Endurance</option>
+          <option value="flexibility">Flexibility</option>
+      </select><br><br>
+
+      <button class="profile_form-button" type="submit">Save</button>
+  </form>
+  </section>
+    
     <h1>Create Training Plan</h1>
     <form id="create-training-form">
         <label for="start-date">Start Date:</label>
@@ -23,5 +113,8 @@
         </div>
 
         <button type="submit">Create Training Plan</button>
+        
+        <script src="/static/script/profile.js"></script>
+
 </body>
 </html>

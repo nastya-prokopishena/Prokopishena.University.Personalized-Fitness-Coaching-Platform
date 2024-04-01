@@ -15,9 +15,6 @@ const Client = sequelize.define('Client', {
   height: {
     type: DataTypes.DECIMAL
   },
-  birth_date: {
-    type: DataTypes.DATE
-  },
   goal: {
     type: DataTypes.STRING
   }

@@ -4,8 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        const email = document.getElementById('login_email').value;
-        const password = document.getElementById('login_password').value;
+        const formData = {
+            email: document.getElementById('login_email').value,
+            password: document.getElementById('login_password').value
+        };
 
         try {
             const response = await fetch('/login', {
@@ -13,13 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify(formData),
             });
 
             const data = await response.json();
 
-            // Після успішного входу перенаправлення на сторінку create-training-plan.html
             if (response.ok) {
+                localStorage.setItem('user_id', data.user_id);
                 window.location.href = '/trainingPlans.html';
             } else {
                 console.error('Error during login:', data.error);

@@ -25,6 +25,15 @@ const User = sequelize.define('User', {
   password_hash: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  date_of_birth: {
+    type: DataTypes.DATEONLY 
+  },
+  gender: {
+    type: DataTypes.STRING
+  },
+  phone_number: {
+    type: DataTypes.STRING
   }
 }, {
   tableName: 'users',
