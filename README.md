@@ -28,6 +28,9 @@ cd your-repository
 dotnet run
 2. Open your web browser and go to link (with HTTPS)
 
+### Architecture diagram
+![Діаграма архітектури](/Prokopishena.University.Personalized-Fitness-Coaching-Platform.Web//static/images/Architecture_diagram.drawio.png)
+
 
 ## Розклад завдань проекту
 Додайте розклад розбиття завдань тут.
