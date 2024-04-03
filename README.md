@@ -65,7 +65,7 @@ dotnet run
 - [ ] Optimize database queries for improved performance
 - [x] Conduct code refactoring and ensure codebase cleanliness
 - [x] Update project documentation with architecture and infrastructure diagrams
-- [ ] Review and update unit tests for new features and code changes
+- [x] Review and update unit tests for new features and code changes
 
 ### Week 6:
 - [ ] Implement feature: Communication Tools integration
