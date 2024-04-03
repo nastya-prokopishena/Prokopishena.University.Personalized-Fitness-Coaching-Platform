@@ -42,7 +42,7 @@ dotnet run
 ### Week 2:
 - [ ] Implement feature: Profile Creation
 - [ ] Configure Continuous Integration/Continuous Delivery pipeline on Azure
-- [ ] Write Unit Tests for User Registration functionality
+- [x] Write Unit Tests for User Registration functionality
 - [ ] Finalize architecture and infrastructure diagrams
 - [ ] Update Readme.md with project overview and architecture details
 
@@ -63,8 +63,8 @@ dotnet run
 ### Week 5:
 - [ ] Implement feature: Progress Tracking functionality
 - [ ] Optimize database queries for improved performance
-- [ ] Conduct code refactoring and ensure codebase cleanliness
-- [ ] Update project documentation with architecture and infrastructure diagrams
+- [x] Conduct code refactoring and ensure codebase cleanliness
+- [x] Update project documentation with architecture and infrastructure diagrams
 - [ ] Review and update unit tests for new features and code changes
 
 ### Week 6:
