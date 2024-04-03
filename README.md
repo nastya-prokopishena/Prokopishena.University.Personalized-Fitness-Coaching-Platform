@@ -37,21 +37,21 @@ dotnet run
 - [x] Set up Azure environment for project deployment
 - [x] Create initial project structure on Github repository
 - [x] Draft Getting Started documentation for local project setup
-- [ ] Begin designing architecture and infrastructure diagrams
+- [x] Begin designing architecture and infrastructure diagrams
 
 ### Week 2:
-- [ ] Implement feature: Profile Creation
+- [x] Implement feature: Profile Creation
 - [ ] Configure Continuous Integration/Continuous Delivery pipeline on Azure
 - [x] Write Unit Tests for User Registration functionality
 - [ ] Finalize architecture and infrastructure diagrams
-- [ ] Update Readme.md with project overview and architecture details
+- [x] Update Readme.md with project overview and architecture details
 
 ### Week 3:
 - [ ] Implement feature: Trainer Matching algorithm
 - [ ] Deploy initial project version to Azure for testing
 - [ ] Develop Postman collection for testing user registration and profile creation endpoints
 - [ ] Refine documentation for Getting Started and project overview
-- [ ] Conduct initial code review and address any issues identified
+- [x] Conduct initial code review and address any issues identified
 
 ### Week 4:
 - [ ] Implement feature: Customized Workout Plans generation
