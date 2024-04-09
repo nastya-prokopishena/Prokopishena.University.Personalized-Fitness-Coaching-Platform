@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/9bb0981f-2187-47ce-9013-c61ae1242ea1/resourceGroups/fitness-platform/providers/Microsoft.Web/sites/fitness-platform",
+    "appService.deploySubpath": "."
+}

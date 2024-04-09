@@ -2,16 +2,19 @@
 @import "header";
 @import "registration";
 @import "footer";
+@import "profile";
+
+
 
 @font-face {
-    font-family: "Podkova-Regular";
+    font-family: "Montserrat", sans-serif;
     src: url("/static/fonts/Podkova-Regular.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
   }
 
 body {
-    font-family: 'Podkova', serif;
+    font-family: "Montserrat", sans-serif;
     overflow-x: hidden;
     .sign-up {
         display: none; 

@@ -5,10 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Training Plans</title>
   <script src="/static/script/trainingPlan.js"></script>
+  
+  <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="/static/style.css"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
+  <nav class="menu">
+    <ul>
+      <li><a href="#">Профіль користувача</a></li>
+      <li><a href="#">Тренування</a></li>
+    </ul>
+  </nav>
   <section class="profile">
-    <h1>Профіль користувача</h1>
+    
     <div class="profile__information" id="profile-display">
           <h2 class="profile__information-title">Відображення інформації про себе</h2>
           <p class="profile__information-name">Ім'я: <span id="display-name"></span></p>
@@ -57,7 +69,7 @@
       <button class="role-button" data-role="client">Клієнт</button>
       <button class="role-button" data-role="trainer">Тренер</button>
     </div>
-    <form class="profile_form" id="client-profile-form" action="/client-profile" method="POST">
+    <form class="profile_form" id="client-profile-form" action="/client-profile" method="POST" style="display: none;">
       <label class="profile_form-label" for="weight">Weight:</label>
       <input class="profile_form-input" type="text" id="weight" name="weight" required><br><br>
 
@@ -85,18 +97,31 @@
           <option value="high">High</option>
       </select><br><br>
 
-      <label class="profile_form-label" for="training-goals">Training Goals:</label>
-      <select id="training-goals" name="training-goals" multiple required>
-          <option value="weight-loss">Weight Loss</option>
-          <option value="muscle-gain">Muscle Gain</option>
-          <option value="endurance">Endurance</option>
-          <option value="flexibility">Flexibility</option>
-      </select><br><br>
-
+      <label class="profile_form-label" for="training-goals">Training Goals:</label><br>
+        <div id="specializations-container-client"></div><br><br>
       <button class="profile_form-button" type="submit">Save</button>
   </form>
+  <form class="profile_form" id="trainer-profile-form" action="/trainer-profile" method="POST" style="display: none;">
+    <label class="profile_form-label">Specialization:</label><br>
+
+    <!-- Додаємо контейнер для виведення чекбоксів спеціалізацій -->
+    <div id="specializations-container-trainer"></div><br><br>
+
+    <label class="profile_form-label" for="trainer-experience">Experience (in years):</label>
+    <input class="profile_form-input" type="number" id="trainer-experience" name="trainer-experience" min="0" required><br><br>
+
+    <label class="profile_form-label" for="trainer-bio">About Me:</label><br>
+    <textarea class="profile_form-textarea" id="trainer-bio" name="trainer-bio" rows="4" cols="50" required></textarea><br>
+
+    <button class="profile_form-button" type="submit">Save</button>
+  </form>
+
   </section>
-    
+  <div class="trainer-searching">
+    <h1 class="trainer-searching_title">Пошук тренера</h1>
+    <button class="trainer-searching_button" id="search-trainer-btn">Пошук тренера</button>
+    <ul class="trainer-searching_list" id="trainer-list"></ul>
+  </div>
     <h1>Create Training Plan</h1>
     <form id="create-training-form">
         <label for="start-date">Start Date:</label>

@@ -15,7 +15,16 @@ const Client = sequelize.define('Client', {
   height: {
     type: DataTypes.DECIMAL
   },
-  goal: {
+  training_goals: {
+    type: DataTypes.STRING
+  },
+  strength_level: {
+    type: DataTypes.STRING
+  },
+  endurance_level: {
+    type: DataTypes.STRING
+  },
+  flexibility_level: {
     type: DataTypes.STRING
   }
 }, {

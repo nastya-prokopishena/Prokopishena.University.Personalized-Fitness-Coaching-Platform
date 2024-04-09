@@ -18,7 +18,7 @@ The Personalized Fitness Coaching Platform is a web-based service designed to co
 2. Use the git clone command to clone the repository:
 https://github.com/nastya-prokopishena/Prokpishena.University.Personalized-Fitness-Coaching-Platform.git
 
-### Install .NET SDK
+### Install .Node.js
 1. Ensure that you have installed the .NET SDK.
 2. In the terminal, navigate to the project directory:
 cd your-repository

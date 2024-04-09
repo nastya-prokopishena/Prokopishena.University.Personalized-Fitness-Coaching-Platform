@@ -34,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
@@ -46,10 +46,6 @@
               "RelativeToolTip": "Prokopishena.University.Personalized-Fitness-Coaching-Platform.Test\\Prokopishena.University.Personalized-Fitness-Coaching-Platform.csproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2024-03-03T15:20:15.486Z"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             },
             {
               "$type": "Document",
@@ -70,10 +66,8 @@
               "RelativeDocumentMoniker": "Prokopishena.University.Personalized-Fitness-Coaching-Platform.Web\\Prokopishena.University.Personalized-Fitness-Coaching-Platform.Web.csproj.user",
               "ToolTip": "C:\\Users\\anast\\OneDrive\\\u0420\u043E\u0431\u043E\u0447\u0438\u0439 \u0441\u0442\u0456\u043B\\Prokopishena.University.Personalized-Fitness-Coaching-Platform\\Prokopishena.University.Personalized-Fitness-Coaching-Platform.Web\\Prokopishena.University.Personalized-Fitness-Coaching-Platform.Web.csproj.user",
               "RelativeToolTip": "Prokopishena.University.Personalized-Fitness-Coaching-Platform.Web\\Prokopishena.University.Personalized-Fitness-Coaching-Platform.Web.csproj.user",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAKAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003464|",
-              "WhenOpened": "2024-03-03T15:17:25.064Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-03T15:17:25.064Z"
             },
             {
               "$type": "Document",

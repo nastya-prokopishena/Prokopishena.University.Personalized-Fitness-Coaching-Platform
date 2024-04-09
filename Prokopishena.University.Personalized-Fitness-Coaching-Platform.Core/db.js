@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('fitness-platform', 'prokopishena', 'Bangtan_1306', {
+const sequelize = new Sequelize('fitness-coaching-platform', 'prokopishena', 'Bangtan_1306', {
   host: 'fitness-platform.postgres.database.azure.com',
   dialect: 'postgres',
   port: 5432,
@@ -13,3 +13,4 @@ const sequelize = new Sequelize('fitness-platform', 'prokopishena', 'Bangtan_130
 });
 
 module.exports = sequelize;
+

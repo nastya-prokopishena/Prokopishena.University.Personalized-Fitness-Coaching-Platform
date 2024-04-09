@@ -5,6 +5,7 @@ const path = require('path');
 const User = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/User')
 const Client = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Client')
 const Trainer = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Trainer')
+const Specialization = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Specialization')
 const trainingController = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Core/controllers/trainingController');
 
 const PORT = process.env.PORT || 3000;
@@ -162,6 +163,150 @@ app.post('/update-user', async (req, res) => {
     res.status(500).send('An error occurred. Please try again.');
   }
 });
+app.get('/get-client-id/:user_id', async (req, res) => {
+  const userId = req.params.user_id;
+  try {
+      // Отримати client_id за допомогою user_id з бази даних
+      const client = await Client.findOne({ where: { user_id: userId } });
+      if (!client) {
+          throw new Error('Клієнт не знайдений для цього користувача');
+      }
+      res.json({ client_id: client.client_id });
+  } catch (error) {
+      console.error('Помилка отримання client_id:', error);
+      res.status(500).json({ error: 'Помилка отримання client_id' });
+  }
+});
+
+app.get('/get-trainer-id/:user_id', async (req, res) => {
+  const userId = req.params.user_id;
+  try {
+    const trainer = await Trainer.findOne({ where: { user_id: userId } });
+    if (!trainer) {
+      throw new Error('Trainer not found for this user');
+    }
+    res.json({ trainer_id: trainer.trainer_id });
+  } catch (error) {
+    console.error('Error getting trainer id:', error);
+    res.status(500).json({ error: 'Error getting trainer id' });
+  }
+});
+
+app.post('/client-profile', async (req, res) => {
+  try {
+    const { user_id, weight, height, training_goals, strength_level, endurance_level, flexibility_level } = req.body;
+
+    // Перевіряємо, чи існує клієнт з даним user_id
+    const existingClient = await Client.findOne({ where: { user_id } });
+    
+
+    if (existingClient) {
+      // Якщо клієнт існує, оновлюємо його дані, включаючи goal і flexibility
+      existingClient.weight = weight;
+      existingClient.height = height;
+      existingClient.training_goals = training_goals; // Оновлюємо goal
+      existingClient.strength_level = strength_level;
+      existingClient.endurance_level = endurance_level;
+      existingClient.flexibility_level = flexibility_level; // Оновлюємо flexibility
+
+      await existingClient.save(); // Зберігаємо оновлені дані
+
+      res.status(200).json({ message: 'Дані успішно оновлені' });
+    } else {
+      // Якщо клієнт не знайдений, видаємо помилку
+      res.status(404).json({ message: 'Клієнт не знайдений' });
+    }
+  } catch (error) {
+    console.error('Помилка при оновленні даних клієнта:', error);
+    res.status(500).json({ error: 'Помилка при оновленні даних клієнта' });
+  }
+});
+
+app.get('/specializations', async (req, res) => {
+  try {
+    const specializations = await Specialization.findAll({
+      attributes: ['specialization_name']
+    });
+
+    // Створюємо масив об'єктів для відправки клієнту
+    const specializationData = specializations.map(specialization => ({
+      name: specialization.specialization_name
+    }));
+
+    res.status(200).json(specializationData); // Надсилаємо список спеціалізацій як JSON
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Something went wrong. Please try again.' });
+  }
+});
+app.post('/trainer-profile', async (req, res) => {
+  try {
+    const { user_id, specializations, experience, about_trainer } = req.body;
+
+    const existingTrainer = await Trainer.findOne({ where: { user_id } });
+
+    if (existingTrainer) {
+      existingTrainer.specialization = specializations;
+      existingTrainer.experience = experience;
+      existingTrainer.about_trainer = about_trainer;
+
+      await existingTrainer.save();
+
+      res.status(200).json({ message: 'Trainer data successfully updated' });
+    } else {
+      res.status(404).json({ message: 'Trainer not found for this user' });
+    }
+  } catch (error) {
+    console.error('Error updating trainer data:', error);
+    res.status(500).json({ error: 'Error updating trainer data' });
+  }
+});
+
+app.get('/trainers', async (req, res) => {
+  try {
+      const trainers = await Trainer.findAll({ include: Specialization });
+      res.json(trainers);
+  } catch (error) {
+      console.error('Помилка отримання тренерів:', error);
+      res.status(500).json({ error: 'Помилка отримання тренерів' });
+  }
+});
+
+// Отримати всіх клієнтів та їх тренувальні цілі з бази даних
+app.get('/clients', async (req, res) => {
+  try {
+      const clients = await Client.findAll();
+      res.json(clients);
+  } catch (error) {
+      console.error('Помилка отримання клієнтів:', error);
+      res.status(500).json({ error: 'Помилка отримання клієнтів' });
+  }
+});
+app.post('/find-trainer', async (req, res) => {
+  try {
+    const { clientId } = req.body;
+
+    // Отримання спеціалізацій клієнта
+    const client = await Client.findByPk(clientId);
+    const clientSpecializations = client.training_goals.split(',');
+
+    // Отримання всіх тренерів з бази даних
+    const allTrainers = await Trainer.findAll();
+
+    // Фільтруємо тренерів, залишаючи тільки тих, чиї спеціалізації містяться у спеціалізаціях клієнта
+    const matchedTrainers = allTrainers.filter(trainer => {
+      const trainerSpecializations = trainer.specialization.split(',');
+      return clientSpecializations.some(spec => trainerSpecializations.includes(spec.trim()));
+    });
+
+    res.json(matchedTrainers);
+  } catch (error) {
+    console.error('Помилка при підборі тренера:', error);
+    res.status(500).json({ error: 'Помилка при підборі тренера' });
+  }
+});
+
+
 
 // Static file handler for public resources
 app.use(express.static(path.join(__dirname, 'public')));

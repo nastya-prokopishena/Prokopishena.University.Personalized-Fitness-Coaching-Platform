@@ -14,6 +14,9 @@ const Trainer = sequelize.define('Trainer', {
   },
   experience: {
     type: DataTypes.INTEGER
+  },
+  about_trainer: {
+    type: DataTypes.TEXT
   }
 }, {
   tableName: 'trainers',

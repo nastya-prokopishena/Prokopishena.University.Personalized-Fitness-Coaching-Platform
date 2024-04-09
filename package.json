@@ -2,9 +2,10 @@
   "name": "prokopishena.university.personalized-fitness-coaching-platform",
   "version": "1.0.0",
   "description": "- Name and surname: Anastasiia Prokopishena\r - Email: prokopishena.anastasia@gmail.com\r - Telegram: https://t.me/yoon_hwoo\r - Name of Project: Personalized Fitness Coaching Platform\r - Email of the student: anastasiia.prokopishena@lnu.edu.ua\r - Link to github, where source code is stored: https://github.com/nastya-prokopishena/Prokpishena.University.Personalized-Fitness-Coaching-Platform.git",
-  "main": "index.js",
+  "main": "Prokopishena.University.Personalized-Fitness-Coaching-Platform.Web/server.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "nodemon Prokopishena.University.Personalized-Fitness-Coaching-Platform.Web/server.js"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
     "knex": "^3.1.0",
     "mssql": "^10.0.2",
     "nodemailer": "^6.9.13",
+    "nodemon": "^3.1.0",
     "objection": "^3.1.4",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
