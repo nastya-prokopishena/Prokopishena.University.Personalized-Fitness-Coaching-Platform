@@ -264,11 +264,32 @@ app.post('/trainer-profile', async (req, res) => {
 
 app.get('/trainers', async (req, res) => {
   try {
-      const trainers = await Trainer.findAll({ include: Specialization });
-      res.json(trainers);
+    const trainers = await Trainer.findAll({
+      include: User // Включаємо дані користувача в результат
+    });
+
+    if (!trainers) {
+      return res.status(404).json({ message: 'No trainers found' });
+    }
+
+    // Перетворюємо результат в необхідний формат перед відправленням
+    const formattedTrainers = trainers.map(trainer => ({
+      trainer_id: trainer.trainer_id,
+      name: trainer.User.name,
+      surname: trainer.User.surname,
+      email: trainer.User.email,
+      date_of_birth: trainer.User.date_of_birth,
+      gender: trainer.User.gender,
+      phone_number: trainer.User.phone_number,
+      specialization: trainer.specialization,
+      experience: trainer.experience,
+      about_trainer: trainer.about_trainer
+    }));
+
+    res.status(200).json(formattedTrainers);
   } catch (error) {
-      console.error('Помилка отримання тренерів:', error);
-      res.status(500).json({ error: 'Помилка отримання тренерів' });
+    console.error(error);
+    res.status(500).json({ message: 'Something went wrong. Please try again.' });
   }
 });
 
@@ -307,7 +328,73 @@ app.post('/find-trainer', async (req, res) => {
 });
 
 
+app.post('/request-training/:trainerId', async (req, res) => {
+  try {
+    const trainerId = Trainer.trainer_id; 
+    const userId = req.body.userId; 
 
+
+    res.status(200).json({ message: 'Запит на тренування надіслано успішно!' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Виникла помилка під час обробки запиту' });
+  }
+});
+app.post('/trainer/requests/:requestId/accept', async (req, res) => {
+  const requestId = req.params.requestId;
+  try {
+    const request = await TrainingRequest.findByPk(requestId);
+    if (!request) {
+      return res.status(404).json({ message: 'Запит на тренування не знайдено' });
+    }
+    request.status = 'accepted';
+    await request.save();
+    res.status(200).json({ message: 'Запит на тренування прийнятий успішно' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Сталася помилка. Спробуйте ще раз.' });
+  }
+});
+
+// Маршрут для обробки запиту на відхилення запиту на тренування
+app.post('/trainer/requests/:requestId/reject', async (req, res) => {
+  const requestId = req.params.requestId;
+  try {
+    const request = await TrainingRequest.findByPk(requestId);
+    if (!request) {
+      return res.status(404).json({ message: 'Запит на тренування не знайдено' });
+    }
+    request.status = 'rejected';
+    await request.save();
+    res.status(200).json({ message: 'Запит на тренування відхилений успішно' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Сталася помилка. Спробуйте ще раз.' });
+  }
+});
+
+app.post('/request-training/:trainerId', async (req, res) => {
+  try {
+    const trainerId = req.params.trainerId; // Отримати trainerId з параметрів маршруту
+    const userId = req.body.userId;
+
+    const trainer = await Trainer.findByPk(trainerId);
+    if (!trainer) {
+      return res.status(404).json({ message: 'Trainer not found' });
+    }
+
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+
+    res.status(200).json({ message: 'Training request sent successfully!' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'An error occurred while processing the request' });
+  }
+});
 // Static file handler for public resources
 app.use(express.static(path.join(__dirname, 'public')));
 

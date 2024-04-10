@@ -24,9 +24,11 @@ https://github.com/nastya-prokopishena/Prokpishena.University.Personalized-Fitne
 cd your-repository
 
 ### Run the Project Locally
-1. In the terminal, use the following command to run the project:
-dotnet run
+1. In the terminal, use the following command to run the project
+npm start
 2. Open your web browser and go to link (with HTTPS)
+localy: http://localhost:3000
+azure: https://fitness-platform.azurewebsites.net/
 
 ### Architecture diagram
 ![Діаграма архітектури](/Prokopishena.University.Personalized-Fitness-Coaching-Platform.Web//static/images/Architecture_diagram.drawio.png)

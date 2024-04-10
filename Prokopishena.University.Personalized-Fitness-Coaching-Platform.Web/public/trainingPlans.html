@@ -15,38 +15,38 @@
 <body>
   <nav class="menu">
     <ul>
-      <li><a href="#">Профіль користувача</a></li>
-      <li><a href="#">Тренування</a></li>
+      <li><a href="#">User Profile</a></li>
+      <li><a href="#">Training</a></li>
     </ul>
   </nav>
   <section class="profile">
     
     <div class="profile__information" id="profile-display">
-          <h2 class="profile__information-title">Відображення інформації про себе</h2>
-          <p class="profile__information-name">Ім'я: <span id="display-name"></span></p>
-          <p class="profile__information-surname">Прізвище: <span id="display-surname"></span></p>
-          <p class="profile__information-email">Електронна пошта: <span id="display-email"></span></p>
-          <p class="profile__information-date-of-birth">Дата народження: <span id="display-birthdate"></span></p>
+          <h2 class="profile__information-title">Displaying Personal Information</h2>
+          <p class="profile__information-name">Name: <span id="display-name"></span></p>
+          <p class="profile__information-surname">Surname: <span id="display-surname"></span></p>
+          <p class="profile__information-email">Email: <span id="display-email"></span></p>
+          <p class="profile__information-date-of-birth">Date of Birth: <span id="display-birthdate"></span></p>
           <p class="profile__information-phone-number">Phone number: <span id="display-phone-number"></span></p>
           <p class="profile__information-gender">Gender: <span id="display-gender"></span></p>
-          <p class="profile__information-role">Роль: <span id="display-role"></span></p>
-          <button class="profile_information-button" id="edit-profile">Змінити інформацію про себе</button>
-          <button class="profile_further-information-button" id="add-profile">Додаткові данні </button>
+          <p class="profile__information-role">Role: <span id="display-role"></span></p>
+          <button class="profile_information-button" id="edit-profile">Edit Personal Information</button>
+          <button class="profile_further-information-button" id="add-profile">Additional Information</button>
       
     </div>
     <div id="edit-profile-form" class="profile__information-change" style="display: none;">
-      <h2 class="profile__information-title">Редагування інформації про себе</h2>
+      <h2 class="profile__information-title">Editing Personal Information</h2>
       <form class="profile__information-form" id="profile-form">
-          <label class="profile__information-label" for="new-name">Ім'я:</label>
+          <label class="profile__information-label" for="new-name">Name:</label>
           <input class="profile__information-input" type="text" id="new-name" name="new-name"><br>
 
-          <label class="profile__information-label" for="new-surname">Прізвище:</label>
+          <label class="profile__information-label" for="new-surname">Surname:</label>
           <input class="profile__information-input" type="text" id="new-surname" name="new-surname"><br>
 
-          <label class="profile__information-label" for="new-email">Електронна пошта:</label>
+          <label class="profile__information-label" for="new-email">Email:</label>
           <input class="profile__information-input" type="email" id="new-email" name="new-email"><br>
 
-          <label class="profile__information-label" for="new-birthdate">Дата народження:</label>
+          <label class="profile__information-label" for="new-birthdate">Date of Birth:</label>
           <input class="profile__information-input" type="text" id="new-birthdate" name="new-birthdate"><br>
 
           <label class="profile__information-label" for="edit-phone-number">Phone number:</label>
@@ -59,15 +59,15 @@
             <option class="select-option" value="other">Other</option>
         </select><br><br>
 
-          <input class="profile__information-submit" type="submit" value="Зберегти">
-          <button class="profile_information-button" id="cancel-edit">Відмінити</button>
+          <input class="profile__information-submit" type="submit" value="Save">
+          <button class="profile_information-button" id="cancel-edit">Cancel</button>
 
       </form>
   </div>
     <div class="profile_form-role" id="role-selection" >
-      <h2>Виберіть вашу роль:</h2>
-      <button class="role-button" data-role="client">Клієнт</button>
-      <button class="role-button" data-role="trainer">Тренер</button>
+      <h2>Select Your Role:</h2>
+      <button class="role-button" data-role="client">Client</button>
+      <button class="role-button" data-role="trainer">Trainer</button>
     </div>
     <form class="profile_form" id="client-profile-form" action="/client-profile" method="POST" style="display: none;">
       <label class="profile_form-label" for="weight">Weight:</label>
@@ -104,7 +104,6 @@
   <form class="profile_form" id="trainer-profile-form" action="/trainer-profile" method="POST" style="display: none;">
     <label class="profile_form-label">Specialization:</label><br>
 
-    <!-- Додаємо контейнер для виведення чекбоксів спеціалізацій -->
     <div id="specializations-container-trainer"></div><br><br>
 
     <label class="profile_form-label" for="trainer-experience">Experience (in years):</label>
@@ -118,8 +117,8 @@
 
   </section>
   <div class="trainer-searching">
-    <h1 class="trainer-searching_title">Пошук тренера</h1>
-    <button class="trainer-searching_button" id="search-trainer-btn">Пошук тренера</button>
+    <h1 class="trainer-searching_title">Find a Trainer</h1>
+    <button class="trainer-searching_button" id="search-trainer-btn">Search for a Trainer</button>
     <ul class="trainer-searching_list" id="trainer-list"></ul>
   </div>
     <h1>Create Training Plan</h1>
@@ -134,7 +133,6 @@
         <input type="number" id="weekly-sessions" name="weekly-sessions"><br><br>
         
         <div id="session-days">
-            <!-- Days of the week will be dynamically added here based on the number of weekly sessions -->
         </div>
 
         <button type="submit">Create Training Plan</button>

@@ -197,3 +197,26 @@ section.profile {
 .profile_form-button:hover {
     background-color: #45a049;
 }
+.trainer-item {
+    margin-bottom: 20px;
+  
+    div {
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 5px;
+  
+      h3 {
+        margin-top: 0;
+      }
+  
+      p {
+        margin: 5px 0;
+      }
+  
+      strong {
+        font-weight: bold;
+      }
+    }
+  }
+  

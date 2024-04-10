@@ -476,6 +476,25 @@ section.profile {
   background-color: #45a049;
 }
 
+.trainer-item {
+  margin-bottom: 20px;
+}
+.trainer-item div {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+}
+.trainer-item div h3 {
+  margin-top: 0;
+}
+.trainer-item div p {
+  margin: 5px 0;
+}
+.trainer-item div strong {
+  font-weight: bold;
+}
+
 @font-face {
   font-family: "Montserrat", sans-serif;
   src: url("/static/fonts/Podkova-Regular.ttf") format("truetype");
