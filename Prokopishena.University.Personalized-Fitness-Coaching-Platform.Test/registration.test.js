@@ -2,6 +2,8 @@ const request = require('supertest');
 const app = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Web/server');
 const { createTestUser } = require('./testUtils');
 
+const server = app.listen();
+
 describe('Registration API Endpoint', () => {
   it('should register a new user', async () => {
     const testUser = createTestUser();
@@ -14,5 +16,5 @@ describe('Registration API Endpoint', () => {
 });
 
 afterAll((done) => {
-    app.close(done);
-  });
+    server.close(done);
+});
