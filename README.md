@@ -218,3 +218,53 @@ azure: https://fitness-platform.azurewebsites.net/
     - Sends a POST request to `/register` with the form data.
     - Stores the user's gender in local storage.
     - Displays error messages if any occur during registration.
+
+### On the website:
+
+- **Displaying a list of clients for a particular trainer:**
+    - Includes additional information and buttons for showing all information and nutrition recommendations.
+
+- **Toggling the visibility of additional information about a client:**
+    - Triggered when a button is clicked.
+
+- **Displaying user information:**
+    - Presents user details on the webpage.
+
+- **Displaying specializations:**
+    - Lists available specializations in the application.
+
+- **Displaying a list of trainers:**
+    - Provides information about each trainer and a button to request training.
+
+- **Sending a request for training to a specific trainer:**
+    - Allows the user to make a training request.
+
+- **Searching for and displaying a list of trainers:**
+    - Helps users find trainers.
+
+- **Displaying information about a client:**
+    - Uses the client ID to show client information.
+
+- **Creating a modal window with a form for entering nutrition recommendations:**
+    - Allows the user to input recommendations.
+
+- **Displaying a modal window with a form for entering nutrition recommendations:**
+    - Shows a form for the user to provide nutrition recommendations.
+
+- **Closing the modal window:**
+    - Handles the process of closing the modal.
+
+- **Handling form submission with nutrition recommendations:**
+    - Manages form submission for nutrition recommendations.
+
+- **Handling login form submission:**
+    - Adds an event handler on page load to process login input data (email and password).
+
+- **Storing the user ID in local storage and redirecting the user:**
+    - Redirects the user to the training plans page and saves the user ID.
+
+- **Switching between login and registration forms:**
+    - Manages the switch between login and registration forms.
+
+- **Handling the registration form:**
+    - Works with input data and saves the user's gender in local storage.

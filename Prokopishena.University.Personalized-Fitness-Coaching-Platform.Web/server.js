@@ -38,63 +38,38 @@ const logger = winston.createLogger({
     new winston.transports.File({ filename: 'login_register.log' })
   ],
 });
-
-
 // Registration route
 
 app.post('/register', async (req, res) => {
   try {
-      const { email, name, surname, password, date_of_birth, gender, phone_number } = req.body;
+    const { email, name, surname, password, date_of_birth, gender, phone_number } = req.body;
 
-      // Check if the user already exists
-      const existingUser = await User.findOne({ where: { email } });
-      if (existingUser) {
-          // Log failed registration attempt
-          logger.info(`Failed registration attempt: Email already exists - ${email}, IP: ${req.ip}, Time: ${new Date().toISOString()}`);
-          return res.status(400).json({ message: 'User with this email already exists' });
-      }
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      logger.info(`Failed registration attempt: Email already exists - ${email}, IP: ${req.ip}`);
+      return res.status(400).json({ message: 'User with this email already exists' });
+    }
 
-      // Create a new user (assuming you have a User model)
-      const newUser = await User.create({
-          email,
-          name,
-          surname,
-          password,
-          date_of_birth,
-          gender,
-          phone_number
-      });
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-      // Log successful registration
-      logger.info(`Successful registration: Email - ${email}, IP: ${req.ip}, Time: ${new Date().toISOString()}`);
+    const newUser = await User.create({
+      email,
+      name,
+      surname,
+      password_hash: hashedPassword,
+      date_of_birth,
+      gender,
+      phone_number
+    });
 
-      // Send a welcome email to the new user using Mailjet
-      const emailContent = {
-          From: {
-              Email: 'no-reply@yourdomain.com', // Change this to your sender email address
-              Name: 'Your Service Name'
-          },
-          To: [{
-              Email: email,
-              Name: name
-          }],
-          Subject: 'Welcome to Our Service!',
-          TextPart: `Hello ${name},\n\nWelcome to our service! We're glad to have you on board.`,
-          HTMLPart: `<p>Hello ${name},</p><p>Welcome to our service! We're glad to have you on board.</p>`,
-      };
-
-      await mailjet.post('send', { version: 'v3.1' }).request({
-          Messages: [emailContent]
-      });
-
-      // Return success response
-      res.status(201).json({ message: 'User successfully registered' });
-
+    logger.info(`Successful registration: ${email}, IP: ${req.ip}`);
+    res.status(201).json({ message: 'User successfully registered' });
   } catch (error) {
-      console.error('Error during registration:', error);
-      res.status(500).json({ message: 'Something went wrong. Please try again.' });
+    console.error(error);
+    res.status(500).json({ message: 'Something went wrong. Please try again.' });
   }
 });
+
 app.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;

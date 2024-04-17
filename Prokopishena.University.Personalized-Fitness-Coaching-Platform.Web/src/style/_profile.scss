@@ -67,7 +67,7 @@ section.profile {
   justify-content: flex-start;
   align-items: flex-start;
   padding: 2rem;
-  height: 70vh;
+  
 
 }
 
@@ -225,8 +225,8 @@ section.profile {
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    margin: 0 auto;
-    width: 25%;
+    margin-left: 35px;
+    width: 38%;
   
     &_title {
       color: #45a049;
@@ -345,4 +345,49 @@ section.profile {
       padding-top: 10px;
       border-top: 1px solid #ccc;
     }
+  }
+
+  .trainer-list {
+    
+  
+    
+  
+      h3 {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+  
+      p {
+        margin-bottom: 5px;
+      }
+  
+      
+    }
+  
+  .trainer-item {
+    background-color: #fff;
+    border-radius: 3px;
+    padding: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease-out;
+
+    &:hover {
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+  }
+  .train-btn {
+    background-color: #45a049;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 5px 10px;
+      font-size: 14px;
+      margin-top: 10px;
+      margin-right: 8px;
+    text-transform: uppercase;
+  &:hover {
+    background-color: darken(#45a049, 10%);
+  }
   }

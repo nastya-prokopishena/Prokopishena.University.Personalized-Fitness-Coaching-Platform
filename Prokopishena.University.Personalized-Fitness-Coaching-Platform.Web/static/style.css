@@ -344,7 +344,6 @@ section.profile {
       -ms-flex-align: start;
           align-items: flex-start;
   padding: 2rem;
-  height: 70vh;
 }
 
 .profile__information {
@@ -501,8 +500,8 @@ section.profile {
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  margin: 0 auto;
-  width: 25%;
+  margin-left: 35px;
+  width: 38%;
 }
 .trainer-searching_title {
   color: #45a049;
@@ -619,6 +618,46 @@ section.profile {
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid #ccc;
+}
+
+.trainer-list h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.trainer-list p {
+  margin-bottom: 5px;
+}
+
+.trainer-item {
+  background-color: #fff;
+  border-radius: 3px;
+  padding: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+  -webkit-transition: -webkit-box-shadow 0.2s ease-out;
+  transition: -webkit-box-shadow 0.2s ease-out;
+  transition: box-shadow 0.2s ease-out;
+  transition: box-shadow 0.2s ease-out, -webkit-box-shadow 0.2s ease-out;
+}
+.trainer-item:hover {
+  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.train-btn {
+  background-color: #45a049;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 5px 10px;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-right: 8px;
+  text-transform: uppercase;
+}
+.train-btn:hover {
+  background-color: #367c39;
 }
 
 @font-face {

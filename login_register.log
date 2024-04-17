@@ -12,3 +12,7 @@
 {"level":"info","message":"Failed login attempt: User not found - smith.billie@gmail.com, IP: ::1"}
 {"level":"info","message":"Failed login attempt: User not found - smith.billie@gmail.com, IP: ::1"}
 {"level":"info","message":"Failed login attempt: User not found - smith.billie@gmail.com, IP: ::1"}
+{"level":"info","message":"Successful login: prokopishena.anastasia@gmail.com, IP: ::1"}
+{"level":"info","message":"Successful login: prokopishena.anastasia@gmail.com, IP: ::1"}
+{"level":"info","message":"Successful registration: mykhailova.olena@gmail.com, IP: ::1"}
+{"level":"info","message":"Successful login: mykhailova.olena@gmail.com, IP: ::1"}
