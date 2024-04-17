@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Training Plans</title>
   <script src="/static/script/trainingPlan.js"></script>
-  
+  <script src="/static/script/nutrition.js"></script>
   <link rel="stylesheet" href="../static/style.css">
     <link rel="stylesheet" href="/static/style.css"> 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -120,7 +120,10 @@
     <h1 class="trainer-searching_title">Find a Trainer</h1>
     <button class="trainer-searching_button" id="search-trainer-btn">Search for a Trainer</button>
     <ul class="trainer-searching_list" id="trainer-list"></ul>
-  </div>
+</div>
+
+<div id="client-list"></div>
+
     <h1>Create Training Plan</h1>
     <form id="create-training-form">
         <label for="start-date">Start Date:</label>
@@ -137,7 +140,7 @@
 
         <button type="submit">Create Training Plan</button>
         
-        <script src="/static/script/profile.js"></script>
+        <script  type="module" src="/static/script/profile.js"></script>
 
 </body>
 </html>

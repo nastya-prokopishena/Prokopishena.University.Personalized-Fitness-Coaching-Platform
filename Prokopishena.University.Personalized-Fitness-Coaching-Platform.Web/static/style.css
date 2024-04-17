@@ -344,7 +344,7 @@ section.profile {
       -ms-flex-align: start;
           align-items: flex-start;
   padding: 2rem;
-  height: 100vh;
+  height: 70vh;
 }
 
 .profile__information {
@@ -493,6 +493,132 @@ section.profile {
 }
 .trainer-item div strong {
   font-weight: bold;
+}
+
+.trainer-searching {
+  background-color: white;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 0 auto;
+  width: 25%;
+}
+.trainer-searching_title {
+  color: #45a049;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.trainer-searching_button {
+  background-color: #45a049;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 10px 20px;
+  text-transform: uppercase;
+}
+.trainer-searching_button:hover {
+  background-color: #367c39;
+}
+.trainer-searching_list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#client-list {
+  margin-top: 50px;
+}
+
+#nutritionModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+#nutritionModal form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+#nutritionModal form h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+#nutritionModal form input[type=hidden] {
+  display: none;
+}
+#nutritionModal form textarea {
+  resize: vertical;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  height: auto;
+}
+#nutritionModal form button {
+  background-color: #45a049;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  font-size: 14px;
+  margin-top: 10px;
+}
+#nutritionModal form button:hover {
+  background-color: #367c39;
+}
+#nutritionModal form button:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.client-item {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+  -webkit-transition: -webkit-box-shadow 0.2s ease-out;
+  transition: -webkit-box-shadow 0.2s ease-out;
+  transition: box-shadow 0.2s ease-out;
+  transition: box-shadow 0.2s ease-out, -webkit-box-shadow 0.2s ease-out;
+}
+.client-item:hover {
+  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.client-item button {
+  background-color: #45a049;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 5px 10px;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-right: 8px;
+  text-transform: uppercase;
+}
+.client-item button:hover {
+  background-color: #367c39;
+}
+.client-item .client-additional-info {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
 }
 
 @font-face {

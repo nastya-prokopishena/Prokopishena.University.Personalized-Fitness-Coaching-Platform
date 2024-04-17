@@ -1,3 +1,94 @@
+const showNutritions = window.showNutritions;
+const displayClientsForTrainer = async (trainerId) => {
+    try {
+        const response = await fetch(`/trainer/${trainerId}/clients`);
+        if (!response.ok) {
+            console.error('Error fetching clients for trainer');
+            return;
+        }
+
+        const clients = await response.json();
+        const clientContainer = document.querySelector('#client-list');
+
+        if (!clientContainer) {
+            console.error('client-list element not found');
+            return;
+        }
+
+        clientContainer.innerHTML = '';
+
+        clients.forEach(client => {
+            // Створення елемента для кожного клієнта
+            const clientDiv = document.createElement('div');
+            clientDiv.classList.add('client-item');
+            clientDiv.setAttribute('data-client-id', client.client_id);
+
+            // Ім'я та прізвище клієнта
+            const clientNameElement = document.createElement('p');
+            clientNameElement.innerText = `Name: ${client.name} ${client.surname}`;
+            clientDiv.appendChild(clientNameElement);
+
+            // Створення додаткової інформації про клієнта
+            const additionalInfoDiv = document.createElement('div');
+            additionalInfoDiv.classList.add('client-additional-info');
+            additionalInfoDiv.style.display = 'none';
+            additionalInfoDiv.innerHTML = `
+                <p>Email: ${client.email}</p>
+                <p>Phone: ${client.phone_number}</p>
+                <p>Gender: ${client.gender}</p>
+                <p>Weight: ${client.weight}</p>
+                <p>Height: ${client.height}</p>
+                <p>Strength Level: ${client.strength_level}</p>
+                <p>Endurance Level: ${client.endurance_level}</p>
+                <p>Flexibility Level: ${client.flexibility_level}</p>
+                <p>Training Goals: ${client.training_goals}</p>
+            `;
+
+            // Додавання додаткової інформації до клієнтського елемента
+            clientDiv.appendChild(additionalInfoDiv);
+
+            // Створення кнопки для відображення/приховування додаткової інформації
+            const button = document.createElement('button');
+            button.textContent = 'All information';
+            button.addEventListener('click', toggleClientInfo);
+            clientDiv.appendChild(button);
+
+            const nutritionsButton = document.createElement('button');
+            nutritionsButton.textContent = 'Nutritions';
+            nutritionsButton.setAttribute('data-client-id', client.client_id);
+            nutritionsButton.addEventListener('click', showNutritions);
+            clientDiv.appendChild(nutritionsButton);
+
+            // Додавання клієнтського елемента до контейнера
+            clientContainer.appendChild(clientDiv);
+        });
+    } catch (error) {
+        console.error('Error fetching clients for trainer:', error);
+    }
+};
+const toggleClientInfo = (event) => {
+    // Отримуємо кнопку, яка викликала функцію
+    const button = event.target;
+
+    // Знаходимо батьківський елемент, який є клієнтським елементом
+    const clientDiv = button.closest('.client-item');
+    
+    // Перевіряємо наявність елемента клієнта
+    if (clientDiv) {
+        const additionalInfoDiv = clientDiv.querySelector('.client-additional-info');
+        
+        // Перевірка наявності додаткової інформації
+        if (additionalInfoDiv) {
+            // Перемикання видимості додаткової інформації
+            additionalInfoDiv.style.display = additionalInfoDiv.style.display === 'none' ? 'block' : 'none';
+        } else {
+            console.error(`Додаткова інформація для клієнта не знайдена.`);
+        }
+    } else {
+        console.error(`Клієнт не знайдений.`);
+    }
+};
+
 document.addEventListener("DOMContentLoaded", async function() {
     const userId = localStorage.getItem('user_id');
     const roleSelection = document.getElementById("role-selection");
@@ -22,6 +113,60 @@ document.addEventListener("DOMContentLoaded", async function() {
         document.getElementById('display-gender').innerText = gender;
     };
 
+  // Функція для отримання client_id користувача
+const getClientId = async (userId) => {
+    try {
+        const response = await fetch(`/get-client-id/${userId}`);
+
+        // Перевірка статусу відповіді
+        if (!response.ok) {
+            console.error(`Помилка отримання client_id: статус відповіді - ${response.status}`);
+            throw new Error('Помилка отримання client_id');
+        }
+
+        const data = await response.json();
+
+        // Перевірка, чи містить відповідь необхідне поле
+        if (!data.client_id) {
+            console.error('Відповідь не містить client_id');
+            throw new Error('Відповідь не містить client_id');
+        }
+
+        return data.client_id;
+    } catch (error) {
+        console.error('Помилка отримання client_id:', error);
+        throw error;
+    }
+};
+
+// Функція для отримання trainer_id користувача
+const getTrainerId = async (userId) => {
+    try {
+        const response = await fetch(`/get-trainer-id/${userId}`);
+
+        // Перевірка статусу відповіді
+        if (!response.ok) {
+            console.error(`Помилка отримання trainer_id: статус відповіді - ${response.status}`);
+            throw new Error('Помилка отримання trainer_id');
+        }
+
+        const data = await response.json();
+
+        // Перевірка, чи містить відповідь необхідне поле
+        if (!data.trainer_id) {
+            console.error('Відповідь не містить trainer_id');
+            throw new Error('Відповідь не містить trainer_id');
+        }
+
+        return data.trainer_id;
+    } catch (error) {
+        console.error('Помилка отримання trainer_id:', error);
+        throw error;
+    }
+};
+window.getTrainerId = getTrainerId;
+
+
     try {
         const response = await fetch(`/user-role/${userId}`);
         if (!response.ok) {
@@ -36,10 +181,33 @@ document.addEventListener("DOMContentLoaded", async function() {
         } else {
             roleSelection.style.display = 'none';
         }
+        
+        
     } catch (error) {
         console.error('Помилка отримання ролі користувача:', error);
     }
 
+    try {
+        const response = await fetch(`/user-role/${userId}`);
+        if (!response.ok) {
+            throw new Error("Помилка отримання ролі користувача");
+        }
+        const data = await response.json();
+        const userRole = data.role;
+        document.getElementById('display-role').innerText = userRole;
+
+        if (userRole === 'Trainer') {
+            const trainerId = await getTrainerId(userId);
+            if (trainerId) {
+                await displayClientsForTrainer(trainerId);
+            } else {
+                console.error('Не вдалося отримати trainer_id');
+            }
+        }
+        
+    } catch (error) {
+        console.error('Помилка отримання ролі тренера:', error);
+    }
     const roleButtons = document.querySelectorAll(".role-button");
     roleButtons.forEach(function(button) {
         button.addEventListener("click", async function() {
@@ -117,35 +285,6 @@ document.addEventListener("DOMContentLoaded", async function() {
         event.preventDefault();
         document.getElementById('edit-profile-form').style.display = 'none';
     });
-
-    const getClientId = async (userId) => {
-        try {
-            const response = await fetch(`/get-client-id/${userId}`);
-            if (!response.ok) {
-                throw new Error('Помилка отримання client_id');
-            }
-            const data = await response.json();
-            return data.client_id;
-        } catch (error) {
-            console.error('Помилка отримання client_id:', error);
-            throw error;
-        }
-    };
-    const getTrainerId = async (userId) => {
-        try {
-            const response = await fetch(`/get-trainer-id/${userId}`);
-            if (!response.ok) {
-                throw new Error('Error getting trainer_id');
-            }
-            const data = await response.json();
-            return data.trainer_id;
-        } catch (error) {
-            console.error('Error getting trainer_id:', error);
-            throw error; 
-        }
-    };
-    
-
     
 
 const specializationContainerClient = document.getElementById("specializations-container-client");
@@ -315,29 +454,64 @@ const displayTrainers = (trainers) => {
   };
   const requestTraining = async (trainerId) => {
     try {
-      const userId = localStorage.getItem('user_id');
-      if (!userId) {
-        throw new Error('User ID not found');
-      }
-  
-      const response = await fetch(`/request-training/${trainerId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userId }),
-      });
-  
-      if (!response.ok) {
-        throw new Error('Error requesting training');
-      }
-  
-      alert('Training request sent successfully!');
+        const clientId = await getClientId(userId); // Отримуємо ID клієнта
+
+        // Відправляємо POST запит на сервер
+        const response = await fetch('/training_requests', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                client_id: clientId,
+                trainer_id: trainerId
+            })
+        });
+
+        // Обробляємо відповідь сервера
+        const data = await response.json();
+
+        if (response.ok) {
+            alert(data.message); // Показуємо повідомлення про успіх
+            // Приховуємо div після успішного створення запиту на тренування
+            document.querySelector('.trainer-searching').style.display = 'none';
+        } else {
+            alert(data.message); // Показуємо повідомлення про помилку
+        }
     } catch (error) {
-      console.error('Error:', error);
-      alert('An error occurred while requesting training');
+        console.error('Помилка при запиті на тренування:', error);
+        alert('Сталася помилка. Спробуйте ще раз.');
     }
-  };
+};
+
+const checkExistingRequests = async (userId) => {
+    try {
+        const userRoleResponse = await fetch(`/user-role/${userId}`);
+        const userRoleData = await userRoleResponse.json();
+        const userRole = userRoleData.role;
+
+        // Якщо роль користувача — тренер, приховуємо div з тренерами
+        if (userRole === 'Trainer') {
+            document.querySelector('.trainer-searching').style.display = 'none';
+            return;
+        }
+
+        // Якщо роль користувача — клієнт, перевіряємо наявність існуючих запитів
+        const clientId = await getClientId(userId); // Отримуємо ID клієнта
+        const response = await fetch(`/check-existing-requests/${clientId}`);
+        
+        if (response.ok) {
+            const data = await response.json();
+            if (data.existing_requests) {
+                // Якщо вже є існуючі запити, приховуємо div з тренерами
+                document.querySelector('.trainer-searching').style.display = 'none';
+            }
+        }
+    } catch (error) {
+        console.error('Помилка при перевірці існуючих запитів:', error);
+    }
+};
+
   // Функція для пошуку тренерів
   const findTrainer = async () => {
     try {
@@ -358,54 +532,21 @@ const displayTrainers = (trainers) => {
       alert('An error occurred while searching for trainers');
     }
   };
-  const getTrainerRequests = async () => {
-    try {
-        const response = await fetch(`/trainer-requests/${userId}`);
-        if (!response.ok) {
-            throw new Error("Помилка отримання запитів на тренування");
-        }
-        const trainerRequests = await response.json();
-        displayTrainerRequests(trainerRequests);
-    } catch (error) {
-        console.error('Помилка отримання запитів на тренування:', error);
-    }
+  
+ 
+
+// Функція для показу інформації про клієнта
+const showClientInformation = (clientId) => {
+    console.log(`Showing information for client with ID ${clientId}`);
+    // Реалізуйте показ інформації про клієнта
 };
-getTrainerRequests();
-const displayTrainerRequests = (trainerRequests) => {
-    const requestsContainer = document.getElementById('trainer-requests-container');
-    requestsContainer.innerHTML = ''; 
 
-    if (trainerRequests.length === 0) {
-        const noRequestsMessage = document.createElement('p');
-        noRequestsMessage.textContent = 'Немає запитів на тренування';
-        requestsContainer.appendChild(noRequestsMessage);
-    } else {
-        trainerRequests.forEach(request => {
-            const requestItem = document.createElement('div');
-            requestItem.classList.add('request-item');
 
-            const requestInfo = `
-                <p><strong>Клієнт:</strong> ${request.clientName}</p>
-                <p><strong>Дата запиту:</strong> ${request.date}</p>
-                <button class="accept-request-btn" data-request-id="${request.id}">Прийняти</button>
-                <button class="reject-request-btn" data-request-id="${request.id}">Відхилити</button>
-            `;
-            requestItem.innerHTML = requestInfo;
-
-            const acceptBtn = requestItem.querySelector('.accept-request-btn');
-            const rejectBtn = requestItem.querySelector('.reject-request-btn');
-
-            acceptBtn.addEventListener('click', () => handleRequestAction(request.id, 'accept'));
-            rejectBtn.addEventListener('click', () => handleRequestAction(request.id, 'reject'));
-
-            requestsContainer.appendChild(requestItem);
-        });
-    }
-};
 
   const searchTrainerBtn = document.getElementById('search-trainer-btn');
   searchTrainerBtn.addEventListener('click', findTrainer);
   
     getUserInfo(userId);
+    checkExistingRequests(userId);
 
 });

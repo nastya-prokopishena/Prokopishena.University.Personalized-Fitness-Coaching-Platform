@@ -53,7 +53,7 @@ azure: https://fitness-platform.azurewebsites.net/
 
 ### Week 3:
 - [ ] Implement feature: Trainer Matching algorithm
-- [ ] Deploy initial project version to Azure for testing
+- [x] Deploy initial project version to Azure for testing
 - [ ] Develop Postman collection for testing user registration and profile creation endpoints
 - [ ] Refine documentation for Getting Started and project overview
 - [x] Conduct initial code review and address any issues identified
@@ -81,10 +81,10 @@ azure: https://fitness-platform.azurewebsites.net/
 
 ### Week 7:
 - [ ] Implement feature: Nutrition Guidance integration
-- [ ] Refine user interface based on feedback from initial testing
-- [ ] Conduct security assessment and implement necessary measures to ensure user data protection
+- [x] Refine user interface based on feedback from initial testing
+- [x] Conduct security assessment and implement necessary measures to ensure user data protection
 - [ ] Review and optimize email notification system for reliability and delivery speed
-- [ ] Prepare release notes for the initial platform launch
+- [x] Prepare release notes for the initial platform launch
 
 ### Week 8:
 - [ ] Implement feature: Goal Setting functionality
@@ -121,3 +121,100 @@ azure: https://fitness-platform.azurewebsites.net/
 - [ ] Closeout documentation, including lessons learned and project retrospective
 - [ ] Celebrate the successful platform launch with the team and stakeholders
 
+
+##Functions
+### `profile.js`
+
+- **`showNutritions(event)`**:
+    - Event handler triggered when a button is clicked. Retrieves the `clientId` from the button's data attribute and the `trainerId` for the client.
+    - Fetches the `requestId` using the `clientId` and `trainerId`.
+    - If successful, shows a modal window and sets the `requestId` in the form.
+
+- **`displayClientsForTrainer(trainerId)`**:
+    - Fetches and displays a list of clients for a given trainer ID.
+    - For each client, it displays additional information and creates buttons for showing all information and nutrition guidance.
+
+- **`toggleClientInfo(event)`**:
+    - Toggles the visibility of additional information for a client when a button is clicked.
+
+- **`getUserInfo(userId)`**:
+    - Fetches and displays user information based on the provided `userId`.
+
+- **`getClientId(userId)`**:
+    - Fetches and returns the `client_id` for a given `userId`.
+
+- **`getTrainerId(userId)`**:
+    - Fetches and returns the `trainer_id` for a given `userId`.
+
+- **`displayUserInfo(userInfo)`**:
+    - Displays user information on the webpage.
+
+- **`fetchSpecializations()`**:
+    - Fetches and displays specializations available in the application.
+
+- **`displayTrainers(trainers)`**:
+    - Displays a list of trainers, including information about each trainer and a button to request training.
+
+- **`requestTraining(trainerId)`**:
+    - Sends a request for training to a specific trainer ID.
+
+- **`checkExistingRequests(userId)`**:
+    - Checks if there are existing training requests for a given user ID.
+
+- **`findTrainer()`**:
+    - Searches for and displays a list of trainers.
+
+- **`showClientInformation(clientId)`**:
+    - Displays information about a client based on their `clientId`.
+
+- Event handlers for profile editing, form submission, and adding profiles.
+
+### `nutrition.js`
+
+- **`createNutritionModal()`**:
+    - Creates a modal window with a form for entering nutrition recommendations.
+    - Includes fields for the `request_id` and a text area for recommendations.
+    - Adds the modal window to the document body.
+
+- **`fetchRequestId(clientId, trainerId)`**:
+    - Sends a POST request to the server to fetch `request_id` using `clientId` and `trainerId`.
+    - Returns the `request_id` or `null` in case of an error.
+
+- **`showNutritions(event)`**:
+    - Event handler triggered when a button is clicked.
+    - Retrieves `clientId` from the button's attribute and finds the `trainerId` for this client.
+    - Obtains `requestId` for the given `clientId` and `trainerId`.
+    - If successful, shows a modal window and sets `requestId` in the form.
+
+- **`closeModal()`**:
+    - Closes the modal window by changing its display style.
+
+- **`handleSubmitNutrition(event)`**:
+    - Event handler for submitting the form with nutrition recommendations.
+    - Prevents the default form submission.
+    - Fetches values of `requestId` and recommendations from the form.
+    - Sends a POST request to `/nutrition-guidance` with the request ID and recommendations.
+    - Closes the modal window after successful form submission.
+
+### `login.js`
+
+- **Login Form Handling**:
+    - Adds an event handler for form submission on page load.
+    - Fetches form data such as email and password and sends a POST request to `/login`.
+    - On successful login, stores `user_id` in local storage and redirects the user to `trainingPlans.html`.
+    - Displays error messages in case of any errors.
+
+### `form.js`
+
+- **Switching Between Login and Registration Forms**:
+    - Adds event handlers for clicking on registration or login links.
+    - Hides the login form and shows the registration form, or vice versa, depending on which link is clicked.
+
+### `registration.js`
+
+- **Registration Form Handling**:
+    - Adds an event handler for form submission on page load.
+    - Fetches form data such as name, surname, email, password, date of birth, gender, and phone number.
+    - Sends a POST request to `/register` with the form data.
+    - Stores the user's gender in local storage.
+    - Displays error messages if any occur during registration.

@@ -5,17 +5,24 @@
   "main": "Prokopishena.University.Personalized-Fitness-Coaching-Platform.Web/server.js",
   "scripts": {
     "test": "jest",
-    "start": "nodemon Prokopishena.University.Personalized-Fitness-Coaching-Platform.Web/server.js"
+    "start": "nodemon Prokopishena.University.Personalized-Fitness-Coaching-Platform.Web/server.js",
+    "build": "webpack"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "^8.1.3",
     "bcrypt": "^5.1.1",
-    "express": "^4.18.3",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
     "express-session": "^1.18.0",
+    "form-data": "^4.0.0",
     "knex": "^3.1.0",
+    "mailgun.js": "^10.2.1",
     "mssql": "^10.0.2",
+    "node-mailjet": "^6.0.5",
     "nodemailer": "^6.9.13",
     "nodemon": "^3.1.0",
     "objection": "^3.1.4",
@@ -24,7 +31,8 @@
     "passport-local": "^1.0.0",
     "pg": "^8.11.3",
     "sequelize": "^6.37.1",
-    "tedious": "^18.1.0"
+    "tedious": "^18.1.0",
+    "winston": "^3.13.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",

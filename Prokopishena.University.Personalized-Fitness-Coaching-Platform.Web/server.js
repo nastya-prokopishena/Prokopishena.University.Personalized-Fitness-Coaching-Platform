@@ -6,65 +6,118 @@ const User = require('../Prokopishena.University.Personalized-Fitness-Coaching-P
 const Client = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Client')
 const Trainer = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Trainer')
 const Specialization = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Specialization')
+const TrainingRequest = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/TrainingRequest')
 const trainingController = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Core/controllers/trainingController');
-
+const NutritionGuidance = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/NutritionGuidance')
 const PORT = process.env.PORT || 3000;
 const app = express();
+const winston = require('winston');
+
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Registration route
-app.post('/register', async (req, res) => {
-  try {
-    const { email, name, surname, password, date_of_birth, gender, phone_number } = req.body;
 
-    const existingUser = await User.findOne({ where: { email } });
-    if (existingUser) {
-      return res.status(400).json({ message: 'User with this email already exists' });
-    }
+Client.belongsTo(User, { foreignKey: 'user_id' });
+Client.hasMany(TrainingRequest, { foreignKey: 'client_id' });
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+// Associations for the Trainer model
+Trainer.belongsTo(User, { foreignKey: 'user_id' });
+Trainer.hasMany(TrainingRequest, { foreignKey: 'trainer_id' });
 
-    const newUser = await User.create({ 
-      email, 
-      name, 
-      surname, 
-      password_hash: hashedPassword, 
-      date_of_birth, 
-      gender, 
-      phone_number 
-    });
+// Associations for the TrainingRequest model
+TrainingRequest.belongsTo(Client, { foreignKey: 'client_id' });
+TrainingRequest.belongsTo(Trainer, { foreignKey: 'trainer_id' });
 
-    res.status(201).json({ message: 'User successfully registered' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Something went wrong. Please try again.' });
-  }
+// Створіть логер
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: 'login_register.log' })
+  ],
 });
 
-// Login route
+
+// Registration route
+
+app.post('/register', async (req, res) => {
+  try {
+      const { email, name, surname, password, date_of_birth, gender, phone_number } = req.body;
+
+      // Check if the user already exists
+      const existingUser = await User.findOne({ where: { email } });
+      if (existingUser) {
+          // Log failed registration attempt
+          logger.info(`Failed registration attempt: Email already exists - ${email}, IP: ${req.ip}, Time: ${new Date().toISOString()}`);
+          return res.status(400).json({ message: 'User with this email already exists' });
+      }
+
+      // Create a new user (assuming you have a User model)
+      const newUser = await User.create({
+          email,
+          name,
+          surname,
+          password,
+          date_of_birth,
+          gender,
+          phone_number
+      });
+
+      // Log successful registration
+      logger.info(`Successful registration: Email - ${email}, IP: ${req.ip}, Time: ${new Date().toISOString()}`);
+
+      // Send a welcome email to the new user using Mailjet
+      const emailContent = {
+          From: {
+              Email: 'no-reply@yourdomain.com', // Change this to your sender email address
+              Name: 'Your Service Name'
+          },
+          To: [{
+              Email: email,
+              Name: name
+          }],
+          Subject: 'Welcome to Our Service!',
+          TextPart: `Hello ${name},\n\nWelcome to our service! We're glad to have you on board.`,
+          HTMLPart: `<p>Hello ${name},</p><p>Welcome to our service! We're glad to have you on board.</p>`,
+      };
+
+      await mailjet.post('send', { version: 'v3.1' }).request({
+          Messages: [emailContent]
+      });
+
+      // Return success response
+      res.status(201).json({ message: 'User successfully registered' });
+
+  } catch (error) {
+      console.error('Error during registration:', error);
+      res.status(500).json({ message: 'Something went wrong. Please try again.' });
+  }
+});
 app.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
     const user = await User.findOne({ where: { email } });
     if (!user) {
+      logger.info(`Failed login attempt: User not found - ${email}, IP: ${req.ip}`);
       return res.status(404).json({ message: 'User with this email not found' });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password_hash);
     if (!isPasswordValid) {
+      logger.info(`Failed login attempt: Invalid credentials - ${email}, IP: ${req.ip}`);
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
+    logger.info(`Successful login: ${email}, IP: ${req.ip}`);
     res.status(200).json({ user_id: user.user_id });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Something went wrong. Please try again.' });
   }
 });
-
 // Create client route
 app.post('/create-client', async (req, res) => {
   try {
@@ -303,98 +356,215 @@ app.get('/clients', async (req, res) => {
       res.status(500).json({ error: 'Помилка отримання клієнтів' });
   }
 });
-app.post('/find-trainer', async (req, res) => {
+app.post('/training_requests', async (req, res) => {
   try {
-    const { clientId } = req.body;
+      const { client_id, trainer_id } = req.body;
 
-    // Отримання спеціалізацій клієнта
-    const client = await Client.findByPk(clientId);
-    const clientSpecializations = client.training_goals.split(',');
+      // Перевірка, чи тренер вже має 15 клієнтів
+      const clientCount = await TrainingRequest.count({
+          where: { trainer_id }
+      });
 
-    // Отримання всіх тренерів з бази даних
-    const allTrainers = await Trainer.findAll();
+      if (clientCount >= 15) {
+          return res.status(400).json({ success: false, message: 'Тренер вже має 15 клієнтів.' });
+      }
 
-    // Фільтруємо тренерів, залишаючи тільки тих, чиї спеціалізації містяться у спеціалізаціях клієнта
-    const matchedTrainers = allTrainers.filter(trainer => {
-      const trainerSpecializations = trainer.specialization.split(',');
-      return clientSpecializations.some(spec => trainerSpecializations.includes(spec.trim()));
+      // Перевірка, чи клієнт вже має запит з цим тренером
+      const existingRequest = await TrainingRequest.findOne({
+          where: { client_id, trainer_id }
+      });
+
+      if (existingRequest) {
+          return res.status(400).json({ success: false, message: 'Клієнт вже зробив запит з цим тренером.' });
+      }
+
+      // Створення нового запиту на тренування
+      const newRequest = await TrainingRequest.create({ client_id, trainer_id });
+
+      res.status(201).json({ success: true, message: 'Запит на тренування створено.', data: newRequest });
+  } catch (error) {
+      console.error('Помилка при створенні запиту на тренування:', error);
+      res.status(500).json({ success: false, message: 'Помилка при створенні запиту на тренування.' });
+  }
+});
+
+// Отримати всіх тренерів з бази даних
+app.get('/trainers', async (req, res) => {
+  try {
+      // Отримати тренерів, включаючи їхні дані користувача
+      const trainers = await Trainer.findAll({
+          include: [{ model: User, attributes: ['name', 'surname', 'email', 'date_of_birth', 'gender', 'phone_number'] }]
+      });
+
+      // Фільтрація тренерів, які мають менше ніж 15 клієнтів
+      const filteredTrainers = [];
+
+      for (const trainer of trainers) {
+          const clientCount = await TrainingRequest.count({ where: { trainer_id: trainer.trainer_id } });
+          if (clientCount < 15) {
+              filteredTrainers.push({
+                  trainer_id: trainer.trainer_id,
+                  name: trainer.User.name,
+                  surname: trainer.User.surname,
+                  email: trainer.User.email,
+                  date_of_birth: trainer.User.date_of_birth,
+                  gender: trainer.User.gender,
+                  phone_number: trainer.User.phone_number,
+                  specialization: trainer.specialization,
+                  experience: trainer.experience,
+                  about_trainer: trainer.about_trainer,
+              });
+          }
+      }
+
+      res.status(200).json(filteredTrainers);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Something went wrong. Please try again.' });
+  }
+});
+
+app.get('/check-existing-requests/:clientId', async (req, res) => {
+  const clientId = req.params.clientId;
+
+  try {
+    // Виконуємо запит до бази даних для перевірки існуючих запитів
+    const existingRequests = await TrainingRequest.findAll({
+      where: {
+        client_id: clientId
+      }
     });
 
-    res.json(matchedTrainers);
-  } catch (error) {
-    console.error('Помилка при підборі тренера:', error);
-    res.status(500).json({ error: 'Помилка при підборі тренера' });
-  }
-});
-
-
-app.post('/request-training/:trainerId', async (req, res) => {
-  try {
-    const trainerId = Trainer.trainer_id; 
-    const userId = req.body.userId; 
-
-
-    res.status(200).json({ message: 'Запит на тренування надіслано успішно!' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Виникла помилка під час обробки запиту' });
-  }
-});
-app.post('/trainer/requests/:requestId/accept', async (req, res) => {
-  const requestId = req.params.requestId;
-  try {
-    const request = await TrainingRequest.findByPk(requestId);
-    if (!request) {
-      return res.status(404).json({ message: 'Запит на тренування не знайдено' });
+    // Перевіряємо, чи існують запити
+    if (existingRequests.length > 0) {
+        // Якщо запити існують, повертаємо true
+        res.json({ existing_requests: true });
+    } else {
+        // Якщо запити не існують, повертаємо false
+        res.json({ existing_requests: false });
     }
-    request.status = 'accepted';
-    await request.save();
-    res.status(200).json({ message: 'Запит на тренування прийнятий успішно' });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Сталася помилка. Спробуйте ще раз.' });
+    console.error('Error checking existing requests:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 
-// Маршрут для обробки запиту на відхилення запиту на тренування
-app.post('/trainer/requests/:requestId/reject', async (req, res) => {
-  const requestId = req.params.requestId;
+app.get('/trainer/:trainerId/clients', async (req, res) => {
+  const trainerId = req.params.trainerId;
+
+  // Валідація параметра тренера
+  if (!trainerId) {
+      return res.status(400).json({ error: 'Недійсний параметр тренера' });
+  }
+
   try {
-    const request = await TrainingRequest.findByPk(requestId);
-    if (!request) {
-      return res.status(404).json({ message: 'Запит на тренування не знайдено' });
-    }
-    request.status = 'rejected';
-    await request.save();
-    res.status(200).json({ message: 'Запит на тренування відхилений успішно' });
+      // Знайти всі запити тренера з даним trainerId
+      const trainingRequests = await TrainingRequest.findAll({
+          where: {
+              trainer_id: trainerId,
+          },
+          include: {
+              model: Client,
+              include: {
+                  model: User, // Включаємо дані користувача для кожного клієнта
+                  attributes: ['name', 'surname', 'email', 'phone_number', 'gender'], // Обираємо потрібні атрибути
+              },
+              attributes: ['weight', 'height', 'strength_level', 'endurance_level', 'flexibility_level', 'training_goals'], // Обираємо потрібні атрибути клієнта
+          },
+      });
+
+      // Створюємо список клієнтів, включаючи їх імена, прізвища та іншу інформацію
+      const clients = trainingRequests.map(request => {
+          const client = request.Client;
+          const user = client.User;
+          
+          return {
+              client_id: client.id,
+              name: user.name,
+              surname: user.surname,
+              email: user.email,
+              phone_number: user.phone_number,
+              gender: user.gender,
+              weight: client.weight,
+              height: client.height,
+              strength_level: client.strength_level,
+              endurance_level: client.endurance_level,
+              flexibility_level: client.flexibility_level,
+              training_goals: client.training_goals,
+          };
+      });
+
+      // Відправляємо JSON-відповідь зі списком клієнтів
+      res.json(clients);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Сталася помилка. Спробуйте ще раз.' });
+      console.error('Помилка отримання клієнтів тренера:', error);
+      res.status(500).json({ error: 'Помилка отримання клієнтів тренера' });
   }
 });
 
-app.post('/request-training/:trainerId', async (req, res) => {
+app.post('/nutrition-guidance', async (req, res) => {
   try {
-    const trainerId = req.params.trainerId; // Отримати trainerId з параметрів маршруту
-    const userId = req.body.userId;
+      // Отримуємо дані з тіла запиту
+      const { request_id, guidance } = req.body;
 
-    const trainer = await Trainer.findByPk(trainerId);
-    if (!trainer) {
-      return res.status(404).json({ message: 'Trainer not found' });
-    }
+      // Перевіряємо, чи вказано `request_id` та `guidance`
+      if (!request_id || !guidance) {
+          return res.status(400).json({
+              success: false,
+              message: 'Missing request_id or guidance in the request body'
+          });
+      }
 
-    const user = await User.findByPk(userId);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
+      // Додаємо нову рекомендацію щодо харчування
+      const newGuidance = await NutritionGuidance.create({
+          request_id,
+          guidance,
+      });
 
-
-    res.status(200).json({ message: 'Training request sent successfully!' });
+      // Повертаємо статус 201 і дані нової рекомендації
+      res.status(201).json({
+          success: true,
+          data: newGuidance,
+          message: 'Nutrition guidance added successfully!'
+      });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'An error occurred while processing the request' });
+      console.error('Error adding nutrition guidance:', error);
+      res.status(500).json({
+          success: false,
+          message: 'Failed to add nutrition guidance'
+      });
   }
 });
+
+app.get('/get-request-id/:clientId', async (req, res) => {
+  // Отримання clientId з параметрів запиту
+  const clientId = req.params.clientId;
+  
+  // Перевірка, чи clientId не є порожнім
+  if (!clientId) {
+      return res.status(400).json({ error: 'Client ID must be provided' });
+  }
+
+  try {
+      // Використовуємо clientId для отримання інформації про харчування
+      // Замініть `getNutritionsByClientId` на вашу функцію для отримання даних харчування
+      const nutritionsData = await db.getNutritionsByClientId(clientId);
+
+      // Перевірте, чи були знайдені дані харчування
+      if (!nutritionsData) {
+          return res.status(404).json({ error: 'Nutritions data not found' });
+      }
+
+      // Відправляємо дані харчування у відповідь
+      res.json({ nutritions: nutritionsData });
+  } catch (error) {
+      console.error('Error fetching nutritions data:', error);
+      // Відправляємо відповідь про помилку
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 // Static file handler for public resources
 app.use(express.static(path.join(__dirname, 'public')));
 
