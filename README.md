@@ -87,9 +87,9 @@ azure: https://fitness-platform.azurewebsites.net/
 - [x] Prepare release notes for the initial platform launch
 
 ### Week 8:
-- [ ] Implement feature: Goal Setting functionality
-- [ ] Conduct user acceptance testing with selected individuals to gather feedback
-- [ ] Address any identified issues or bugs from the user testing phase
+- [x] Implement feature: Goal Setting functionality
+- [x] Conduct user acceptance testing with selected individuals to gather feedback
+- [x] Address any identified issues or bugs from the user testing phase
 - [ ] Perform final performance tuning and optimization before production deployment
 - [ ] Update project documentation with final testing results and performance metrics
 
@@ -271,11 +271,11 @@ azure: https://fitness-platform.azurewebsites.net/
 
 ###  USER`S FEEDBACK 
 
-- Message about uncorrect password [x]
-- Massage about acount creation [x]
-- Appearence of personal information before user choose role [x]
-- Close button for Addition information form [x]
-- Close button for "Findign trainer" form-list [x]
-- Edit personal information not with all values, but with opportunity input only one, or two values [x]
-- Display on the user page additional information [x]
+- [x]Message about uncorrect password 
+- [x]Massage about acount creation 
+- [x]Appearence of personal information before user choose role 
+- [x]Close button for Addition information form 
+- [x]Close button for "Findign trainer" form-list 
+- [x]Edit personal information not with all values, but with opportunity input only one, or two values 
+- [x] Display on the user page additional information 
 - Display user`s trainer   
