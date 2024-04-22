@@ -268,3 +268,14 @@ azure: https://fitness-platform.azurewebsites.net/
 
 - **Handling the registration form:**
     - Works with input data and saves the user's gender in local storage.
+
+###  USER`S FEEDBACK 
+
+- Message about uncorrect password [x]
+- Massage about acount creation [x]
+- Appearence of personal information before user choose role [x]
+- Close button for Addition information form [x]
+- Close button for "Findign trainer" form-list [x]
+- Edit personal information not with all values, but with opportunity input only one, or two values [x]
+- Display on the user page additional information [x]
+- Display user`s trainer   

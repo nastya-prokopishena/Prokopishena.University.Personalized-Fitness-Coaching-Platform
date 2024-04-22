@@ -26,7 +26,11 @@ const Client = sequelize.define('Client', {
     },
     flexibility_level: {
         type: DataTypes.STRING
-    }
+    },
+    user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
 }, {
     tableName: 'clients',
     timestamps: false

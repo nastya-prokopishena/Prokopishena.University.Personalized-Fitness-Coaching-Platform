@@ -24,7 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('user_id', data.user_id);
                 window.location.href = '/trainingPlans.html';
             } else {
-                console.error('Error during login:', data.error);
+                if (response.status === 401) {
+                    alert('Incorrect email or password. Please try again.');
+                } else {
+                    console.error('Error during login:', data.error);
+                }
             }
         } catch (error) {
             console.error('Error during login:', error);

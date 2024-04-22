@@ -34,6 +34,8 @@
           <button class="profile_further-information-button" id="add-profile">Additional Information</button>
       
     </div>
+    <div id="client-info"></div>
+    <div id="trainer-info"></div>
     <div id="edit-profile-form" class="profile__information-change" style="display: none;">
       <h2 class="profile__information-title">Editing Personal Information</h2>
       <form class="profile__information-form" id="profile-form">
@@ -64,6 +66,7 @@
 
       </form>
   </div>
+  
     <div class="profile_form-role" id="role-selection" >
       <h2>Select Your Role:</h2>
       <button class="role-button" data-role="client">Client</button>
@@ -100,6 +103,8 @@
       <label class="profile_form-label" for="training-goals">Training Goals:</label><br>
         <div id="specializations-container-client"></div><br><br>
       <button class="profile_form-button" type="submit">Save</button>
+      <button class="profile_form-button" id="cancel-profile">Cancel</button>
+
   </form>
   <form class="profile_form" id="trainer-profile-form" action="/trainer-profile" method="POST" style="display: none;">
     <label class="profile_form-label">Specialization:</label><br>
@@ -113,6 +118,8 @@
     <textarea class="profile_form-textarea" id="trainer-bio" name="trainer-bio" rows="4" cols="50" required></textarea><br>
 
     <button class="profile_form-button" type="submit">Save</button>
+    <button class="profile_form-button" id="cancel-profile">Cancel</button>
+
   </form>
 
   </section>
@@ -123,24 +130,27 @@
 </div>
 
 <div id="client-list"></div>
+<div id="client-info-container"></div>
 
-    <h1>Create Training Plan</h1>
-    <form id="create-training-form">
-        <label for="start-date">Start Date:</label>
-        <input type="date" id="start-date" name="start-date"><br><br>
-        
-        <label for="end-date">End Date:</label>
-        <input type="date" id="end-date" name="end-date"><br><br>
-        
-        <label for="weekly-sessions">Weekly Sessions:</label>
-        <input type="number" id="weekly-sessions" name="weekly-sessions"><br><br>
-        
-        <div id="session-days">
-        </div>
 
-        <button type="submit">Create Training Plan</button>
-        
-        <script  type="module" src="/static/script/profile.js"></script>
+<div id="goal-form" style="display: none;">
+  <h3>Goal Setting</h3>
+  <form id="set-goal-form">
+      <label for="goal-description">Goal Description:</label>
+      <textarea id="goal-description" required></textarea>
+      
+      <label for="goal-template">Goal Template:</label>
+      <select id="goal-template">
+      </select>
+
+      <button type="submit">Set Goal</button>
+  </form>
+</div>
+
+<div id="goal-list"></div>
+
+
+  <script  type="module" src="/static/script/profile.js"></script>
 
 </body>
 </html>

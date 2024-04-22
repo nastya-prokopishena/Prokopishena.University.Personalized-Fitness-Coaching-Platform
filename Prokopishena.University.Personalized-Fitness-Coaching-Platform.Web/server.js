@@ -9,6 +9,8 @@ const Specialization = require('../Prokopishena.University.Personalized-Fitness-
 const TrainingRequest = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/TrainingRequest')
 const trainingController = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Core/controllers/trainingController');
 const NutritionGuidance = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/NutritionGuidance')
+const GoalTemplate = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/GoalTemplate')
+const Goal = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Goal')
 const PORT = process.env.PORT || 3000;
 const app = express();
 const winston = require('winston');
@@ -222,31 +224,30 @@ app.get('/get-trainer-id/:user_id', async (req, res) => {
 
 app.post('/client-profile', async (req, res) => {
   try {
-    const { user_id, weight, height, training_goals, strength_level, endurance_level, flexibility_level } = req.body;
+      const { user_id, weight, height, training_goals, strength_level, endurance_level, flexibility_level } = req.body;
 
-    // Перевіряємо, чи існує клієнт з даним user_id
-    const existingClient = await Client.findOne({ where: { user_id } });
-    
+      // Перевіряємо, чи існує клієнт з даним user_id
+      const existingClient = await Client.findOne({ where: { user_id: user_id } });
 
-    if (existingClient) {
-      // Якщо клієнт існує, оновлюємо його дані, включаючи goal і flexibility
-      existingClient.weight = weight;
-      existingClient.height = height;
-      existingClient.training_goals = training_goals; // Оновлюємо goal
-      existingClient.strength_level = strength_level;
-      existingClient.endurance_level = endurance_level;
-      existingClient.flexibility_level = flexibility_level; // Оновлюємо flexibility
+      if (existingClient) {
+          // Якщо клієнт існує, оновлюємо його дані, включаючи goal і flexibility
+          existingClient.weight = weight;
+          existingClient.height = height;
+          existingClient.training_goals = training_goals; // Оновлюємо goal
+          existingClient.strength_level = strength_level;
+          existingClient.endurance_level = endurance_level;
+          existingClient.flexibility_level = flexibility_level; // Оновлюємо flexibility
 
-      await existingClient.save(); // Зберігаємо оновлені дані
+          await existingClient.save(); // Зберігаємо оновлені дані
 
-      res.status(200).json({ message: 'Дані успішно оновлені' });
-    } else {
-      // Якщо клієнт не знайдений, видаємо помилку
-      res.status(404).json({ message: 'Клієнт не знайдений' });
-    }
+          res.status(200).json({ message: 'Дані успішно оновлені' });
+      } else {
+          // Якщо клієнт не знайдений, видаємо помилку
+          res.status(404).json({ message: 'Клієнт не знайдений' });
+      }
   } catch (error) {
-    console.error('Помилка при оновленні даних клієнта:', error);
-    res.status(500).json({ error: 'Помилка при оновленні даних клієнта' });
+      console.error('Помилка при оновленні даних клієнта:', error);
+      res.status(500).json({ error: 'Помилка при оновленні даних клієнта' });
   }
 });
 
@@ -288,7 +289,28 @@ app.post('/trainer-profile', async (req, res) => {
     console.error('Error updating trainer data:', error);
     res.status(500).json({ error: 'Error updating trainer data' });
   }
+});app.get('/client/:user_id', async (req, res) => {
+  const { user_id } = req.params; // Змінено userId на user_id
+  try {
+      const clientInfo = await Client.findOne({ where: { user_id } }); // Змінено userId на user_id
+      res.json(clientInfo);
+  } catch (error) {
+      console.error('Error getting client information:', error);
+      res.status(500).json({ message: 'Error getting client information' });
+  }
 });
+
+app.get('/trainer/:user_id', async (req, res) => {
+  const { user_id } = req.params; // Змінено userId на user_id
+  try {
+      const trainerInfo = await Trainer.findOne({ where: { user_id } }); // Змінено userId на user_id
+      res.json(trainerInfo);
+  } catch (error) {
+      console.error('Error getting trainer information:', error);
+      res.status(500).json({ message: 'Error getting trainer information' });
+  }
+});
+
 
 app.get('/trainers', async (req, res) => {
   try {
@@ -477,6 +499,27 @@ app.get('/trainer/:trainerId/clients', async (req, res) => {
   }
 });
 
+app.get('/trainer-for-client/:client_id', async (req, res) => {
+  const { client_id } = req.params;
+  try {
+      const trainingRequest = await TrainingRequest.findOne({ 
+          where: { client_id },
+          include: [{
+              model: Trainer,
+              include: User
+          }]
+      });
+
+      if (!trainingRequest) {
+          throw new Error('Тренер не знайдений для цього клієнта');
+      }
+
+      res.json(trainingRequest.Trainer);
+  } catch (error) {
+      console.error('Помилка отримання тренера для клієнта:', error);
+      res.status(500).json({ message: 'Помилка отримання тренера для клієнта' });
+  }
+});
 app.post('/nutrition-guidance', async (req, res) => {
   try {
       // Отримуємо дані з тіла запиту
@@ -538,6 +581,96 @@ app.get('/get-request-id/:clientId', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
   }
 });
+app.post('/api/goals', async (req, res) => {
+  const { client_id, description, goal_template_id } = req.body;
+
+  try {
+      const newGoal = await Goal.create({
+          client_id,
+          description,
+          goal_template_id
+      });
+
+      res.status(201).json(newGoal);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.get('/api/goals', async (req, res) => {
+  const { client_id } = req.query;
+
+  try {
+      const goals = await Goal.findAll({
+          where: { client_id }
+      });
+
+      res.status(200).json(goals);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.put('/api/goals/:goal_id/start', async (req, res) => {
+  const { goal_id } = req.params;
+
+  try {
+      await Goal.update(
+          { status: 'In Progress' },
+          {
+              where: {
+                  goal_id
+              }
+          }
+      );
+
+      const updatedGoal = await Goal.findByPk(goal_id);
+
+      res.status(200).json(updatedGoal); // Повернення JSON
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.put('/api/goals/:goal_id/complete', async (req, res) => {
+  const { goal_id } = req.params;
+
+  try {
+      await Goal.update(
+          { status: 'Completed' },
+          {
+              where: {
+                  goal_id
+              }
+          }
+      );
+
+      const updatedGoal = await Goal.findByPk(goal_id);
+
+      res.status(200).json(updatedGoal); // Повернення JSON
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+app.get('/api/goal-templates', async (req, res) => {
+  try {
+      const goalTemplates = await GoalTemplate.findAll({
+          attributes: ['goal_template_id', 'name']
+      });
+
+      res.json(goalTemplates);
+  } catch (error) {
+      console.error('Error getting goal templates:', error);
+      res.status(500).json({ error: 'Error getting goal templates' });
+  }
+});
+
 
 
 // Static file handler for public resources

@@ -26,7 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
             localStorage.setItem('userGender', formData.gender);
 
-            console.log(data);
+            if (response.ok) {
+                alert('Account created successfully!');
+                console.log(data);
+            } else {
+                alert('Error creating account: ' + data.error);
+                console.error('Error during registration:', data.error);
+            }
         } catch (error) {
             console.error('Error during registration:', error);
         }
