@@ -90,8 +90,8 @@ azure: https://fitness-platform.azurewebsites.net/
 - [x] Implement feature: Goal Setting functionality
 - [x] Conduct user acceptance testing with selected individuals to gather feedback
 - [x] Address any identified issues or bugs from the user testing phase
-- [ ] Perform final performance tuning and optimization before production deployment
-- [ ] Update project documentation with final testing results and performance metrics
+- [x] Perform final performance tuning and optimization before production deployment
+- [x] Update project documentation with final testing results and performance metrics
 
 ### Week 9:
 - [ ] Implement feature: Motivational Content integration
@@ -269,7 +269,9 @@ azure: https://fitness-platform.azurewebsites.net/
 - **Handling the registration form:**
     - Works with input data and saves the user's gender in local storage.
 
-###  USER`S FEEDBACK 
+
+
+##  USER`S FEEDBACK 
 
 - [x] Message about uncorrect password 
 - [x] Massage about acount creation 
@@ -278,4 +280,66 @@ azure: https://fitness-platform.azurewebsites.net/
 - [x] Close button for "Findign trainer" form-list 
 - [x] Edit personal information not with all values, but with opportunity input only one, or two values 
 - [x] Display on the user page additional information 
-- Display user`s trainer   
+
+
+# Performance Testing with Apache
+
+## Overview
+
+This results of performance testing conducted using Apache. The tests were conducted under varying levels of load to evaluate the server's performance.
+
+## Test Results
+
+### Test 1: 30 total requests with 10 concurrent connections
+
+- **Requests per second:** 266.76
+- **Time per request (mean):** 37.487 ms
+- **Connection Times (ms):**
+  - 50%: 27
+  - 66%: 34
+  - 75%: 36
+  - 80%: 36
+  - 90%: 42
+  - 95%: 42
+  - 98%: 42
+  - 99%: 42
+  - 100%: 42 (longest request)
+
+### Test 2: 1000 total requests with 100 concurrent connections
+
+- **Requests per second:** 1227.24
+- **Time per request (mean):** 81.484 ms
+- **Connection Times (ms):**
+  - 50%: 75
+  - 66%: 82
+  - 75%: 88
+  - 80%: 90
+  - 90%: 91
+  - 95%: 92
+  - 98%: 98
+  - 99%: 99
+  - 100%: 107 (longest request)
+
+### Test 3: 3000 total requests with 1000 concurrent connections
+
+- **Requests per second:** 973.93
+- **Time per request (mean):** 1026.772 ms
+- **Connection Times (ms):**
+  - 50%: 854
+  - 66%: 958
+  - 75%: 1002
+  - 80%: 1026
+  - 90%: 1347
+  - 95%: 1391
+  - 98%: 1415
+  - 99%: 1423
+  - 100%: 1448 (longest request)
+
+## Conclusion
+
+Based on the performance testing results:
+
+1. Performance improves with an increase in the number of requests and concurrent connections.
+2. Response time per request increases with higher loads.
+3. Connection establishment time also increases with higher loads.
+4. The server demonstrates stability with consistent results across tests.

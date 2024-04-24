@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
+const http = require('http');
+const fs = require('fs');
 const path = require('path');
 const User = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/User')
 const Client = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Client')
@@ -96,6 +98,29 @@ app.post('/login', async (req, res) => {
   }
 });
 // Create client route
+app.post('/logout', async (req, res) => {
+  try {
+    if (req.session) {
+      // видалення об'єкту сесії
+      req.session.destroy(function (err) {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ message: 'Something went wrong. Please try again.' });
+        } else {
+          return res.redirect('/');
+        }
+      });
+    } else {
+      return res.redirect('/');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Something went wrong. Please try again.' });
+  }
+});
+
+
+
 app.post('/create-client', async (req, res) => {
   try {
     const { user_id } = req.body;

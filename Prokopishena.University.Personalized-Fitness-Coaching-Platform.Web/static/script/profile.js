@@ -228,7 +228,6 @@ const displayTrainerInfo = async (userId) => {
             <h2>Trainer Information</h2>
             <p>Specialization: ${trainerInfo.specialization}</p>
             <p>Experience: ${trainerInfo.experience} years</p>
-            <!-- Додайте інші дані про тренера тут -->
         `;
     } catch (error) {
         console.error('Error getting trainer information:', error);
