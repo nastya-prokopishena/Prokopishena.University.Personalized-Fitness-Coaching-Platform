@@ -37,8 +37,8 @@
           <button class="profile_further-information-button" id="add-profile">Additional Information</button>
       
     </div>
-    <div id="client-info"></div>
-    <div id="trainer-info"></div>
+    <div class="profile__client-information" id="client-info"></div>
+    <div class="profile__trainer-information" id="trainer-info"></div>
     <div id="edit-profile-form" class="profile__information-change" style="display: none;">
       <h2 class="profile__information-title">Editing Personal Information</h2>
       <form class="profile__information-form" id="profile-form">
@@ -136,17 +136,17 @@
 <div id="client-info-container"></div>
 
 
-<div id="goal-form" style="display: none;">
-  <h3>Goal Setting</h3>
-  <form id="set-goal-form">
-      <label for="goal-description">Goal Description:</label>
-      <textarea id="goal-description" required></textarea>
+<div class="goal" id="goal-form" style="display: none;">
+  <h3 class="goal__header">Goal Setting</h3>
+  <form class="goal__form" id="set-goal-form">
+      <label class="goal__form-label" for="goal-description">Goal Description:</label>
+      <textarea class="goal__form-intut" id="goal-description" required></textarea>
       
-      <label for="goal-template">Goal Template:</label>
-      <select id="goal-template">
+      <label class="goal__form-label" for="goal-template">Goal Template:</label>
+      <select class="goal__form-select" id="goal-template">
       </select>
 
-      <button type="submit">Set Goal</button>
+      <button class="goal__form-button" type="submit">Set Goal</button>
   </form>
 </div>
 

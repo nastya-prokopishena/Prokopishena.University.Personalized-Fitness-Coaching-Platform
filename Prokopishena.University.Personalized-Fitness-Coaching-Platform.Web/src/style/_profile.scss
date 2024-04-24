@@ -77,7 +77,7 @@ section.profile {
     padding: 1rem;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-right: 40px;
+    margin-right: 20px;
 }
 
 .profile__information-title {
@@ -93,7 +93,7 @@ section.profile {
     padding: 2rem;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-right: 40px;
+    margin-right: 20px;
 }
 
 .profile__information-name,
@@ -149,6 +149,29 @@ section.profile {
 .profile__information-change {
     display: none;
 }
+.profile {
+  &__client-information{
+    width: 25%;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-right: 20px;
+    p{
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      font-weight: 300;
+    }
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    }
+    
+  }
+  
 
 .profile_form-role,
 .profile_form {
@@ -391,3 +414,101 @@ section.profile {
     background-color: darken(#45a049, 10%);
   }
   }
+  .progress-ring {
+    display: inline-block;
+    margin-right: 1rem;
+  
+    .progress-ring-circle {
+      stroke-dasharray: 314; 
+      stroke-dashoffset: 314; 
+      transition: stroke-dashoffset 0.5s ease-out;
+      color: darken(#45a049, 10%);
+  
+      [data-progress]:not([data-progress="0"]) ~ .progress-ring & {
+        stroke-dashoffset: calc(314 - (314 * #{progress / 100}));
+      }
+    }
+  }
+  
+
+// Goal List
+#goal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  .goal-item {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+
+    p {
+      margin: 0;
+    }
+
+    .start-goal-btn,
+    .complete-goal-btn {
+      background-color: #45a049;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 5px 10px;
+      font-size: 14px;
+      margin-top: 10px;
+      margin-right: 8px;
+    text-transform: uppercase;
+      &:hover {
+        background-color: darken(#45a049, 10%);
+      }
+      &:disabled {
+        background-color: darken(#45a049, 30%);
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+.goal {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+
+  &__header{
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  &__form {
+    display: flex;
+    flex-direction: column;
+
+    &-label{
+      display: block;
+      margin-bottom: 0.5rem;
+  }
+    &-input,
+    &-select{
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+  }
+    &-button{
+      background-color: #45a049;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      padding: 5px 10px;
+      font-size: 14px;
+      margin-top: 10px;
+      margin-right: 8px;
+      text-transform: uppercase;
+      &:hover {
+        background-color: darken(#45a049, 10%);
+      }
+}
+}
+}

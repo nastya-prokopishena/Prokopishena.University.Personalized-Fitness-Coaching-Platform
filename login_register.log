@@ -61,3 +61,8 @@
 {"level":"info","message":"Failed login attempt: Invalid credentials - kim.jennie@gmail.com, IP: ::1"}
 {"level":"info","message":"Failed login attempt: Invalid credentials - kim.jennie@gmail.com, IP: ::1"}
 {"level":"info","message":"Successful login: kim.jennie@gmail.com, IP: ::1"}
+{"level":"info","message":"Failed login attempt: User not found - prokopishena.anastasia@gmail.com, IP: ::1"}
+{"level":"info","message":"Failed login attempt: User not found - prokopishena.anastasia@gmail.com, IP: ::1"}
+{"level":"info","message":"Failed login attempt: User not found - prokopishena.anastasia@gmail.com, IP: ::1"}
+{"level":"info","message":"Successful login: kim.jennie@gmail.com, IP: ::1"}
+{"level":"info","message":"Successful login: kim.jennie@gmail.com, IP: ::1"}

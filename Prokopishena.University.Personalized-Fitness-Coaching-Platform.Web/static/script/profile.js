@@ -438,8 +438,8 @@ const getGoals = async (clientId) => {
         progressChart.dataset.progress = progress;
     
         progressChart.innerHTML = `
-            <svg class="progress-ring" width="120" height="120">
-                <circle class="progress-ring-circle" stroke="#007bff" stroke-width="8" fill="transparent" r="50" cx="60" cy="60"></circle>
+            <svg class="progress-ring" width="120" height="120" color="darken(#45a049, 10%)">
+                <circle class="progress-ring-circle" stroke="#007bff" stroke-width="10" fill="transparent" r="50" cx="60" cy="60" ></circle>
             </svg>
             <p>Total Progress: ${progress.toFixed(2)}%</p>
         `;
