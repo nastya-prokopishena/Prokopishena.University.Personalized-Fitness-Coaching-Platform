@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/static/script/admin.js"></script>
+</head>
+<body>
+<div class="video-creation">
+    <h1 class="video-creation__header">Create New Instruction Video</h1>
+  <form class="video-creation__form" id="createInstructionVideoForm">
+    <label class="video-creation__form-label" for="title">Title:</label>
+    <input class="video-creation__form-input" type="text" id="title" name="title" required><br><br>
+    <label class="video-creation__form-label" for="youtubeUrl">YouTube URL:</label>
+    <input class="video-creation__form-input" type="text" id="youtubeUrl" name="youtubeUrl" required><br><br>
+    <button class="video-creation__form-btn"type="submit">Create</button>
+  </form>
+</div>
+<div class="video-list-container">
+  <h2>Instruction Videos</h2>
+  <div class="video-list">
+  </div>
+</body>
+</html>

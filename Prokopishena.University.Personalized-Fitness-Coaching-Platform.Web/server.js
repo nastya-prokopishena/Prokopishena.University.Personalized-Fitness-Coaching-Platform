@@ -7,12 +7,14 @@ const path = require('path');
 const User = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/User')
 const Client = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Client')
 const Trainer = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Trainer')
+const Admin = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Admin')
 const Specialization = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Specialization')
 const TrainingRequest = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/TrainingRequest')
 const trainingController = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Core/controllers/trainingController');
 const NutritionGuidance = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/NutritionGuidance')
 const GoalTemplate = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/GoalTemplate')
 const Goal = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Goal')
+const InstructionVideo = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/InstructionVideo')
 const PORT = process.env.PORT || 3000;
 const app = express();
 const winston = require('winston');
@@ -80,18 +82,21 @@ app.post('/login', async (req, res) => {
 
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      logger.info(`Failed login attempt: User not found - ${email}, IP: ${req.ip}`);
       return res.status(404).json({ message: 'User with this email not found' });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password_hash);
     if (!isPasswordValid) {
-      logger.info(`Failed login attempt: Invalid credentials - ${email}, IP: ${req.ip}`);
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    logger.info(`Successful login: ${email}, IP: ${req.ip}`);
-    res.status(200).json({ user_id: user.user_id });
+    // Перевірка, чи є користувач адміністратором
+    const isAdmin = await Admin.findOne({ where: { user_id: user.user_id } });
+    if (isAdmin) {
+      return res.status(200).json({ isAdmin: true });
+    } else {
+      return res.status(200).json({ isAdmin: false, user_id: user.user_id });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Something went wrong. Please try again.' });
@@ -693,6 +698,34 @@ app.get('/api/goal-templates', async (req, res) => {
   } catch (error) {
       console.error('Error getting goal templates:', error);
       res.status(500).json({ error: 'Error getting goal templates' });
+  }
+});
+
+app.post('/instructionVideos', async (req, res) => {
+  try {
+    const { title, youtube_url } = req.body;
+
+    // Створення нового InstructionVideo у базі даних
+    const newInstructionVideo = await InstructionVideo.create({
+      title,
+      youtube_url
+    });
+
+    res.status(201).json(newInstructionVideo); // Повертаємо створений InstructionVideo
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Something went wrong. Please try again.' });
+  }
+});
+app.get('/instructionVideos', async (req, res) => {
+  try {
+    // Отримання всіх записів з таблиці instruction_videos
+    const instructionVideos = await InstructionVideo.findAll();
+
+    res.status(200).json(instructionVideos); // Повертаємо всі InstructionVideos
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Something went wrong. Please try again.' });
   }
 });
 

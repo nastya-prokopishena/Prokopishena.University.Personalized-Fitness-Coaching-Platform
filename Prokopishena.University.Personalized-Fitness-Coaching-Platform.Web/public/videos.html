@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+    <style>
+        /* Стилі для слайдера */
+        .video-slider {
+            width: 80%;
+            margin: auto;
+        }
+        .video-item {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-slider">
+        <div class="video-list">
+            <!-- Відео буде відображатися тут -->
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Завантаження відео з сервера
+            $.ajax({
+                url: '/instructionVideos',
+                type: 'GET',
+                success: function(response) {
+                    displayVideos(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching videos:', error);
+                }
+            });
+        
+            // Відображення відео на сторінці
+            function displayVideos(videos) {
+                var videoList = $('.video-list');
+                videoList.empty();
+        
+                videos.forEach(function(video) {
+                    // Створення HTML-коду для відео
+                    var videoHtml = '<div class="video-item">' +
+                                        '<h3>' + video.title + '</h3>' +
+                                        '<a href="' + video.youtube_url + '" target="_blank">Перейти на відео</a>' +
+                                    '</div>';
+        
+                    videoList.append(videoHtml);
+                });
+        
+                // Ініціалізація слайдера
+                $('.video-slider').slick({
+                    slidesToShow: 5,
+                    slidesToScroll: 1,
+                    autoplay: true,
+                    autoplaySpeed: 2000,
+                    responsive: [
+                        {
+                            breakpoint: 1024,
+                            settings: {
+                                slidesToShow: 3,
+                                slidesToScroll: 1,
+                                infinite: true,
+                                dots: true
+                            }
+                        },
+                        {
+                            breakpoint: 600,
+                            settings: {
+                                slidesToShow: 2,
+                                slidesToScroll: 1
+                            }
+                        },
+                        {
+                            breakpoint: 480,
+                            settings: {
+                                slidesToShow: 1,
+                                slidesToScroll: 1
+                            }
+                        }
+                    ]
+                });
+            }
+        });
+        
+    </script>
+</body>
+</html>

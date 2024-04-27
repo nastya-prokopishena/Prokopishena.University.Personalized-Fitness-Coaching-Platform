@@ -66,3 +66,11 @@
 {"level":"info","message":"Failed login attempt: User not found - prokopishena.anastasia@gmail.com, IP: ::1"}
 {"level":"info","message":"Successful login: kim.jennie@gmail.com, IP: ::1"}
 {"level":"info","message":"Successful login: kim.jennie@gmail.com, IP: ::1"}
+{"level":"info","message":"Failed login attempt: Invalid credentials - huh.jenniefer@gmail.com, IP: ::1"}
+{"level":"info","message":"Failed login attempt: Invalid credentials - huh.jenniefer@gmail.com, IP: ::1"}
+{"level":"info","message":"Failed login attempt: Invalid credentials - huh.jenniefer@gmail.com, IP: ::1"}
+{"level":"info","message":"Failed login attempt: Invalid credentials - jennifer.annistonn@gmail.com, IP: ::1"}
+{"level":"info","message":"Failed login attempt: Invalid credentials - jennifer.annistonn@gmail.com, IP: ::1"}
+{"level":"info","message":"Successful login: jennifer.annistonn@gmail.com, IP: ::1"}
+{"level":"info","message":"Successful login: jennifer.annistonn@gmail.com, IP: ::1"}
+{"level":"info","message":"Successful registration: jane.brown.admin@gmail.com, IP: ::1"}
