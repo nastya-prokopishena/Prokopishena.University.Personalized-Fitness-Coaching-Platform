@@ -107,8 +107,8 @@ Finalize project documentation, including task decomposition and testing strateg
 (replacement with a task  Enhance user interface for profile creation and goal setting from WEEK 4 )
 - [x] Finalize deployment scripts and procedures for a smooth production rollout 
 (replacement with a task Expand Postman collection to cover new features implemented WEEK 4)
-- [x] Coordinate with the marketing team for promotional activities and platform launch announcements 
-( replacement with a task Refine documentation for Getting Started and project overview WEEK 3)
+- [ ] Coordinate with the marketing team for promotional activities and platform launch announcements 
+( replacement with a task  Implement feature: Nutrition Guidance integration WEEK 7)
 
 ### Week 10:
 - [ ] Implement feature: Community Support features
