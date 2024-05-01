@@ -102,13 +102,12 @@ azure: https://fitness-platform.azurewebsites.net/
 - [x] Implement feature: Motivational Content integration
 - [x] Conduct comprehensive end-to-end testing of all platform features 
 (replacement with a task Develop Postman collection for testing user registration and profile creation endpoints from WEEK 3)
-Finalize project documentation, including task decomposition and testing strategies
 - [x] Prepare documentation for platform maintenance and future development guidelines 
 (replacement with a task  Enhance user interface for profile creation and goal setting from WEEK 4 )
 - [x] Finalize deployment scripts and procedures for a smooth production rollout 
-(replacement with a task Expand Postman collection to cover new features implemented WEEK 4)
-- [ ] Coordinate with the marketing team for promotional activities and platform launch announcements 
-( replacement with a task  Implement feature: Nutrition Guidance integration WEEK 7)
+(replacement with a task Expand Postman collection to cover new features implemented from WEEK 4)
+- [x] Coordinate with the marketing team for promotional activities and platform launch announcements 
+( replacement with a task  Refine documentation for Getting Started and project overview from WEEK 3)
 
 ### Week 10:
 - [ ] Implement feature: Community Support features
