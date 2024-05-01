@@ -1,101 +1,9 @@
-const showNutritions = window.showNutritions;
-const displayClientsForTrainer = async (trainerId) => {
-    try {
-        const response = await fetch(`/trainer/${trainerId}/clients`);
-        if (!response.ok) {
-            console.error('Error fetching clients for trainer');
-            return;
-        }
-
-        const clients = await response.json();
-        const clientContainer = document.querySelector('#client-list');
-
-        if (!clientContainer) {
-            console.error('client-list element not found');
-            return;
-        }
-
-        clientContainer.innerHTML = '';
-
-        clients.forEach(client => {
-            // Створення елемента для кожного клієнта
-            const clientDiv = document.createElement('div');
-            clientDiv.classList.add('client-item');
-            clientDiv.setAttribute('data-client-id', client.client_id);
-
-            // Ім'я та прізвище клієнта
-            const clientNameElement = document.createElement('p');
-            clientNameElement.innerText = `Name: ${client.name} ${client.surname}`;
-            clientDiv.appendChild(clientNameElement);
-
-            // Створення додаткової інформації про клієнта
-            const additionalInfoDiv = document.createElement('div');
-            additionalInfoDiv.classList.add('client-additional-info');
-            additionalInfoDiv.style.display = 'none';
-            additionalInfoDiv.innerHTML = `
-                <p>Email: ${client.email}</p>
-                <p>Phone: ${client.phone_number}</p>
-                <p>Gender: ${client.gender}</p>
-                <p>Weight: ${client.weight}</p>
-                <p>Height: ${client.height}</p>
-                <p>Strength Level: ${client.strength_level}</p>
-                <p>Endurance Level: ${client.endurance_level}</p>
-                <p>Flexibility Level: ${client.flexibility_level}</p>
-                <p>Training Goals: ${client.training_goals}</p>
-            `;
-
-            // Додавання додаткової інформації до клієнтського елемента
-            clientDiv.appendChild(additionalInfoDiv);
-
-            // Створення кнопки для відображення/приховування додаткової інформації
-            const button = document.createElement('button');
-            button.textContent = 'All information';
-            button.addEventListener('click', toggleClientInfo);
-            clientDiv.appendChild(button);
-
-            const nutritionsButton = document.createElement('button');
-            nutritionsButton.textContent = 'Nutritions';
-            nutritionsButton.setAttribute('data-client-id', client.client_id);
-            nutritionsButton.addEventListener('click', showNutritions);
-            clientDiv.appendChild(nutritionsButton);
-
-            // Додавання клієнтського елемента до контейнера
-            clientContainer.appendChild(clientDiv);
-        });
-    } catch (error) {
-        console.error('Error fetching clients for trainer:', error);
-    }
-};
-const toggleClientInfo = (event) => {
-    // Отримуємо кнопку, яка викликала функцію
-    const button = event.target;
-
-    // Знаходимо батьківський елемент, який є клієнтським елементом
-    const clientDiv = button.closest('.client-item');
-    
-    // Перевіряємо наявність елемента клієнта
-    if (clientDiv) {
-        const additionalInfoDiv = clientDiv.querySelector('.client-additional-info');
-        
-        // Перевірка наявності додаткової інформації
-        if (additionalInfoDiv) {
-            // Перемикання видимості додаткової інформації
-            additionalInfoDiv.style.display = additionalInfoDiv.style.display === 'none' ? 'block' : 'none';
-        } else {
-            console.error(`Додаткова інформація для клієнта не знайдена.`);
-        }
-    } else {
-        console.error(`Клієнт не знайдений.`);
-    }
-};
-
-
-
 document.addEventListener("DOMContentLoaded", async function() {
     const userId = localStorage.getItem('user_id');
     const roleSelection = document.getElementById("role-selection");
     const goalForm = document.getElementById("goal-form");
     const goalList = document.getElementById("goal-list");
+
     const getUserInfo = async (user_id) => {
         try {
             const response = await fetch(`/user/${user_id}`);
@@ -149,6 +57,8 @@ const getClientId = async (userId) => {
         throw error;
     }
 };
+window.getClientId = getClientId;
+
 
 // Функція для отримання trainer_id користувача
 const getTrainerId = async (userId) => {
@@ -175,7 +85,6 @@ const getTrainerId = async (userId) => {
         throw error;
     }
 };
-window.getTrainerId = getTrainerId;
 
 
 const getClientInfo = async (user_id) => {
@@ -251,8 +160,144 @@ try {
     console.error('Error getting user role:', error);
 }
 
+const displayClientsForTrainer = async (trainerId) => {
+    try {
+        const response = await fetch(`/trainer/${trainerId}/clients`);
+        if (!response.ok) {
+            console.error('Error fetching clients for trainer');
+            return;
+        }
+
+        const clients = await response.json();
+        const clientContainer = document.querySelector('#client-list');
+
+        if (!clientContainer) {
+            console.error('client-list element not found');
+            return;
+        }
+
+        clientContainer.innerHTML = '';
+
+        clients.forEach(client => {
+            // Створення елемента для кожного клієнта
+            const clientDiv = document.createElement('div');
+            clientDiv.classList.add('client-item');
+            clientDiv.setAttribute('data-client-id', client.client_id);
+
+            // Ім'я та прізвище клієнта
+            const clientNameElement = document.createElement('p');
+            clientNameElement.innerText = `Name: ${client.name} ${client.surname}`;
+            clientDiv.appendChild(clientNameElement);
+
+            // Створення додаткової інформації про клієнта
+            const additionalInfoDiv = document.createElement('div');
+            additionalInfoDiv.classList.add('client-additional-info');
+            additionalInfoDiv.style.display = 'none';
+            additionalInfoDiv.innerHTML = `
+                <p>Email: ${client.email}</p>
+                <p>Phone: ${client.phone_number}</p>
+                <p>Gender: ${client.gender}</p>
+                <p>Weight: ${client.weight}</p>
+                <p>Height: ${client.height}</p>
+                <p>Strength Level: ${client.strength_level}</p>
+                <p>Endurance Level: ${client.endurance_level}</p>
+                <p>Flexibility Level: ${client.flexibility_level}</p>
+                <p>Training Goals: ${client.training_goals}</p>
+            `;
+
+            clientDiv.appendChild(additionalInfoDiv);
+
+            const button = document.createElement('button');
+            button.textContent = 'All information';
+            button.addEventListener('click', toggleClientInfo);
+            clientDiv.appendChild(button);
+
+            // Створення кнопки для відкриття форми рекомендацій
+            const nutritionsButton = document.createElement('button');
+            nutritionsButton.textContent = 'Nutritions';
+            nutritionsButton.addEventListener('click', () => openNutritionsForm(client));
+            clientDiv.appendChild(nutritionsButton);
+
+            clientContainer.appendChild(clientDiv);
+        });
+    } catch (error) {
+        console.error('Error fetching clients for trainer:', error);
+    }
+};
+
+const openNutritionsForm = async (client) => {
+    const clientId = client.client_id;
+    const clientDiv = document.querySelector(`div[data-client-id="${clientId}"]`);
+    
+    if (clientDiv) {
+        // Перевіряємо, чи вже створено форму
+        if (clientDiv.querySelector('form')) {
+            console.log('Nutritions form already exists');
+            return;
+        }
+
+        // Створюємо форму
+        const form = document.createElement('form');
+        form.style.display = 'block'; // Показуємо форму при відкритті
+        form.innerHTML = `
+            <label for="recommendation_text">Enter Nutrition Recommendation:</label><br>
+            <textarea id="recommendation_text" name="recommendation_text" rows="4" cols="50"></textarea><br>
+            <button type="button">Send Recommendation</button>
+        `;
+        clientDiv.appendChild(form);
+
+        form.querySelector('button').addEventListener('click', async () => {
+            const recommendationText = form.querySelector('#recommendation_text').value;
+            const userId = localStorage.getItem('user_id');
+            const trainerId = await getTrainerId(userId);
+
+            try {
+                const response = await fetch('/nutrition-recommendations', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        client_id: clientId,
+                        trainer_id: trainerId,
+                        recommendation_text: recommendationText
+                    })
+                });
+
+                if (!response.ok) {
+                    console.error('Error sending recommendation');
+                    return;
+                }
+
+                form.querySelector('#recommendation_text').value = '';
+            } catch (error) {
+                console.error('Error sending recommendation:', error);
+            }
+        });
+    } else {
+        console.error('Client div not found');
+    }
+};
 
 
+
+
+const toggleClientInfo = (event) => {
+    const button = event.target;
+    const clientDiv = button.closest('.client-item');
+    
+    if (clientDiv) {
+        const additionalInfoDiv = clientDiv.querySelector('.client-additional-info');
+        
+        if (additionalInfoDiv) {
+            additionalInfoDiv.style.display = additionalInfoDiv.style.display === 'none' ? 'block' : 'none';
+        } else {
+            console.error(`Додаткова інформація для клієнта не знайдена.`);
+        }
+    } else {
+        console.error(`Клієнт не знайдений.`);
+    }
+};
 const getGoals = async (clientId) => {
     try {
         const response = await fetch(`/api/goals?client_id=${clientId}`);
@@ -382,7 +427,7 @@ const getGoals = async (clientId) => {
         const editProfileForm = document.getElementById('edit-profile-form');
         editProfileForm.style.display = editProfileForm.style.display === 'none' || !editProfileForm.style.display ? 'block' : 'none';
     });
-
+    
     
 
     const setGoalForm = document.getElementById('set-goal-form');
@@ -522,6 +567,7 @@ const getGoals = async (clientId) => {
         progressRingCircle.style.strokeDashoffset = -offset;
     };
     
+
     document.getElementById('profile-form').addEventListener('submit', async function(event) {
         event.preventDefault();
         
@@ -859,6 +905,38 @@ const showClientInformation = (clientId) => {
     console.log(`Showing information for client with ID ${clientId}`);
     // Реалізуйте показ інформації про клієнта
 };
+const quoteElement = document.getElementById('random-quote');
+const STORAGE_KEY = 'lastDisplayedQuote';
+
+// Функція для отримання випадкової цитати
+function getRandomQuote() {
+    fetch('/random-quote')
+        .then(response => response.json())
+        .then(data => {
+            const lastDisplayedQuote = localStorage.getItem(STORAGE_KEY);
+            // Перевірка, чи вже відображалася цитата для сьогоднішнього дня
+            const today = new Date().toDateString();
+            if (lastDisplayedQuote === null || JSON.parse(lastDisplayedQuote).date !== today) {
+                // Оновити HTML-вміст випадковою цитатою
+                quoteElement.textContent = data.quote_text;
+                // Зберегти дані про останню відображену цитату в локальному сховищі
+                const quoteData = {
+                    text: data.quote_text,
+                    date: today
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(quoteData));
+            } else {
+                // Використовувати збережену цитату, якщо вже відображалася цитата для сьогоднішнього дня
+                const savedQuote = JSON.parse(lastDisplayedQuote);
+                quoteElement.textContent = savedQuote.text;
+            }
+        })
+        .catch(error => console.error('Помилка отримання випадкової цитати:', error));
+}
+
+// Отримати випадкову цитату при завантаженні сторінки
+getRandomQuote();
+
 
 
 

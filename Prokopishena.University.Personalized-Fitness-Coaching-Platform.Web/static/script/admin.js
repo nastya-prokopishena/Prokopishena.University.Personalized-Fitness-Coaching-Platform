@@ -107,6 +107,78 @@ function displayVideos(videos) {
       });
     }
   }
-  
-  });
-  
+  const createQuoteForm = document.getElementById('createQuoteForm');
+        const quoteList = document.querySelector('.quote-list');
+
+        // Function to fetch quotes from server and display them
+        function fetchQuotes() {
+            fetch('/quotes')
+                .then(response => response.json())
+                .then(quotes => {
+                    quoteList.innerHTML = ''; // Clear existing list
+                    quotes.forEach(quote => {
+                        const quoteElement = document.createElement('div');
+                        quoteElement.textContent = quote.quote_text;
+
+                        // Create delete button
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Delete';
+                        deleteButton.addEventListener('click', function () {
+                            deleteQuote(quote.quote_id);
+                        });
+
+                        // Append delete button to quote element
+                        quoteElement.appendChild(deleteButton);
+
+                        // Append quote element to quote list
+                        quoteList.appendChild(quoteElement);
+                    });
+                })
+                .catch(error => console.error('Error fetching quotes:', error));
+        }
+
+        // Function to delete a quote
+        function deleteQuote(quoteId) {
+            fetch(`/quotes/${quoteId}`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to delete quote');
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                    fetchQuotes(); // Refresh quote list after deleting quote
+                })
+                .catch(error => console.error('Error deleting quote:', error));
+        }
+
+        // Event listener for quote submission form
+        createQuoteForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const quoteText = document.getElementById('quoteText').value;
+
+            fetch('/quotes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ quoteText })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to add quote');
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                    fetchQuotes(); // Refresh quote list after adding new quote
+                    document.getElementById('quoteText').value = ''; // Clear input field
+                })
+                .catch(error => console.error('Error adding quote:', error));
+        });
+
+        // Initial fetch of quotes when the page loads
+        fetchQuotes();
+    });

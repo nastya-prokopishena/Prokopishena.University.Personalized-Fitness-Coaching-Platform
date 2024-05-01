@@ -74,3 +74,6 @@
 {"level":"info","message":"Successful login: jennifer.annistonn@gmail.com, IP: ::1"}
 {"level":"info","message":"Successful login: jennifer.annistonn@gmail.com, IP: ::1"}
 {"level":"info","message":"Successful registration: jane.brown.admin@gmail.com, IP: ::1"}
+{"level":"info","message":"Successful registration: test.user@gmail.com, IP: ::1"}
+{"level":"info","message":"Failed registration attempt: Email already exists - test.user@gmail.com, IP: ::1"}
+{"level":"info","message":"Successful registration: test.user2@gmail.com, IP: ::1"}

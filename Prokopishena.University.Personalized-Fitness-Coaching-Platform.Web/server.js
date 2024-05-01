@@ -11,10 +11,11 @@ const Admin = require('../Prokopishena.University.Personalized-Fitness-Coaching-
 const Specialization = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Specialization')
 const TrainingRequest = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/TrainingRequest')
 const trainingController = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Core/controllers/trainingController');
-const NutritionGuidance = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/NutritionGuidance')
+const NutritionRecommendation = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/NutritionRecommendation')
 const GoalTemplate = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/GoalTemplate')
 const Goal = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Goal')
 const InstructionVideo = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/InstructionVideo')
+const Quote = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Quote')
 const PORT = process.env.PORT || 3000;
 const app = express();
 const winston = require('winston');
@@ -345,14 +346,14 @@ app.get('/trainer/:user_id', async (req, res) => {
 app.get('/trainers', async (req, res) => {
   try {
     const trainers = await Trainer.findAll({
-      include: User // Включаємо дані користувача в результат
+      include: User 
     });
 
     if (!trainers) {
       return res.status(404).json({ message: 'No trainers found' });
     }
 
-    // Перетворюємо результат в необхідний формат перед відправленням
+
     const formattedTrainers = trainers.map(trainer => ({
       trainer_id: trainer.trainer_id,
       name: trainer.User.name,
@@ -373,7 +374,6 @@ app.get('/trainers', async (req, res) => {
   }
 });
 
-// Отримати всіх клієнтів та їх тренувальні цілі з бази даних
 app.get('/clients', async (req, res) => {
   try {
       const clients = await Client.findAll();
@@ -494,7 +494,7 @@ app.get('/trainer/:trainerId/clients', async (req, res) => {
               model: Client,
               include: {
                   model: User, // Включаємо дані користувача для кожного клієнта
-                  attributes: ['name', 'surname', 'email', 'phone_number', 'gender'], // Обираємо потрібні атрибути
+                  attributes: ['name', 'surname', 'email', 'phone_number', 'gender' ], // Обираємо потрібні атрибути
               },
               attributes: ['weight', 'height', 'strength_level', 'endurance_level', 'flexibility_level', 'training_goals'], // Обираємо потрібні атрибути клієнта
           },
@@ -550,67 +550,65 @@ app.get('/trainer-for-client/:client_id', async (req, res) => {
       res.status(500).json({ message: 'Помилка отримання тренера для клієнта' });
   }
 });
-app.post('/nutrition-guidance', async (req, res) => {
+
+
+
+app.post('/nutrition-recommendations', async (req, res) => {
   try {
-      // Отримуємо дані з тіла запиту
-      const { request_id, guidance } = req.body;
+    // Отримання даних з тіла запиту
+    const { client_id, trainer_id, recommendation_text } = req.body;
 
-      // Перевіряємо, чи вказано `request_id` та `guidance`
-      if (!request_id || !guidance) {
-          return res.status(400).json({
-              success: false,
-              message: 'Missing request_id or guidance in the request body'
-          });
-      }
+    // Створення нового запису рекомендації
+    const newRecommendation = await NutritionRecommendation.create({
+      client_id, // Переконайтеся, що використовується client_id, який передається з фронтенду
+      trainer_id,
+      recommendation_text
+    });
 
-      // Додаємо нову рекомендацію щодо харчування
-      const newGuidance = await NutritionGuidance.create({
-          request_id,
-          guidance,
-      });
-
-      // Повертаємо статус 201 і дані нової рекомендації
-      res.status(201).json({
-          success: true,
-          data: newGuidance,
-          message: 'Nutrition guidance added successfully!'
-      });
+    // Відправлення успішної відповіді з новим записом рекомендації
+    res.status(201).json(newRecommendation);
   } catch (error) {
-      console.error('Error adding nutrition guidance:', error);
-      res.status(500).json({
-          success: false,
-          message: 'Failed to add nutrition guidance'
-      });
+    // Відправлення відповіді про помилку у випадку невдалого створення рекомендації
+    console.error('Error creating nutrition recommendation:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-app.get('/get-request-id/:clientId', async (req, res) => {
-  // Отримання clientId з параметрів запиту
-  const clientId = req.params.clientId;
-  
-  // Перевірка, чи clientId не є порожнім
-  if (!clientId) {
-      return res.status(400).json({ error: 'Client ID must be provided' });
-  }
 
+app.get('/nutrition-recommendations', async (req, res) => {
   try {
-      // Використовуємо clientId для отримання інформації про харчування
-      // Замініть `getNutritionsByClientId` на вашу функцію для отримання даних харчування
-      const nutritionsData = await db.getNutritionsByClientId(clientId);
+    // Отримання всіх записів з таблиці nutrition_recommendations
+    const recommendations = await NutritionRecommendation.findAll();
 
-      // Перевірте, чи були знайдені дані харчування
-      if (!nutritionsData) {
-          return res.status(404).json({ error: 'Nutritions data not found' });
-      }
-
-      // Відправляємо дані харчування у відповідь
-      res.json({ nutritions: nutritionsData });
+    // Відправлення отриманих записів як відповідь
+    res.json(recommendations);
   } catch (error) {
-      console.error('Error fetching nutritions data:', error);
-      // Відправляємо відповідь про помилку
-      res.status(500).json({ error: 'Internal server error' });
+    // Відправлення відповіді про помилку у випадку невдалого запиту
+    console.error('Error fetching nutrition recommendations:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+app.delete('/nutrition-recommendations/:recommendationId', async (req, res) => {
+  try {
+    const { recommendationId } = req.params;
+
+    // Знаходження запису за його ідентифікатором та видалення його
+    await NutritionRecommendation.destroy({
+      where: {
+        recommendation_id: recommendationId
+      }
+    });
+
+    // Відправлення успішної відповіді
+    res.status(204).send();
+  } catch (error) {
+    // Відправлення відповіді про помилку у випадку невдалого видалення запису
+    console.error('Error deleting nutrition recommendation:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 app.post('/api/goals', async (req, res) => {
   const { client_id, description, goal_template_id } = req.body;
 
@@ -728,8 +726,75 @@ app.get('/instructionVideos', async (req, res) => {
     res.status(500).json({ message: 'Something went wrong. Please try again.' });
   }
 });
+app.post('/quotes', async (req, res) => {
+  try {
+    const { quoteText } = req.body;
+    
+    const newQuote = await Quote.create({
+      quote_text: quoteText
+    });
 
+    res.status(201).json(newQuote); 
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Something went wrong. Please try again.' });
+  }
+});
+app.delete('/quotes/:quote_id', async (req, res) => {
+  const quoteId = req.params.quote_id;
 
+  try {
+    const deletedQuote = await Quote.destroy({
+      where: {
+        quote_id: quoteId
+      }
+    });
+
+    if (!deletedQuote) {
+      return res.status(404).json({ message: 'Quote not found' });
+    }
+
+    res.status(200).json({ message: 'Quote successfully deleted' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Something went wrong. Please try again.' });
+  }
+});
+
+app.get('/quotes', async (req, res) => {
+  try {
+    const quotes = await Quote.findAll();
+
+    res.status(200).json(quotes); 
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Something went wrong. Please try again.' });
+  }
+});
+
+let currentQuoteId = null;
+
+app.get('/random-quote', async (req, res) => {
+  try {
+      // Count the total number of quotes in the database
+      const count = await Quote.count();
+
+      // Generate a random number between 1 and the total number of quotes
+      const randomIndex = Math.floor(Math.random() * count) + 1;
+
+      // Find a quote with the random index
+      const randomQuote = await Quote.findOne({
+          where: {
+              quote_id: randomIndex
+          }
+      });
+
+      res.status(200).json(randomQuote);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Something went wrong. Please try again.' });
+  }
+});
 
 // Static file handler for public resources
 app.use(express.static(path.join(__dirname, 'public')));

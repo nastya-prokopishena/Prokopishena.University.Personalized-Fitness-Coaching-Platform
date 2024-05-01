@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Training Plans</title>
   <script src="/static/script/trainingPlan.js"></script>
-  <script src="/static/script/nutrition.js"></script>
   <link rel="stylesheet" href="../static/style.css">
     <link rel="stylesheet" href="/static/style.css"> 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -125,7 +124,10 @@
     <button class="profile_form-button" id="cancel-profile">Cancel</button>
 
   </form>
-
+  <div class="quote-container">
+    <h2>Quote of the Day</h2>
+    <p id="random-quote"></p>
+</div>
   </section>
   <div class="trainer-searching">
     <h1 class="trainer-searching_title">Find a Trainer</h1>
@@ -153,8 +155,9 @@
 
 <div id="goal-list"></div>
 
-
   <script  type="module" src="/static/script/profile.js"></script>
+  
+
   <script src="/static/script/logout.js"></script>
 
 </body>

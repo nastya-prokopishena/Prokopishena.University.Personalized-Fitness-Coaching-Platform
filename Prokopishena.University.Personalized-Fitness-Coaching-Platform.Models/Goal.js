@@ -30,10 +30,6 @@ const Goal = sequelize.define('Goal', {
     status: {
         type: DataTypes.STRING(255),
         defaultValue: 'Not Started'
-    },
-    progress: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
     }
 }, {
     tableName: 'goals',

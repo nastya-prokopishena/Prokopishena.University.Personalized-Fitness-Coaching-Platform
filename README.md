@@ -19,12 +19,18 @@ The Personalized Fitness Coaching Platform is a web-based service designed to co
 https://github.com/nastya-prokopishena/Prokpishena.University.Personalized-Fitness-Coaching-Platform.git
 
 ### Install .Node.js
-1. Ensure that you have installed the .NET SDK.
-2. In the terminal, navigate to the project directory:
-cd your-repository
+1. Download and install Node.js from the official website.
+2. Follow the wizard instructions during installation and choose the default settings.
+
+### Project Setup
+1. After cloning the repository, navigate to the project directory:
+
+cd Prokpishena.University.Personalized-Fitness-Coaching-Platform
+
 
 ### Run the Project Locally
 1. In the terminal, use the following command to run the project
+
 npm start
 2. Open your web browser and go to link (with HTTPS)
 localy: http://localhost:3000
@@ -35,7 +41,6 @@ azure: https://fitness-platform.azurewebsites.net/
 
 
 ## Розклад завдань проекту
-Додайте розклад розбиття завдань тут.
 
 ### Week 1:
 - [ ] Implement feature: User Registration with Google Account (OAuth 2.0)
@@ -94,15 +99,16 @@ azure: https://fitness-platform.azurewebsites.net/
 - [x] Update project documentation with final testing results and performance metrics
 
 ### Week 9:
-- [ ] Implement feature: Motivational Content integration
-- [ ] Conduct comprehensive end-to-end testing of all platform features 
+- [x] Implement feature: Motivational Content integration
+- [x] Conduct comprehensive end-to-end testing of all platform features 
 (replacement with a task Develop Postman collection for testing user registration and profile creation endpoints from WEEK 3)
-- [ ] Prepare documentation for platform maintenance and future development guidelines 
-(replacement with a task Implement feature: Nutrition Guidance integration from WEEK 7 )
-- [ ] Finalize deployment scripts and procedures for a smooth production rollout 
-(replacement with a task Begin drafting project documentation, including task decomposition WEEK 4)
-- [ ] Coordinate with the marketing team for promotional activities and platform launch announcements 
-( replacement with a task Implement feature: Customized Workout Plans generation WEEK 4)
+Finalize project documentation, including task decomposition and testing strategies
+- [x] Prepare documentation for platform maintenance and future development guidelines 
+(replacement with a task  Enhance user interface for profile creation and goal setting from WEEK 4 )
+- [x] Finalize deployment scripts and procedures for a smooth production rollout 
+(replacement with a task Expand Postman collection to cover new features implemented WEEK 4)
+- [x] Coordinate with the marketing team for promotional activities and platform launch announcements 
+( replacement with a task Refine documentation for Getting Started and project overview WEEK 3)
 
 ### Week 10:
 - [ ] Implement feature: Community Support features
@@ -126,7 +132,7 @@ azure: https://fitness-platform.azurewebsites.net/
 - [ ] Celebrate the successful platform launch with the team and stakeholders
 
 
-##Functions
+## Functions
 ### `profile.js`
 
 - **`showNutritions(event)`**:
@@ -272,6 +278,17 @@ azure: https://fitness-platform.azurewebsites.net/
 
 - **Handling the registration form:**
     - Works with input data and saves the user's gender in local storage.
+- **Creating Instruction Videos:**
+    - Admin can fill out a form to create a new instruction video.
+    - The form includes fields for title and YouTube URL.
+    - Upon submission, the video is added to the system and displayed on the website.
+
+- **Managing Quotes:**
+    - Users can add new quotes via a form.
+    - The form includes a text field for entering the quote.
+
+- **Displaying Random Quotes:**
+    - Users can view a random quote displayed on the page, which changes daily and is stored locally to ensure consistency
 
 
 
