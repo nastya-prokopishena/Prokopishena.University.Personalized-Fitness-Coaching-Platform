@@ -30,8 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Account created successfully!');
                 console.log(data);
             } else {
-                alert('Error creating account: ' + data.error);
-                console.error('Error during registration:', data.error);
+                if (data && data.message) {
+                    alert('Error creating account: ' + data.message);
+                    console.error('Error during registration:', data.message);
+                } else {
+                    alert('Unknown error occurred. Please try again.');
+                    console.error('Unknown error during registration:', response.statusText);
+                }
             }
         } catch (error) {
             console.error('Error during registration:', error);

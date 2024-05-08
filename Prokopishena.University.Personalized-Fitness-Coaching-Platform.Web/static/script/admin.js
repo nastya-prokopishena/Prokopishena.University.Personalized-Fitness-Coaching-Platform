@@ -179,6 +179,84 @@ function displayVideos(videos) {
                 .catch(error => console.error('Error adding quote:', error));
         });
 
-        // Initial fetch of quotes when the page loads
         fetchQuotes();
+
+        const createGroupForm = document.getElementById('createGroupForm');
+    const groupList = document.getElementById('groupList');
+
+    // list of groups
+    function renderGroup(group) {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <span>${group.group_name}</span>
+            <button class="editButton" data-id="${group.group_id}">Редагувати</button>
+            <button class="deleteButton" data-id="${group.group_id}">Видалити</button>
+        `;
+        groupList.appendChild(li);
+    }
+
+    // get all groups
+    fetch('/groups')
+        .then(response => response.json())
+        .then(groups => {
+            groups.forEach(group => renderGroup(group));
+        })
+        .catch(error => console.error('Error fetching groups:', error));
+
+    // Create new group
+    createGroupForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const groupName = document.getElementById('groupName').value;
+        const groupDescription = document.getElementById('groupDescription').value;
+
+        fetch('/groups', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ group_name: groupName, description: groupDescription })
+        })
+        .then(response => response.json())
+        .then(newGroup => {
+            renderGroup(newGroup);
+            createGroupForm.reset();
+        })
+        .catch(error => console.error('Error creating group:', error));
+    });
+
+    // delete grouup
+    groupList.addEventListener('click', function (event) {
+        if (event.target.classList.contains('deleteButton')) {
+            const groupId = event.target.dataset.id;
+            fetch(`/groups/${groupId}`, {
+                method: 'DELETE'
+            })
+            .then(() => {
+                event.target.parentNode.remove();
+            })
+            .catch(error => console.error('Error deleting group:', error));
+        }
+    });
+
+    // Modify information about group 
+    groupList.addEventListener('click', function (event) {
+        if (event.target.classList.contains('editButton')) {
+            const groupId = event.target.dataset.id;
+            const newName = prompt('Введіть нову назву групи:');
+            if (newName) {
+                fetch(`/groups/${groupId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ group_name: newName })
+                })
+                .then(response => response.json())
+                .then(updatedGroup => {
+                    event.target.previousSibling.textContent = updatedGroup.group_name;
+                })
+                .catch(error => console.error('Error updating group:', error));
+            }
+        }
+    });
     });

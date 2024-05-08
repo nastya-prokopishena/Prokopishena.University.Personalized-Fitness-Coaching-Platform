@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const socketIo = require('socket.io');
 const User = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/User')
 const Client = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Client')
 const Trainer = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Trainer')
@@ -16,14 +17,19 @@ const GoalTemplate = require('../Prokopishena.University.Personalized-Fitness-Co
 const Goal = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Goal')
 const InstructionVideo = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/InstructionVideo')
 const Quote = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Quote')
+const Group = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Group')
+const UserGroup = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/UserGroup')
+const GroupMessage = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/GroupMessage')
 const PORT = process.env.PORT || 3000;
 const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
 const winston = require('winston');
-
-
+const nodemailer = require('nodemailer');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 
 
 Client.belongsTo(User, { foreignKey: 'user_id' });
@@ -46,6 +52,14 @@ const logger = winston.createLogger({
   ],
 });
 // Registration route
+
+let transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth:{
+    user: 'yoonhwoo9@gmail.com',
+    pass: 'Bangtan_1306',
+  }
+});
 
 app.post('/register', async (req, res) => {
   try {
@@ -70,6 +84,13 @@ app.post('/register', async (req, res) => {
     });
 
     logger.info(`Successful registration: ${email}, IP: ${req.ip}`);
+    await transporter.sendMail({
+      from: 'yoonhwoo@example.com',
+      to: email,
+      subject: 'Welcome to our platform',
+      text: 'Congratulations! You have successfully registered on our platform.'
+    });
+
     res.status(201).json({ message: 'User successfully registered' });
   } catch (error) {
     console.error(error);
@@ -320,7 +341,8 @@ app.post('/trainer-profile', async (req, res) => {
     console.error('Error updating trainer data:', error);
     res.status(500).json({ error: 'Error updating trainer data' });
   }
-});app.get('/client/:user_id', async (req, res) => {
+});
+app.get('/client/:user_id', async (req, res) => {
   const { user_id } = req.params; // Змінено userId на user_id
   try {
       const clientInfo = await Client.findOne({ where: { user_id } }); // Змінено userId на user_id
@@ -709,7 +731,7 @@ app.post('/instructionVideos', async (req, res) => {
       youtube_url
     });
 
-    res.status(201).json(newInstructionVideo); // Повертаємо створений InstructionVideo
+    res.status(201).json(newInstructionVideo); 
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Something went wrong. Please try again.' });
@@ -717,10 +739,9 @@ app.post('/instructionVideos', async (req, res) => {
 });
 app.get('/instructionVideos', async (req, res) => {
   try {
-    // Отримання всіх записів з таблиці instruction_videos
     const instructionVideos = await InstructionVideo.findAll();
 
-    res.status(200).json(instructionVideos); // Повертаємо всі InstructionVideos
+    res.status(200).json(instructionVideos); 
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Something went wrong. Please try again.' });
@@ -796,6 +817,144 @@ app.get('/random-quote', async (req, res) => {
   }
 });
 
+app.post('/groups', async (req, res) => {
+  try {
+    const { group_name, description } = req.body;
+    const group = await Group.create({ group_name, description });
+    res.status(201).json(group);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/groups', async (req, res) => {
+  try {
+    const groups = await Group.findAll();
+    res.json(groups);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.put('/groups/:group_id', async (req, res) => {
+  try {
+    const { group_id } = req.params;
+    const { group_name, description } = req.body;
+    const group = await Group.findByPk(group_id);
+    if (!group) {
+      return res.status(404).json({ error: 'Group not found' });
+    }
+    await group.update({ group_name, description });
+    res.json(group);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.delete('/groups/:group_id', async (req, res) => {
+  try {
+    const { group_id } = req.params;
+    const group = await Group.findByPk(group_id);
+    if (!group) {
+      return res.status(404).json({ error: 'Group not found' });
+    }
+    await group.destroy();
+    res.status(204).end();
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+app.get('/user/:userId/groups', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // Знаходимо всі group_id, в яких доданий користувач
+    const userGroups = await UserGroup.findAll({
+      where: {
+        user_id: userId
+      }
+    });
+
+    // Масив для зберігання назв груп
+    const groupNames = [];
+
+    // Для кожного запису userGroup знаходимо назву групи
+    for (const userGroup of userGroups) {
+      const groupId = userGroup.group_id;
+      // Знаходимо назву групи за group_id
+      const group = await Group.findOne({
+        where: {
+          group_id: groupId
+        }
+      });
+      // Додаємо назву групи до масиву
+      groupNames.push(group.group_name);
+    }
+
+    res.json(groupNames);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Помилка сервера' });
+  }
+});
+app.post('/join-group', async (req, res) => {
+  try {
+    const { user_id, group_id } = req.body;
+
+    // Перевіряємо, чи існує вже запис користувача в групі
+    const existingUserGroup = await UserGroup.findOne({ where: { user_id, group_id } });
+
+    if (existingUserGroup) {
+      return res.status(400).json({ error: 'User already belongs to this group' });
+    }
+
+    // Створюємо новий запис користувача в групі
+    await UserGroup.create({
+      user_id,
+      group_id
+    });
+
+    res.status(201).json({ message: 'User added to group successfully' });
+  } catch (error) {
+    console.error('Error adding user to group:', error);
+    res.status(500).json({ error: 'Error adding user to group' });
+  }
+});
+app.get('/group-messages/:groupId', async (req, res) => {
+  try {
+      const groupId = req.params.groupId;
+      // Здійснюємо запит до бази даних, щоб отримати повідомлення для заданої групи за числовим значенням group_id
+      const messages = await GroupMessage.findAll({
+          where: {
+              group_id: groupId
+          }
+      });
+      res.json(messages);
+  } catch (error) {
+      console.error('Помилка отримання групових повідомлень:', error);
+      res.status(500).json({ error: 'Помилка отримання групових повідомлень' });
+  }
+});
+
+
+app.post('/send-message', async (req, res) => {
+  try {
+      const { messageText, groupId, userId } = req.body;
+      // Здійснюємо створення нового повідомлення в базі даних
+      await GroupMessage.create({
+          group_id: groupId,
+          user_id: userId,
+          message_text: messageText
+      });
+      res.sendStatus(200); // Відправляємо успішну відповідь
+  } catch (error) {
+      console.error('Error sending message:', error);
+      res.status(500).json({ error: 'Error sending message' });
+  }
+});
+
 // Static file handler for public resources
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -811,6 +970,9 @@ app.get('/exercises', trainingController.getExercises);
 
 // Create training plan route
 app.post('/training-plans', trainingController.createTrainingPlan);
+
+
+// Handle chat functionality
 
 // Server start
 app.listen(PORT, () => {

@@ -10,10 +10,10 @@ const Client = sequelize.define('Client', {
         autoIncrement: true
     },
     weight: {
-        type: DataTypes.DECIMAL
+        type: DataTypes.INTEGER
     },
     height: {
-        type: DataTypes.DECIMAL
+        type: DataTypes.INTEGER
     },
     training_goals: {
         type: DataTypes.STRING
@@ -37,5 +37,6 @@ const Client = sequelize.define('Client', {
 });
 
 Client.hasMany(TrainingRequest, { foreignKey: 'client_id' });
+Client.belongsTo(User, { foreignKey: 'user_id' });
 
 module.exports = Client;

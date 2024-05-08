@@ -30,10 +30,23 @@
         <input class="quote-creation__form-input" type="text" id="quoteText" name="quoteText" required><br><br>
         <button class="quote-creation__form-btn" type="submit">Add Quote</button>
     </form>
-</div>
-<div class="quote-list-container">
-    <h2>Quotes</h2>
-    <div class="quote-list">
-    </div>
+  </div>
+  <div class="quote-list-container">
+      <h2>Quotes</h2>
+      <div class="quote-list">
+  </div>
+  <h2>Створити нову групу</h2>
+    <form id="createGroupForm">
+        <label for="groupName">Назва групи:</label>
+        <input type="text" id="groupName" name="groupName" required>
+        <label for="groupDescription">Опис групи:</label>
+        <input type="text" id="groupDescription" name="groupDescription">
+        <button type="submit">Створити</button>
+    </form>
+
+    <h2>Список груп</h2>
+    <ul id="groupList">
+    </ul>
+
 </body>
 </html>

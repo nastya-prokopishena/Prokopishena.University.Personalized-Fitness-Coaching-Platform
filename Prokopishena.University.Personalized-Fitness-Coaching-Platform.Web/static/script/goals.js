@@ -1,4 +1,3 @@
-// Завантаження шаблонів цілей з API
 export const loadGoalTemplates = async () => {
     try {
         const response = await fetch('/api/goal-templates');
@@ -21,7 +20,6 @@ export const loadGoalTemplates = async () => {
     }
 };
 
-// Створення нової цілі
 export const createGoal = async (clientId, description, templateId) => {
     try {
         const response = await fetch('/api/goals', {

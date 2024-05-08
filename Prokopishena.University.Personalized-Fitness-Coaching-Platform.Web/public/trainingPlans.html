@@ -6,24 +6,35 @@
   <title>Training Plans</title>
   <script src="/static/script/trainingPlan.js"></script>
   <link rel="stylesheet" href="../static/style.css">
-    <link rel="stylesheet" href="/static/style.css"> 
+    <link rel="stylesheet" href="/static/style.css">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
+  <script>
+    function toggleAnswer(event) {
+        const answer = event.target.nextElementSibling;
+        answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
+    }
+</script>
   <nav class="menu">
     <ul>
       <li><a href="#">User Profile</a></li>
       <li><a href="#">Training</a></li>
       <li><a href="videos.html">Videos</a></li> 
+      <li><a href="#groups">Groups</a></li> 
       <li>
         <button id="logoutButton">Logout</button>
       </li>
     </ul>
   </nav>
+  <div class="quote-container">
+    <h2 class="quote-container__header">Quote of the Day</h2>
+    <p class="quote-container__text" id="random-quote"></p>
+</div>
   <section class="profile">
-    
     <div class="profile__information" id="profile-display">
           <h2 class="profile__information-title">Displaying Personal Information</h2>
           <p class="profile__information-name">Name: <span id="display-name"></span></p>
@@ -124,10 +135,7 @@
     <button class="profile_form-button" id="cancel-profile">Cancel</button>
 
   </form>
-  <div class="quote-container">
-    <h2>Quote of the Day</h2>
-    <p id="random-quote"></p>
-</div>
+  
   </section>
   <div class="trainer-searching">
     <h1 class="trainer-searching_title">Find a Trainer</h1>
@@ -155,10 +163,88 @@
 
 <div id="goal-list"></div>
 
-  <script  type="module" src="/static/script/profile.js"></script>
+<div class="container" id="groups">
+  <h2>My Groups</h2>
+    <ul id="groupList">
+        <!-- Сюди буде виводитися список груп -->
+    </ul>
+    <button id="joinGroupsButton">Join Group Chats</button>
   
+</div>
 
-  <script src="/static/script/logout.js"></script>
+<div class="faq" id="faq">
+  <h2 class="faq__header">Frequently Asked Questions</h2>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">How can I request training for a specific trainer?</h3>
+      <p class="faq__answer">To request training for a particular trainer, navigate to their profile and click on the "Request Training" button.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">How do I view information about clients for a specific trainer?</h3>
+      <p class="faq__answer">To view client information for a particular trainer, go to the trainer's profile page and click on the "View Clients" button.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">What payment methods are accepted?</h3>
+      <p class="faq__answer">We accept various payment methods, including credit/debit cards, PayPal, and bank transfers. You can choose the most convenient option during the checkout process.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">Is there a free trial available?</h3>
+      <p class="faq__answer">Yes, we offer a free trial period for new users. During this time, you can explore our platform and its features before committing to a subscription.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">How can I cancel my subscription?</h3>
+      <p class="faq__answer">To cancel your subscription, please log in to your account, go to the settings or subscription page, and follow the instructions provided.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">Do you offer personalized training plans?</h3>
+      <p class="faq__answer">Yes, we provide personalized training plans tailored to your fitness goals, preferences, and level of experience.</p>
+  </div>
+</div>
+
+<div class="faq" id="troubleshooting">
+  <h2 class="faq__header">Troubleshooting Guide</h2>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">Problem: Unable to find a client or trainer.</h3>
+      <p class="faq__answer">Ensure that you have entered the correct user ID. If the issue persists, please refresh the page.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">Problem: Information about a client or trainer is not displaying.</h3>
+      <p class="faq__answer">Check your internet connection and try refreshing the page. If the issue persists, please contact support.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">Problem: Unable to submit a training request.</h3>
+      <p class="faq__answer">Make sure all required fields are filled out correctly. If the problem persists, try clearing your browser's cache and cookies or using a different browser.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">Problem: Video tutorials are not playing.</h3>
+      <p class="faq__answer">Check your internet connection and ensure that your browser supports the video format. You may also try updating your browser or using a different device.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">Problem: Unable to access my account.</h3>
+      <p class="faq__answer">Make sure you are using the correct email and password combination. If you've forgotten your password, use the "Forgot Password" option to reset it.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">Problem: Error messages during checkout.</h3>
+      <p class="faq__answer">Double-check your payment information and ensure that your billing address matches the one associated with your payment method. If the problem persists, try using a different payment method or contact your bank.</p>
+  </div>
+</div>
+
+<div class="contact" id="contact">
+  <h2 class="contact__header">Contact Us</h2>
+  <p class="contact__text">If you have any questions or feedback, please feel free to reach out to us:</p>
+  <ul class="contact_list">
+      <li class="contact__list-email">Email: support@yourfitnessplatform.com</li>
+      <li class="contact__list-number">Phone: 1-800-123-4567</li>
+  </ul>
+  <form class="feedback" id="feedback-form">
+      <label class="feedback__heaader" for="feedback">Leave your feedback:</label><br>
+      <textarea class="feedback__text" id="feedback" name="feedback" rows="4" cols="50"></textarea><br>
+      <input class="feedback__btn" type="submit" value="Submit">
+  </form>
+</div>
+
+<script  type="module" src="/static/script/profile.js"></script>
+
+<script src="/static/script/logout.js"></script>
 
 </body>
 </html>

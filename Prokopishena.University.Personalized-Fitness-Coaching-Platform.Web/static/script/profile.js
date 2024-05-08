@@ -1,8 +1,62 @@
+import { initPagination } from './pagination.js';
+
+
 document.addEventListener("DOMContentLoaded", async function() {
     const userId = localStorage.getItem('user_id');
     const roleSelection = document.getElementById("role-selection");
     const goalForm = document.getElementById("goal-form");
     const goalList = document.getElementById("goal-list");
+   
+    
+    const fetchAndDisplayGroups = async (userId) => {
+        try {
+            if (!userId) {
+                console.error('userId не знайдено в localStorage');
+                return;
+            }
+
+            // Виконати запит до сервера
+            const response = await fetch(`/user/${userId}/groups`);
+            if (!response.ok) {
+                throw new Error('Відповідь сервера не в порядку');
+            }
+
+            // Отримати дані в форматі JSON
+            const groups = await response.json();
+
+            // Отримати посилання на елемент <ul>
+            const groupList = document.getElementById('groupList');
+            if (!groupList) {
+                console.error('Елемент з id "groupList" не знайдено в DOM');
+                return;
+            }
+
+            groupList.innerHTML = '';
+
+            groups.forEach(group => {
+                const li = document.createElement('li');
+                li.textContent = `${group}: `;
+                groupList.appendChild(li);
+            });
+
+            if (groups.length === 0) {
+                console.log('Немає груп для відображення');
+            }
+        } catch (error) {
+            console.error('Помилка отримання груп:', error);
+        }
+    };
+
+    fetchAndDisplayGroups(userId);
+
+console.log('userId:', userId);
+
+// Додати обробник подій для кнопки "Join Group Chats"
+const joinGroupsButton = document.getElementById('joinGroupsButton');
+joinGroupsButton.addEventListener('click', () => {
+    // Перенаправлення на сторінку groups.html з передачею userId через параметр запиту
+    window.location.href = `groups.html?userId=${userId}`;
+});
 
     const getUserInfo = async (user_id) => {
         try {
@@ -773,47 +827,63 @@ document.getElementById('add-profile').addEventListener('click', function() {
     // Отримання та відображення тренерів
     const displayTrainers = (trainers) => {
         const trainerList = document.getElementById('trainer-list');
-        trainerList.innerHTML = ''; 
-      
-        trainers.forEach(trainer => {
-          const listItem = document.createElement('li');
-          listItem.classList.add('trainer-item');
-          const trainerInfo = `
-            <div>
-              <h3>${trainer.name} ${trainer.surname}</h3>
-              <p><strong>Email:</strong> ${trainer.email}</p>
-              <p><strong>Date of Birth:</strong> ${trainer.date_of_birth}</p>
-              <p><strong>Gender:</strong> ${trainer.gender}</p>
-              <p><strong>Phone Number:</strong> ${trainer.phone_number}</p>
-              <p><strong>Specialization:</strong> ${trainer.specialization}</p>
-              <p><strong>Experience:</strong> ${trainer.experience} years</p>
-              <p><strong>About Trainer:</strong> ${trainer.about_trainer}</p>
-              <button class="train-btn" data-trainer-id="${trainer.trainer_id}">Request Training</button>
-            </div>
-          `;
-          listItem.innerHTML = trainerInfo;
-          trainerList.appendChild(listItem);
-        });
-        const trainBtns = document.querySelectorAll('.train-btn');
-        trainBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const trainerId = btn.getAttribute('data-trainer-id');
+        const changeTrainerBtn = document.createElement('button');
+        changeTrainerBtn.innerText = 'Change Trainer';
+        changeTrainerBtn.classList.add('change-trainer-btn');
+        trainerList.parentElement.appendChild(changeTrainerBtn);
+    
+        let currentTrainerIndex = 0;
+    
+        const displayTrainer = (trainer) => {
+            trainerList.innerHTML = ''; 
+            const listItem = document.createElement('li');
+            listItem.classList.add('trainer-item');
+            const trainerInfo = `
+                <div>
+                    <h3>${trainer.name} ${trainer.surname}</h3>
+                    <p><strong>Email:</strong> ${trainer.email}</p>
+                    <p><strong>Date of Birth:</strong> ${trainer.date_of_birth}</p>
+                    <p><strong>Gender:</strong> ${trainer.gender}</p>
+                    <p><strong>Phone Number:</strong> ${trainer.phone_number}</p>
+                    <p><strong>Specialization:</strong> ${trainer.specialization}</p>
+                    <p><strong>Experience:</strong> ${trainer.experience} years</p>
+                    <p><strong>About Trainer:</strong> ${trainer.about_trainer}</p>
+                    <button class="train-btn" data-trainer-id="${trainer.trainer_id}">Request Training</button>
+                </div>
+            `;
+            listItem.innerHTML = trainerInfo;
+            trainerList.appendChild(listItem);
+    
+            const trainBtn = listItem.querySelector('.train-btn');
+            trainBtn.addEventListener('click', () => {
+                const trainerId = trainBtn.getAttribute('data-trainer-id');
                 requestTraining(trainerId);
             });
-        });
+        };
     
-        // Додано кнопку Close
+        const displayNextTrainer = () => {
+            const trainer = trainers[currentTrainerIndex];
+            displayTrainer(trainer);
+            currentTrainerIndex = (currentTrainerIndex + 1) % trainers.length;
+        };
+    
+        // Показати першого випадкового тренера
+        displayNextTrainer();
+    
+        // Обробник кнопки для зміни тренера
+        changeTrainerBtn.addEventListener('click', displayNextTrainer);
         const closeBtn = document.createElement('button');
-        closeBtn.innerText = 'Close';
-        closeBtn.classList.add('close-btn');
-        closeBtn.addEventListener('click', () => {
-            trainerList.style.display = 'none';
-            closeBtn.style.display = 'none'; // Приховати кнопку Close
-        });
-    
-        if (trainerList.style.display !== 'none') {
-            trainerList.parentElement.appendChild(closeBtn);
-        }
+    closeBtn.innerText = 'Close';
+    closeBtn.classList.add('close-btn');
+    closeBtn.addEventListener('click', () => {
+        trainerList.style.display = 'none';
+        closeBtn.style.display = 'none'; // Приховати кнопку Close
+        changeTrainerBtn.style.display = 'none'; // Приховати кнопку для зміни тренера
+    });
+
+    if (trainerList.style.display !== 'none') {
+        trainerList.parentElement.appendChild(closeBtn);
+    }
     };
     
     
@@ -940,6 +1010,7 @@ getRandomQuote();
 
 
 
+
 const searchTrainerBtn = document.getElementById('search-trainer-btn');
 searchTrainerBtn.addEventListener('click', () => {
     const trainerList = document.getElementById('trainer-list');
@@ -954,7 +1025,11 @@ searchTrainerBtn.addEventListener('click', () => {
 } else {
     console.error("Goal list not found.");
 }
+    initPagination();
+
     getUserInfo(userId);
     checkExistingRequests(userId);
-   
+    
+
 });
+

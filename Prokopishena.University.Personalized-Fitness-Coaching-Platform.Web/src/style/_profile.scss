@@ -1,11 +1,8 @@
-
-
-* {
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
+body{
+  font-family: "Montserrat", sans-serif;
 }
-$menu-background-color: #4CAF50; // Колір фону меню
-$menu-text-color: #fff; // Колір тексту пунктів меню
+$menu-background-color: #4CAF50; 
+$menu-text-color: #fff; 
 
 .menu {
   background-color: $menu-background-color;
@@ -88,7 +85,7 @@ section.profile {
 }
 .profile__information-change{
     
-    width: 25%; /* Adjust width as needed */
+    width: 25%; 
     background-color: #fff;
     padding: 2rem;
     border-radius: 5px;
@@ -250,7 +247,7 @@ section.profile {
     padding: 20px;
     margin-left: 35px;
     width: 38%;
-  
+    
     &_title {
       color: #45a049;
       font-size: 24px;
@@ -372,7 +369,9 @@ section.profile {
 
   .trainer-list {
     
-  
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
     
   
       h3 {
@@ -435,14 +434,20 @@ section.profile {
 #goal-list {
   list-style: none;
   padding: 0;
-  margin: 0;
-
+  display: flex;
+  justify-content: center;
+  width: 96%;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-bottom: 60px;
   .goal-item {
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 1rem;
     margin-bottom: 1rem;
-
+    margin-left: 1rem;
+    text-align: center;
+    
     p {
       margin: 0;
     }
@@ -450,14 +455,14 @@ section.profile {
     .start-goal-btn,
     .complete-goal-btn {
       background-color: #45a049;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      padding: 5px 10px;
       font-size: 14px;
       margin-top: 10px;
       margin-right: 8px;
-    text-transform: uppercase;
+      text-transform: uppercase;
       &:hover {
         background-color: darken(#45a049, 10%);
       }
@@ -474,6 +479,10 @@ section.profile {
   border-radius: 4px;
   padding: 1rem;
   margin-bottom: 1rem;
+  width: 96%;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-bottom: 60px;
 
   &__header{
     font-size: 1.5rem;
@@ -511,4 +520,129 @@ section.profile {
       }
 }
 }
+}
+
+$faq-color: #333;
+$faq-bg-color: #f4f4f4;
+$faq-border-color: #ccc;
+$faq-border-radius: 5px;
+$faq-transition: all 0.3s ease;
+
+@mixin faq-style {
+  background-color: $faq-bg-color;
+  border: 1px solid $faq-border-color;
+  border-radius: $faq-border-radius;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: $faq-transition;
+
+  &:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.faq {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  &__header {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: #45a049;
+  }
+
+  &__item {
+    @include faq-style();
+    margin-bottom: 20px;
+
+    .faq__question {
+      color: $faq-color;
+      cursor: pointer;
+      margin-bottom: 0.5rem;
+    }
+
+    .faq__answer {
+      padding-left: 1rem;
+      display: none;
+    }
+  }
+
+  &__header,
+  &__question {
+    font-weight: bold;
+  }
+}
+
+.contact {
+  text-align: center;
+  @include faq-style();
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  &__header {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: #45a049;
+    font-weight: bold;
+    
+  }
+
+  &__text {
+    margin-bottom: 1rem;
+  }
+
+  &_list {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .feedback {
+    &__heaader,
+    &__text {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    &__text {
+      width: 100%;
+    }
+
+    &__btn {
+      display: block;
+      margin: 0 auto;
+      padding: 0.5rem 1rem;
+      background-color: #45a049;
+      color: #fff;
+      border: none;
+      border-radius: $faq-border-radius;
+      cursor: pointer;
+    }
+  }
+}
+
+.quote-container{
+  text-align: center;
+  margin-top: 20px;
+  &__header {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  &__text{
+    text-transform: uppercase;
+  }
 }

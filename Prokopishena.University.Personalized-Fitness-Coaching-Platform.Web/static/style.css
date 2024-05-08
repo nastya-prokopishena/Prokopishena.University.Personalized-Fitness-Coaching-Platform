@@ -261,10 +261,8 @@ table {
   text-decoration: underline;
 }
 
-* {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  font-family: "Roboto", sans-serif;
+body {
+  font-family: "Montserrat", sans-serif;
 }
 
 .menu {
@@ -363,7 +361,7 @@ section.profile {
 }
 
 .profile__information-change {
-  width: 25%; /* Adjust width as needed */
+  width: 25%;
   background-color: #fff;
   padding: 2rem;
   border-radius: 5px;
@@ -641,6 +639,12 @@ section.profile {
   border-top: 1px solid #ccc;
 }
 
+.trainer-list {
+  display: -ms-grid;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
 .trainer-list h3 {
   font-size: 20px;
   margin-bottom: 10px;
@@ -699,13 +703,24 @@ section.profile {
 #goal-list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 96%;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-bottom: 60px;
 }
 #goal-list .goal-item {
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 1rem;
   margin-bottom: 1rem;
+  margin-left: 1rem;
+  text-align: center;
 }
 #goal-list .goal-item p {
   margin: 0;
@@ -737,6 +752,10 @@ section.profile {
   border-radius: 4px;
   padding: 1rem;
   margin-bottom: 1rem;
+  width: 96%;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-bottom: 60px;
 }
 .goal__header {
   font-size: 1.5rem;
@@ -776,6 +795,218 @@ section.profile {
 }
 .goal__form-button:hover {
   background-color: #367c39;
+}
+
+.faq {
+  margin-top: 60px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+.faq__header {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  color: #45a049;
+}
+.faq__item {
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+.faq__item:hover {
+  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.faq__item .faq__question {
+  color: #333;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+.faq__item .faq__answer {
+  padding-left: 1rem;
+  display: none;
+}
+.faq__header, .faq__question {
+  font-weight: bold;
+}
+
+.contact {
+  text-align: center;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+.contact:hover {
+  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.contact__header {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  color: #45a049;
+  font-weight: bold;
+}
+.contact__text {
+  margin-bottom: 1rem;
+}
+.contact_list {
+  list-style: none;
+  padding: 0;
+}
+.contact_list li {
+  margin-bottom: 0.5rem;
+}
+.contact .feedback__heaader, .contact .feedback__text {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.contact .feedback__text {
+  width: 100%;
+}
+.contact .feedback__btn {
+  display: block;
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+  background-color: #45a049;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.quote-container {
+  text-align: center;
+  margin-top: 20px;
+}
+.quote-container__header {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.quote-container__text {
+  text-transform: uppercase;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+
+.menu {
+  background-color: #4CAF50;
+  padding: 10px;
+  height: 4rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 10px 0px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 80px;
+  margin-bottom: 30px;
+}
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.menu ul li {
+  margin-right: 20px;
+}
+.menu ul li:last-child {
+  margin-right: 0;
+}
+.menu ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.menu ul li a:hover {
+  text-decoration: underline;
+}
+
+.video-item {
+  display: inline-block;
+  margin: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.video-item:hover {
+  color: #4CAF50;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.video-title {
+  text-decoration: none;
+  text-align: center;
+}
+
+.switch-button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.switch-button-container button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  background-color: #ccc;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.switch-button-container button:hover {
+  background-color: #4CAF50;
 }
 
 @font-face {

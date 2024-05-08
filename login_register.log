@@ -77,3 +77,17 @@
 {"level":"info","message":"Successful registration: test.user@gmail.com, IP: ::1"}
 {"level":"info","message":"Failed registration attempt: Email already exists - test.user@gmail.com, IP: ::1"}
 {"level":"info","message":"Successful registration: test.user2@gmail.com, IP: ::1"}
+{"level":"info","message":"Failed registration attempt: Email already exists - test.user2@gmail.com, IP: ::1"}
+{"level":"info","message":"Successful registration: prokopishena.anastasia@gmail.com, IP: ::1"}
+{"level":"info","message":"Successful registration: prokopishena.anastasia@gmail.com, IP: ::1"}
+{"level":"info","message":"Failed registration attempt: Email already exists - prokopishena.anastasia@gmail.com, IP: ::1"}
+{"level":"info","message":"Failed registration attempt: Email already exists - prokopishena.anastasia@gmail.com, IP: ::1"}
+{"level":"info","message":"Failed registration attempt: Email already exists - prokopishena.anastasia@gmail.com, IP: ::1"}
+{"level":"info","message":"Failed registration attempt: Email already exists - prokopishena.anastasia@gmail.com, IP: ::1"}
+{"level":"info","message":"Failed registration attempt: Email already exists - prokopishena.anastasia@gmail.com, IP: ::1"}
+{"level":"info","message":"Failed registration attempt: Email already exists - prokopishena.anastasia@gmail.com, IP: ::1"}
+{"level":"info","message":"Failed registration attempt: Email already exists - prokopishena.anastasia@gmail.com, IP: ::1"}
+{"level":"info","message":"Failed registration attempt: Email already exists - prokopishena.anastasia@gmail.com, IP: ::1"}
+{"level":"info","message":"Successful registration: prokopishena.anastasia@gmail.com, IP: ::1"}
+{"level":"info","message":"Failed registration attempt: Email already exists - prokopishena.anastasia@gmail.com, IP: ::1"}
+{"level":"info","message":"Successful registration: prokopishena.anastasia@gmail.com, IP: ::1"}
