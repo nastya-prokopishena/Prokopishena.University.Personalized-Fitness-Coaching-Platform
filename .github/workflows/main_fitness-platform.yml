@@ -19,7 +19,7 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: '14.x'
 
       - name: npm install, build, and test
         run: |
@@ -68,3 +68,18 @@ jobs:
           app-name: 'fitness-platform'
           slot-name: 'Production'
           package: .
+
+      - name: Update dependencies
+        run: npm update
+
+      - name: Setup Application Insights
+        uses: azure/setup-application-insights@v1
+        with:
+          appInsightsInstance: 'fitness-platform-appinsights'
+          appInsightsKey: 15d973ed-d107-4d78-8271-b48895b91b19
+
+      - name: Run tests
+        run: npm test
+
+      - name: Check code quality
+        run: npm run lint
