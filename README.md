@@ -57,16 +57,16 @@ azure: https://fitness-platform.azurewebsites.net/
 - [x] Update Readme.md with project overview and architecture details
 
 ### Week 3:
-- [ ] Implement feature: Trainer Matching algorithm [x]
+- [x] Implement feature: Trainer Matching algorithm ✔️
 - [x] Deploy initial project version to Azure for testing
-- [ ] Develop Postman collection for testing user registration and profile creation endpoints [x]
-- [ ] Refine documentation for Getting Started and project overview [x]
+- [x] Develop Postman collection for testing user registration and profile creation endpoints ✔️
+- [x] Refine documentation for Getting Started and project overview ✔️
 - [x] Conduct initial code review and address any issues identified
 
 ### Week 4:
 - [ ] Implement feature: Customized Workout Plans generation
-- [ ] Enhance user interface for profile creation and goal setting [x]
-- [ ] Expand Postman collection to cover new features implemented [x]
+- [x] Enhance user interface for profile creation and goal setting ✔️
+- [x] Expand Postman collection to cover new features implemented ✔️
 - [ ] Begin drafting project documentation, including task decomposition
 - [ ] Perform integration testing for user registration and profile creation workflows
 
