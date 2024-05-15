@@ -98,7 +98,7 @@ const getClientId = async (userId) => {
         }
 
         const data = await response.json();
-
+        
         // Перевірка, чи містить відповідь необхідне поле
         if (!data.client_id) {
             console.error('Відповідь не містить client_id');
@@ -823,8 +823,7 @@ document.getElementById('add-profile').addEventListener('click', function() {
         document.getElementById('client-profile-form').style.display = 'none';
         document.getElementById('trainer-profile-form').style.display = 'none';
     });
-    
-    // Отримання та відображення тренерів
+
     const displayTrainers = (trainers) => {
         const trainerList = document.getElementById('trainer-list');
         const changeTrainerBtn = document.createElement('button');
@@ -834,8 +833,35 @@ document.getElementById('add-profile').addEventListener('click', function() {
     
         let currentTrainerIndex = 0;
     
+        const requestTraining = async (trainerId) => {
+            try {
+                const userId = localStorage.getItem('user_id');
+                const clientId = await getClientId(userId); // Assuming getClientId is an asynchronous function
+                const requestData = {
+                    client_id: parseInt(clientId), // Parse clientId to ensure it's a number
+                    trainer_id: parseInt(trainerId) // Parse trainerId to ensure it's a number
+                };
+                const response = await fetch('/training_request', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData)
+                });
+                const responseData = await response.json();
+                if (response.ok) {
+                    alert(responseData.message);
+                } else {
+                    alert(responseData.message || 'Failed to create training request');
+                }
+            } catch (error) {
+                console.error('Error requesting training:', error);
+                alert('An error occurred while requesting training. Please try again later.');
+            }
+        };
+    
         const displayTrainer = (trainer) => {
-            trainerList.innerHTML = ''; 
+            trainerList.innerHTML = '';
             const listItem = document.createElement('li');
             listItem.classList.add('trainer-item');
             const trainerInfo = `
@@ -848,15 +874,18 @@ document.getElementById('add-profile').addEventListener('click', function() {
                     <p><strong>Specialization:</strong> ${trainer.specialization}</p>
                     <p><strong>Experience:</strong> ${trainer.experience} years</p>
                     <p><strong>About Trainer:</strong> ${trainer.about_trainer}</p>
-                    <button class="train-btn" data-trainer-id="${trainer.trainer_id}">Request Training</button>
+                    <button class="train-btn" data-trainer-id="${trainer.trainer_id}">Training Request</button>
                 </div>
             `;
             listItem.innerHTML = trainerInfo;
             trainerList.appendChild(listItem);
     
+            // Отримання id тренера для запиту на тренування
             const trainBtn = listItem.querySelector('.train-btn');
+            const trainerId = trainBtn.dataset.trainerId;
+    
+            // Додавання обробника подій для кнопки "Training Request"
             trainBtn.addEventListener('click', () => {
-                const trainerId = trainBtn.getAttribute('data-trainer-id');
                 requestTraining(trainerId);
             });
         };
@@ -867,78 +896,42 @@ document.getElementById('add-profile').addEventListener('click', function() {
             currentTrainerIndex = (currentTrainerIndex + 1) % trainers.length;
         };
     
-        // Показати першого випадкового тренера
         displayNextTrainer();
     
-        // Обробник кнопки для зміни тренера
         changeTrainerBtn.addEventListener('click', displayNextTrainer);
+    
+        // Створюємо кнопку "Close"
         const closeBtn = document.createElement('button');
-    closeBtn.innerText = 'Close';
-    closeBtn.classList.add('close-btn');
-    closeBtn.addEventListener('click', () => {
-        trainerList.style.display = 'none';
-        closeBtn.style.display = 'none'; // Приховати кнопку Close
-        changeTrainerBtn.style.display = 'none'; // Приховати кнопку для зміни тренера
-    });
-
-    if (trainerList.style.display !== 'none') {
+        closeBtn.innerText = 'Close';
+        closeBtn.classList.add('close-btn');
+        closeBtn.addEventListener('click', () => {
+            trainerList.style.display = 'none';
+            closeBtn.style.display = 'none';
+            changeTrainerBtn.style.display = 'none';
+        });
+    
+        // Додаємо кнопку "Close" до батьківського елемента trainerList
         trainerList.parentElement.appendChild(closeBtn);
-    }
     };
     
     
-  const requestTraining = async (trainerId) => {
-    try {
-        const clientId = await getClientId(userId); // Отримуємо ID клієнта
-
-        // Відправляємо POST запит на сервер
-        const response = await fetch('/training_requests', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                client_id: clientId,
-                trainer_id: trainerId
-            })
-        });
-
-        // Обробляємо відповідь сервера
-        const data = await response.json();
-
-        if (response.ok) {
-            alert(data.message); // Показуємо повідомлення про успіх
-            // Приховуємо div після успішного створення запиту на тренування
-            document.querySelector('.trainer-searching').style.display = 'none';
-        } else {
-            alert(data.message); // Показуємо повідомлення про помилку
-        }
-    } catch (error) {
-        console.error('Помилка при запиті на тренування:', error);
-        alert('Сталася помилка. Спробуйте ще раз.');
-    }
-};
-
 const checkExistingRequests = async (userId) => {
     try {
         const userRoleResponse = await fetch(`/user-role/${userId}`);
         const userRoleData = await userRoleResponse.json();
         const userRole = userRoleData.role;
 
-        // Якщо роль користувача — тренер, приховуємо div з тренерами
         if (userRole === 'Trainer') {
             document.querySelector('.trainer-searching').style.display = 'none';
             return;
         }
 
-        // Якщо роль користувача — клієнт, перевіряємо наявність існуючих запитів
-        const clientId = await getClientId(userId); // Отримуємо ID клієнта
+        const clientId = await getClientId(userId); 
         const response = await fetch(`/check-existing-requests/${clientId}`);
         
         if (response.ok) {
             const data = await response.json();
             if (data.existing_requests) {
-                // Якщо вже є існуючі запити, приховуємо div з тренерами
                 document.querySelector('.trainer-searching').style.display = 'none';
             }
         }
@@ -947,7 +940,6 @@ const checkExistingRequests = async (userId) => {
     }
 };
 
-  // Функція для пошуку тренерів
   const findTrainer = async () => {
     try {
       const userId = localStorage.getItem('user_id');
@@ -970,21 +962,17 @@ const checkExistingRequests = async (userId) => {
   
  
 
-// Функція для показу інформації про клієнта
 const showClientInformation = (clientId) => {
     console.log(`Showing information for client with ID ${clientId}`);
-    // Реалізуйте показ інформації про клієнта
 };
 const quoteElement = document.getElementById('random-quote');
 const STORAGE_KEY = 'lastDisplayedQuote';
 
-// Функція для отримання випадкової цитати
 function getRandomQuote() {
     fetch('/random-quote')
         .then(response => response.json())
         .then(data => {
             const lastDisplayedQuote = localStorage.getItem(STORAGE_KEY);
-            // Перевірка, чи вже відображалася цитата для сьогоднішнього дня
             const today = new Date().toDateString();
             if (lastDisplayedQuote === null || JSON.parse(lastDisplayedQuote).date !== today) {
                 // Оновити HTML-вміст випадковою цитатою
@@ -1004,10 +992,67 @@ function getRandomQuote() {
         .catch(error => console.error('Помилка отримання випадкової цитати:', error));
 }
 
-// Отримати випадкову цитату при завантаженні сторінки
 getRandomQuote();
 
+document.getElementById('feedbackForm').addEventListener('submit', submitFeedback);
 
+document.querySelectorAll('.star').forEach(star => {
+    star.addEventListener('click', setRating);
+});
+
+let selectedRating = 0;
+const user_id = localStorage.getItem('user_id'); 
+
+function setRating(event) {
+    const rating = event.target.dataset.rating;
+    selectedRating = rating;
+    highlightStars(rating);
+}
+
+function highlightStars(rating) {
+    document.querySelectorAll('.star').forEach(star => {
+        if (star.dataset.rating <= rating) {
+            star.innerHTML = '★';
+        } else {
+            star.innerHTML = '☆';
+        }
+    });
+}
+
+function submitFeedback(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const comments = formData.get('comments');
+
+    if (!comments || selectedRating === 0) {
+        alert("Please, fill in all the fields");
+        return; 
+
+    }
+
+    const feedbackData = {
+        user_id: user_id, 
+        rating: selectedRating,
+        comments: comments
+    };
+
+    fetch('/api/feedback', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(feedbackData)
+    })
+    .then(response => response.text())
+    .then(data => {
+        alert(data);
+        document.getElementById('feedbackForm').reset();
+        selectedRating = 0;
+        highlightStars(0);
+    })
+    .catch(error => console.error('Error:', error));
+}
 
 
 

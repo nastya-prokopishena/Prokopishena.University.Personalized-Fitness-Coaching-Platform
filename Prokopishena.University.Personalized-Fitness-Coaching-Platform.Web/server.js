@@ -20,6 +20,7 @@ const Quote = require('../Prokopishena.University.Personalized-Fitness-Coaching-
 const Group = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Group')
 const UserGroup = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/UserGroup')
 const GroupMessage = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/GroupMessage')
+const Feedback = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Feedback')
 const PORT = process.env.PORT || 3000;
 const app = express();
 const server = http.createServer(app);
@@ -84,12 +85,7 @@ app.post('/register', async (req, res) => {
     });
 
     logger.info(`Successful registration: ${email}, IP: ${req.ip}`);
-    await transporter.sendMail({
-      from: 'yoonhwoo@example.com',
-      to: email,
-      subject: 'Welcome to our platform',
-      text: 'Congratulations! You have successfully registered on our platform.'
-    });
+    
 
     res.status(201).json({ message: 'User successfully registered' });
   } catch (error) {
@@ -354,9 +350,9 @@ app.get('/client/:user_id', async (req, res) => {
 });
 
 app.get('/trainer/:user_id', async (req, res) => {
-  const { user_id } = req.params; // Змінено userId на user_id
+  const { user_id } = req.params; 
   try {
-      const trainerInfo = await Trainer.findOne({ where: { user_id } }); // Змінено userId на user_id
+      const trainerInfo = await Trainer.findOne({ where: { user_id } }); 
       res.json(trainerInfo);
   } catch (error) {
       console.error('Error getting trainer information:', error);
@@ -405,47 +401,29 @@ app.get('/clients', async (req, res) => {
       res.status(500).json({ error: 'Помилка отримання клієнтів' });
   }
 });
-app.post('/training_requests', async (req, res) => {
+app.post('/training_request', async (req, res) => {
   try {
       const { client_id, trainer_id } = req.body;
 
-      // Перевірка, чи тренер вже має 15 клієнтів
-      const clientCount = await TrainingRequest.count({
-          where: { trainer_id }
+      const newTrainingRequest = await TrainingRequest.create({
+          client_id: parseInt(client_id), // Переконайтеся, що client_id - це число, а не об'єкт
+          trainer_id: parseInt(trainer_id) // Переконайтеся, що trainer_id - це число, а не рядок
       });
 
-      if (clientCount >= 15) {
-          return res.status(400).json({ success: false, message: 'Тренер вже має 15 клієнтів.' });
-      }
-
-      // Перевірка, чи клієнт вже має запит з цим тренером
-      const existingRequest = await TrainingRequest.findOne({
-          where: { client_id, trainer_id }
-      });
-
-      if (existingRequest) {
-          return res.status(400).json({ success: false, message: 'Клієнт вже зробив запит з цим тренером.' });
-      }
-
-      // Створення нового запиту на тренування
-      const newRequest = await TrainingRequest.create({ client_id, trainer_id });
-
-      res.status(201).json({ success: true, message: 'Запит на тренування створено.', data: newRequest });
+      res.status(201).json({ success: true, message: 'Training request created successfully', data: newTrainingRequest });
   } catch (error) {
-      console.error('Помилка при створенні запиту на тренування:', error);
-      res.status(500).json({ success: false, message: 'Помилка при створенні запиту на тренування.' });
+      console.error('Error creating training request:', error);
+      res.status(500).json({ success: false, message: 'Failed to create training request', error: error.message });
   }
 });
 
-// Отримати всіх тренерів з бази даних
+
 app.get('/trainers', async (req, res) => {
   try {
-      // Отримати тренерів, включаючи їхні дані користувача
       const trainers = await Trainer.findAll({
           include: [{ model: User, attributes: ['name', 'surname', 'email', 'date_of_birth', 'gender', 'phone_number'] }]
       });
 
-      // Фільтрація тренерів, які мають менше ніж 15 клієнтів
       const filteredTrainers = [];
 
       for (const trainer of trainers) {
@@ -501,13 +479,11 @@ app.get('/check-existing-requests/:clientId', async (req, res) => {
 app.get('/trainer/:trainerId/clients', async (req, res) => {
   const trainerId = req.params.trainerId;
 
-  // Валідація параметра тренера
   if (!trainerId) {
       return res.status(400).json({ error: 'Недійсний параметр тренера' });
   }
 
   try {
-      // Знайти всі запити тренера з даним trainerId
       const trainingRequests = await TrainingRequest.findAll({
           where: {
               trainer_id: trainerId,
@@ -515,14 +491,13 @@ app.get('/trainer/:trainerId/clients', async (req, res) => {
           include: {
               model: Client,
               include: {
-                  model: User, // Включаємо дані користувача для кожного клієнта
-                  attributes: ['name', 'surname', 'email', 'phone_number', 'gender' ], // Обираємо потрібні атрибути
+                  model: User, 
+                  attributes: ['name', 'surname', 'email', 'phone_number', 'gender' ], 
               },
               attributes: ['weight', 'height', 'strength_level', 'endurance_level', 'flexibility_level', 'training_goals'], // Обираємо потрібні атрибути клієнта
           },
       });
 
-      // Створюємо список клієнтів, включаючи їх імена, прізвища та іншу інформацію
       const clients = trainingRequests.map(request => {
           const client = request.Client;
           const user = client.User;
@@ -543,7 +518,6 @@ app.get('/trainer/:trainerId/clients', async (req, res) => {
           };
       });
 
-      // Відправляємо JSON-відповідь зі списком клієнтів
       res.json(clients);
   } catch (error) {
       console.error('Помилка отримання клієнтів тренера:', error);
@@ -615,17 +589,14 @@ app.delete('/nutrition-recommendations/:recommendationId', async (req, res) => {
   try {
     const { recommendationId } = req.params;
 
-    // Знаходження запису за його ідентифікатором та видалення його
     await NutritionRecommendation.destroy({
       where: {
         recommendation_id: recommendationId
       }
     });
 
-    // Відправлення успішної відповіді
     res.status(204).send();
   } catch (error) {
-    // Відправлення відповіді про помилку у випадку невдалого видалення запису
     console.error('Error deleting nutrition recommendation:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
@@ -725,7 +696,6 @@ app.post('/instructionVideos', async (req, res) => {
   try {
     const { title, youtube_url } = req.body;
 
-    // Створення нового InstructionVideo у базі даних
     const newInstructionVideo = await InstructionVideo.create({
       title,
       youtube_url
@@ -797,13 +767,10 @@ let currentQuoteId = null;
 
 app.get('/random-quote', async (req, res) => {
   try {
-      // Count the total number of quotes in the database
       const count = await Quote.count();
 
-      // Generate a random number between 1 and the total number of quotes
       const randomIndex = Math.floor(Math.random() * count) + 1;
 
-      // Find a quote with the random index
       const randomQuote = await Quote.findOne({
           where: {
               quote_id: randomIndex
@@ -870,26 +837,21 @@ app.get('/user/:userId/groups', async (req, res) => {
   try {
     const userId = req.params.userId;
 
-    // Знаходимо всі group_id, в яких доданий користувач
     const userGroups = await UserGroup.findAll({
       where: {
         user_id: userId
       }
     });
 
-    // Масив для зберігання назв груп
     const groupNames = [];
 
-    // Для кожного запису userGroup знаходимо назву групи
     for (const userGroup of userGroups) {
       const groupId = userGroup.group_id;
-      // Знаходимо назву групи за group_id
       const group = await Group.findOne({
         where: {
           group_id: groupId
         }
       });
-      // Додаємо назву групи до масиву
       groupNames.push(group.group_name);
     }
 
@@ -903,14 +865,12 @@ app.post('/join-group', async (req, res) => {
   try {
     const { user_id, group_id } = req.body;
 
-    // Перевіряємо, чи існує вже запис користувача в групі
     const existingUserGroup = await UserGroup.findOne({ where: { user_id, group_id } });
 
     if (existingUserGroup) {
       return res.status(400).json({ error: 'User already belongs to this group' });
     }
 
-    // Створюємо новий запис користувача в групі
     await UserGroup.create({
       user_id,
       group_id
@@ -925,7 +885,6 @@ app.post('/join-group', async (req, res) => {
 app.get('/group-messages/:groupId', async (req, res) => {
   try {
       const groupId = req.params.groupId;
-      // Здійснюємо запит до бази даних, щоб отримати повідомлення для заданої групи за числовим значенням group_id
       const messages = await GroupMessage.findAll({
           where: {
               group_id: groupId
@@ -942,16 +901,37 @@ app.get('/group-messages/:groupId', async (req, res) => {
 app.post('/send-message', async (req, res) => {
   try {
       const { messageText, groupId, userId } = req.body;
-      // Здійснюємо створення нового повідомлення в базі даних
       await GroupMessage.create({
           group_id: groupId,
           user_id: userId,
           message_text: messageText
       });
-      res.sendStatus(200); // Відправляємо успішну відповідь
+      res.sendStatus(200); 
   } catch (error) {
       console.error('Error sending message:', error);
       res.status(500).json({ error: 'Error sending message' });
+  }
+});
+
+app.post('/api/feedback', async (req, res) => {
+  try {
+      const { user_id, rating, comments } = req.body;
+      const feedback = await Feedback.create({ user_id, rating, comments });
+      res.status(201).send(`Feedback added with ID: ${feedback.feedback_id}`);
+  } catch (error) {
+      res.status(500).send('Error adding feedback');
+  }
+});
+
+app.get('/api/feedback', async (req, res) => {
+  try {
+      const feedbacks = await Feedback.findAll({
+          include: [{ model: User, attributes: ['user_id', 'email'] }], 
+          order: [['created_at', 'DESC']]
+      });
+      res.status(200).json(feedbacks);
+  } catch (error) {
+      res.status(500).send('Error fetching feedbacks');
   }
 });
 

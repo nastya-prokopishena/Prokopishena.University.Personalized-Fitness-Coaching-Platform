@@ -1,4 +1,3 @@
-// Models/TrainingRequest.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Core/db');
 const User = require('./User');

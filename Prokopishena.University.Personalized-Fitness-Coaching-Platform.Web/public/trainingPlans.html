@@ -235,13 +235,26 @@
       <li class="contact__list-email">Email: support@yourfitnessplatform.com</li>
       <li class="contact__list-number">Phone: 1-800-123-4567</li>
   </ul>
-  <form class="feedback" id="feedback-form">
-      <label class="feedback__heaader" for="feedback">Leave your feedback:</label><br>
-      <textarea class="feedback__text" id="feedback" name="feedback" rows="4" cols="50"></textarea><br>
-      <input class="feedback__btn" type="submit" value="Submit">
-  </form>
-</div>
 
+</div>
+<div class="feedback">
+  <h1 class="feedback__header">Leave your feedback</h1>
+    <form class="feedback__form" id="feedbackForm">     
+        <label class="feedback__form-label" for="rating">Rating</label>
+        <div class="feedback__form-rate" id="ratingStars">
+            <span class="star" data-rating="1">☆</span>
+            <span class="star" data-rating="2">☆</span>
+            <span class="star" data-rating="3">☆</span>
+            <span class="star" data-rating="4">☆</span>
+            <span class="star" data-rating="5">☆</span>
+        </div><br><br>
+        
+        <label class="feedback__form-label" for="comments">Comments:</label><br>
+        <textarea class="feedback__form-text" id="comments" name="comments" rows="4" cols="50"></textarea><br><br>
+        
+        <button class="feedback__form-btn" type="submit">Submit Feedback</button>
+    </form>
+</div>
 <script  type="module" src="/static/script/profile.js"></script>
 
 <script src="/static/script/logout.js"></script>

@@ -882,23 +882,6 @@ section.profile {
 .contact_list li {
   margin-bottom: 0.5rem;
 }
-.contact .feedback__heaader, .contact .feedback__text {
-  display: block;
-  margin-bottom: 0.5rem;
-}
-.contact .feedback__text {
-  width: 100%;
-}
-.contact .feedback__btn {
-  display: block;
-  margin: 0 auto;
-  padding: 0.5rem 1rem;
-  background-color: #45a049;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
 
 .quote-container {
   text-align: center;
@@ -913,6 +896,89 @@ section.profile {
 }
 .quote-container__text {
   text-transform: uppercase;
+}
+
+.feedback {
+  text-align: center;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+.feedback:hover {
+  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.feedback__header {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  color: #45a049;
+  font-weight: bold;
+}
+.feedback__form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.feedback__form-label {
+  font-size: 18px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  font-style: italic;
+}
+.feedback__form-rate {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-bottom: 5px;
+}
+.feedback .star {
+  font-size: 50px;
+  margin-right: 10px;
+  cursor: pointer;
+  -webkit-transition: color 0.2s ease;
+  transition: color 0.2s ease;
+}
+.feedback .star:hover {
+  color: #45a049;
+}
+.feedback__form-text {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  text-transform: uppercase;
+}
+.feedback__form-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+.feedback__form-btn:hover {
+  background-color: #3e8e41;
 }
 
 * {

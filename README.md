@@ -117,9 +117,9 @@ azure: https://fitness-platform.azurewebsites.net/
 - [x] Enhance user interface for motivational content and FAQs and troubleshooting guides
 
 ### Week 11:
-- [ ] Implement feature: Feedback Mechanism integration
-- [ ] Conduct final regression testing to ensure all features function as expected
-- [ ] Monitor platform performance and address any last-minute issues or concerns
+- [x] Implement feature: Feedback Mechanism integration
+- [x] Conduct final regression testing to ensure all features function as expected
+- [x] Monitor platform performance and address any last-minute issues or concerns
 - [ ] Execute deployment plan and monitor the production environment for stability
 - [ ] Notify users of the platform launch and provide ongoing support as needed
 
@@ -363,3 +363,7 @@ Based on the performance testing results:
 2. Response time per request increases with higher loads.
 3. Connection establishment time also increases with higher loads.
 4. The server demonstrates stability with consistent results across tests.
+
+## Last-minute issues
+
+1. Problems with sending training requests
