@@ -836,10 +836,10 @@ document.getElementById('add-profile').addEventListener('click', function() {
         const requestTraining = async (trainerId) => {
             try {
                 const userId = localStorage.getItem('user_id');
-                const clientId = await getClientId(userId); // Assuming getClientId is an asynchronous function
+                const clientId = await getClientId(userId); 
                 const requestData = {
-                    client_id: parseInt(clientId), // Parse clientId to ensure it's a number
-                    trainer_id: parseInt(trainerId) // Parse trainerId to ensure it's a number
+                    client_id: parseInt(clientId), 
+                    trainer_id: parseInt(trainerId) 
                 };
                 const response = await fetch('/training_request', {
                     method: 'POST',
@@ -880,11 +880,9 @@ document.getElementById('add-profile').addEventListener('click', function() {
             listItem.innerHTML = trainerInfo;
             trainerList.appendChild(listItem);
     
-            // Отримання id тренера для запиту на тренування
             const trainBtn = listItem.querySelector('.train-btn');
             const trainerId = trainBtn.dataset.trainerId;
     
-            // Додавання обробника подій для кнопки "Training Request"
             trainBtn.addEventListener('click', () => {
                 requestTraining(trainerId);
             });
@@ -900,7 +898,6 @@ document.getElementById('add-profile').addEventListener('click', function() {
     
         changeTrainerBtn.addEventListener('click', displayNextTrainer);
     
-        // Створюємо кнопку "Close"
         const closeBtn = document.createElement('button');
         closeBtn.innerText = 'Close';
         closeBtn.classList.add('close-btn');
@@ -910,7 +907,6 @@ document.getElementById('add-profile').addEventListener('click', function() {
             changeTrainerBtn.style.display = 'none';
         });
     
-        // Додаємо кнопку "Close" до батьківського елемента trainerList
         trainerList.parentElement.appendChild(closeBtn);
     };
     
@@ -984,7 +980,6 @@ function getRandomQuote() {
                 };
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(quoteData));
             } else {
-                // Використовувати збережену цитату, якщо вже відображалася цитата для сьогоднішнього дня
                 const savedQuote = JSON.parse(lastDisplayedQuote);
                 quoteElement.textContent = savedQuote.text;
             }
@@ -1050,6 +1045,7 @@ function submitFeedback(event) {
         document.getElementById('feedbackForm').reset();
         selectedRating = 0;
         highlightStars(0);
+        location.reload();
     })
     .catch(error => console.error('Error:', error));
 }

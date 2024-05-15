@@ -52,7 +52,6 @@ const logger = winston.createLogger({
     new winston.transports.File({ filename: 'login_register.log' })
   ],
 });
-// Registration route
 
 let transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -917,7 +916,9 @@ app.post('/api/feedback', async (req, res) => {
   try {
       const { user_id, rating, comments } = req.body;
       const feedback = await Feedback.create({ user_id, rating, comments });
-      res.status(201).send(`Feedback added with ID: ${feedback.feedback_id}`);
+      const feedbackMessage = `Feedback added with ID: ${feedback.feedback_id}`;
+      console.log(feedbackMessage);
+      res.status(201).send(`Feedback added successfully`);
   } catch (error) {
       res.status(500).send('Error adding feedback');
   }

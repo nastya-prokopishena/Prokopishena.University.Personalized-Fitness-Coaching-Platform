@@ -39,6 +39,20 @@ azure: https://fitness-platform.azurewebsites.net/
 ### Architecture diagram
 ![Діаграма архітектури](/Prokopishena.University.Personalized-Fitness-Coaching-Platform.Web//static/images/Architecture_diagram.drawio.png)
 
+## List of Application Features:
+
+- **User Registration:** Users can sign up for the platform using their Google account credentials.
+- **Profile Creation:** Upon registration, users can create a personalized profile detailing their fitness goals, preferences, and any relevant medical information.
+- **Trainer Matching:** The platform employs a matching algorithm to pair users with suitable personal trainers based on their goals and preferences.
+- **Customized Workout Plans:** Users receive personalized workout plans from their designated trainers, tailored to their fitness levels and objectives.
+- **Progress Tracking:** Users can track their fitness progress over time, including workout completion, weight loss, muscle gain, and other relevant metrics.
+- **Communication Tools:** The platform provides messaging and video call features to facilitate communication between users and their trainers.
+- **Nutrition Guidance:** In addition to workout plans, users can receive dietary recommendations and nutritional guidance from their trainers.
+- **Goal Setting:** Users can set specific fitness goals within the platform, with progress tracking and support from their trainers.
+- **Motivational Content:** The platform offers motivational articles, videos, and tips to inspire and encourage users on their fitness journey.
+- **Community Support:** Users can engage with a community of like-minded individuals, sharing experiences, advice, and encouragement.
+- **Feedback Mechanism:** Users can provide feedback on workout plans, trainer performance, and overall platform experience to continually improve service quality.
+- **Email Notifications:** Automated email notifications are sent to users upon successful registration or first sign-in via Google Account, welcoming them to the platform.
 
 ## Розклад завдань проекту
 
@@ -67,7 +81,7 @@ azure: https://fitness-platform.azurewebsites.net/
 - [ ] Implement feature: Customized Workout Plans generation
 - [x] Enhance user interface for profile creation and goal setting ✔️
 - [x] Expand Postman collection to cover new features implemented ✔️
-- [ ] Begin drafting project documentation, including task decomposition
+- [x] Begin drafting project documentation, including task decomposition ✔️
 - [ ] Perform integration testing for user registration and profile creation workflows
 
 ### Week 5:
@@ -121,7 +135,7 @@ azure: https://fitness-platform.azurewebsites.net/
 - [x] Conduct final regression testing to ensure all features function as expected
 - [x] Monitor platform performance and address any last-minute issues or concerns
 - [ ] Execute deployment plan and monitor the production environment for stability
-- [ ] Notify users of the platform launch and provide ongoing support as needed
+- [x] Notify users of the platform launch and provide ongoing support as needed (replaced with a task Begin drafting project documentation, including task decomposition from WEEK 4)
 
 ### Week 12:
 - [ ] Review project performance and gather feedback from initial users
@@ -242,8 +256,11 @@ azure: https://fitness-platform.azurewebsites.net/
 - **Displaying specializations:**
     - Lists available specializations in the application.
 
-- **Displaying a list of trainers:**
+- **Displaying  trainers:**
     - Provides information about each trainer and a button to request training.
+
+- **Search for trainers:**
+    - Provides ability to see another treiner with button click
 
 - **Sending a request for training to a specific trainer:**
     - Allows the user to make a training request.
@@ -277,6 +294,7 @@ azure: https://fitness-platform.azurewebsites.net/
 
 - **Handling the registration form:**
     - Works with input data and saves the user's gender in local storage.
+
 - **Creating Instruction Videos:**
     - Admin can fill out a form to create a new instruction video.
     - The form includes fields for title and YouTube URL.
@@ -289,7 +307,16 @@ azure: https://fitness-platform.azurewebsites.net/
 - **Displaying Random Quotes:**
     - Users can view a random quote displayed on the page, which changes daily and is stored locally to ensure consistency
 
+- **Ability to send feedback:**
+    - Users can send their opinion about site, what features is good, or coulld be better and also their rating of the site from  1 to 5
 
+- **Displaying proposed videos:**
+    - Users can see videos from youtube with further workouts and also motivational content 
+
+- **Seting goals:**
+    - Users can create goals to do this, they need to choose proposed template and write describtion 
+    - Each goal can have status "in progress" or "completed"
+    - Also users can see progress diagram for all completed and started goals
 
 ##  USER`S FEEDBACK 
 
