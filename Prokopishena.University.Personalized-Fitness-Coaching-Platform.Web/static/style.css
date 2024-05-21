@@ -433,6 +433,9 @@ section.profile {
   -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
           box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   margin-right: 20px;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
 }
 .profile__client-information p {
   font-size: 1rem;

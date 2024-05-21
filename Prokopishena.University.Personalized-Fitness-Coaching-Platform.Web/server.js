@@ -21,6 +21,10 @@ const Group = require('../Prokopishena.University.Personalized-Fitness-Coaching-
 const UserGroup = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/UserGroup')
 const GroupMessage = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/GroupMessage')
 const Feedback = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Feedback')
+const TrainingExercise = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/TrainingExercise')
+const Exercise = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Exercise')
+const TrainingPlan = require("../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/TrainingPlan")
+const TrainingSession = require("../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/TrainingSession")
 const PORT = process.env.PORT || 3000;
 const app = express();
 const server = http.createServer(app);
@@ -405,8 +409,8 @@ app.post('/training_request', async (req, res) => {
       const { client_id, trainer_id } = req.body;
 
       const newTrainingRequest = await TrainingRequest.create({
-          client_id: parseInt(client_id), // Переконайтеся, що client_id - це число, а не об'єкт
-          trainer_id: parseInt(trainer_id) // Переконайтеся, що trainer_id - це число, а не рядок
+          client_id: parseInt(client_id), 
+          trainer_id: parseInt(trainer_id) 
       });
 
       res.status(201).json({ success: true, message: 'Training request created successfully', data: newTrainingRequest });
@@ -454,19 +458,15 @@ app.get('/check-existing-requests/:clientId', async (req, res) => {
   const clientId = req.params.clientId;
 
   try {
-    // Виконуємо запит до бази даних для перевірки існуючих запитів
     const existingRequests = await TrainingRequest.findAll({
       where: {
         client_id: clientId
       }
     });
 
-    // Перевіряємо, чи існують запити
     if (existingRequests.length > 0) {
-        // Якщо запити існують, повертаємо true
         res.json({ existing_requests: true });
     } else {
-        // Якщо запити не існують, повертаємо false
         res.json({ existing_requests: false });
     }
   } catch (error) {
@@ -493,7 +493,7 @@ app.get('/trainer/:trainerId/clients', async (req, res) => {
                   model: User, 
                   attributes: ['name', 'surname', 'email', 'phone_number', 'gender' ], 
               },
-              attributes: ['weight', 'height', 'strength_level', 'endurance_level', 'flexibility_level', 'training_goals'], // Обираємо потрібні атрибути клієнта
+              attributes: ['client_id', 'weight', 'height', 'strength_level', 'endurance_level', 'flexibility_level', 'training_goals'], // Обираємо потрібні атрибути клієнта
           },
       });
 
@@ -502,7 +502,7 @@ app.get('/trainer/:trainerId/clients', async (req, res) => {
           const user = client.User;
           
           return {
-              client_id: client.id,
+              client_id: client.client_id,
               name: user.name,
               surname: user.surname,
               email: user.email,
@@ -550,20 +550,16 @@ app.get('/trainer-for-client/:client_id', async (req, res) => {
 
 app.post('/nutrition-recommendations', async (req, res) => {
   try {
-    // Отримання даних з тіла запиту
     const { client_id, trainer_id, recommendation_text } = req.body;
 
-    // Створення нового запису рекомендації
     const newRecommendation = await NutritionRecommendation.create({
-      client_id, // Переконайтеся, що використовується client_id, який передається з фронтенду
+      client_id, 
       trainer_id,
       recommendation_text
     });
 
-    // Відправлення успішної відповіді з новим записом рекомендації
     res.status(201).json(newRecommendation);
   } catch (error) {
-    // Відправлення відповіді про помилку у випадку невдалого створення рекомендації
     console.error('Error creating nutrition recommendation:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
@@ -572,13 +568,10 @@ app.post('/nutrition-recommendations', async (req, res) => {
 
 app.get('/nutrition-recommendations', async (req, res) => {
   try {
-    // Отримання всіх записів з таблиці nutrition_recommendations
     const recommendations = await NutritionRecommendation.findAll();
 
-    // Відправлення отриманих записів як відповідь
     res.json(recommendations);
   } catch (error) {
-    // Відправлення відповіді про помилку у випадку невдалого запиту
     console.error('Error fetching nutrition recommendations:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
@@ -933,6 +926,112 @@ app.get('/api/feedback', async (req, res) => {
       res.status(200).json(feedbacks);
   } catch (error) {
       res.status(500).send('Error fetching feedbacks');
+  }
+});
+
+app.post('/training-plans', async (req, res) => {
+  try {
+    const { trainer_id, client_id, plan_duration, trainings_per_week } = req.body;
+    const newPlan = await TrainingPlan.create({
+      trainer_id,
+      client_id,
+      plan_duration,
+      trainings_per_week
+    });
+    res.status(201).json(newPlan);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Помилка при створенні плану тренувань' });
+  }
+});
+
+app.get('/training-plans/:planId', async (req, res) => {
+  try {
+    const planId = req.params.planId;
+    const plan = await TrainingPlan.findByPk(planId);
+    res.json(plan);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Помилка при отриманні плану тренувань' });
+  }
+});
+
+app.post('/training-plans', async (req, res) => {
+  const { trainer_id, client_id, plan_duration, trainings_per_week } = req.body;
+
+  try {
+    const trainingPlan = await TrainingPlan.create({
+      trainer_id: trainer_id,
+      client_id: client_id,
+      plan_duration: plan_duration,
+      trainings_per_week: trainings_per_week
+    });
+
+    res.status(201).json({ message: 'Training plan created successfully', plan_id: trainingPlan.plan_id });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Помилка при створенні плану тренувань' });
+  }
+});
+app.post('/training-sessions', async (req, res) => {
+  const { plan_id, training_sessions } = req.body;
+
+  try {
+    for (const session of training_sessions) {
+      const trainingSession = await TrainingSession.create({
+        plan_id: plan_id,
+        session_number: session.session_number
+      });
+
+      for (const exercise of session.exercises) {
+        await TrainingExercise.create({
+          session_id: trainingSession.session_id,
+          exercise_id: exercise.exercise_id,
+          repetitions: exercise.repetitions,
+        });
+      }
+    }
+
+    res.status(201).json({ message: 'Training sessions created successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Помилка при створенні тренувальних сесій' });
+  }
+});
+
+
+app.get('/training-sessions/:sessionId', async (req, res) => {
+  try {
+    const sessionId = req.params.sessionId;
+    const session = await TrainingSession.findByPk(sessionId);
+    res.json(session);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Помилка при отриманні сесії тренувань' });
+  }
+});
+
+app.post('/exercises', async (req, res) => {
+  try {
+    const { exercise_name, description } = req.body;
+    const newExercise = await Exercise.create({
+      exercise_name,
+      description
+    });
+    res.status(201).json(newExercise);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Помилка при створенні вправи' });
+  }
+});
+
+app.get('/exercises', async (req, res) => {
+  try {
+    const exercises = await Exercise.findAll({ attributes: ['exercise_id', 'exercise_name'] });
+    res.json(exercises);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Помилка при отриманні списку вправ' });
   }
 });
 

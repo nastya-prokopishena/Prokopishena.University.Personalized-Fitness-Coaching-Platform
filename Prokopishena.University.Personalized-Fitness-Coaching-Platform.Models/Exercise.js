@@ -1,21 +1,22 @@
-// models/Exercise.js
-const { DataTypes, Model } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Core/db');
 
-class Exercise extends Model {}
-
-Exercise.init({
+const Exercise = sequelize.define('Exercise', {
+  exercise_id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
   exercise_name: {
     type: DataTypes.STRING,
-    allowNull: false,
-    unique: true
+    allowNull: false
   },
   description: {
     type: DataTypes.TEXT
   }
 }, {
-  sequelize,
-  modelName: 'exercise'
+  tableName: 'exercises',
+  timestamps: false
 });
 
 module.exports = Exercise;

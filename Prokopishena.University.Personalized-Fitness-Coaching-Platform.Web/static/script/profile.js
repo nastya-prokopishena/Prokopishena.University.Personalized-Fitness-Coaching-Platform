@@ -851,6 +851,7 @@ document.getElementById('add-profile').addEventListener('click', function() {
                 const responseData = await response.json();
                 if (response.ok) {
                     alert(responseData.message);
+                    location.reload();
                 } else {
                     alert(responseData.message || 'Failed to create training request');
                 }

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/static/script/training.js"></script>
+</head>
+<body>
+    <nav class="menu">
+        <ul>
+          <li><a href="#">User Profile</a></li>
+          <li><a href="training.html">Training</a></li>
+          <li><a href="videos.html">Videos</a></li> 
+          <li><a href="#groups">Groups</a></li> 
+          <li>
+            <button id="logoutButton">Logout</button>
+          </li>
+        </ul>
+      </nav>
+      <form id="createPlanForm">
+        <label for="clientSelect">Оберіть клієнта:</label>
+        <select id="clientSelect" name="client_id">
+          <!-- Опції будуть додані динамічно з бази даних за допомогою JavaScript -->
+        </select>
+      
+        <label for="planDuration">Період виконання плану тренувань (у тижнях):</label>
+        <input type="number" id="planDuration" name="plan_duration" min="2" required>
+      
+        <label for="trainingsPerWeek">Кількість тренувань на тиждень:</label>
+        <input type="number" id="trainingsPerWeek" name="trainings_per_week" min="1" required>
+
+        <button type="button" id="confirmDataButton">Підтвердити дані</button>
+
+        <div id="trainingSessions">
+          <!-- Тут будуть динамічно додаватися вікна для планування кожного тренування -->
+        </div>
+      
+        <button type="submit">Створити план тренувань</button>
+      </form>
+</body>
+</html>
