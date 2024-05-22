@@ -453,37 +453,6 @@ Based on the performance testing results:
 - **Optional Goal Descriptions:**
     - Implement changes in the registration and profile settings forms to make goal descriptions optional.
 
-### What Was Successful
-
-1. **Technology Choices**:
-   - **HTML, CSS, SASS**: These technologies enabled the creation of a modern and attractive user interface.
-   - **JavaScript**: Provided dynamic user interactions with the platform.
-   - **Node.js**: Chosen as the server platform for its asynchronous request handling and performance improvement.
-   - **pgAdmin and Azure Database**: Using Azure for database hosting ensured reliable data storage and easy management via pgAdmin.
-
-2. **First Successful Deployment**:
-   - **Azure Deployment**: The initial deployment to Azure was successful, indicating proper environment configuration and settings.
-
-### What Did Not Work
-
-1. **Subsequent Deployments to Azure**:
-   - **Deployment Issues**: Subsequent deployment attempts were unsuccessful, potentially due to configuration problems or updates in the Azure environment.
-   - **Setup Difficulties**: Possible challenges in setting up the server environment or dependencies that changed after the initial deployment.
-
-### What Could Be Improved
-
-1. **Project Structure Optimization**:
-   - **Server Code Optimization**: Review and optimize server logic to ensure faster request processing.
-   - **Code Refactoring**: Examine and improve the code structure for better readability and maintainability.
-
-2. **Database Query Improvement**:
-   - **Query Optimization**: Optimize SQL queries to reduce execution time.
-   - **Query Caching**: Implement query caching to reduce database load and increase processing speed.
-
-3. **Deployment Process Improvement**:
-   - **Deployment Automation**: Implement CI/CD (Continuous Integration/Continuous Deployment) processes to automate and streamline deployment.
-   - **Deployment Documentation**: Create detailed documentation of the deployment process, including all necessary configurations and steps to avoid future issues.
-
 
 #### What Was Successful
 - **Technology Choices**: 
