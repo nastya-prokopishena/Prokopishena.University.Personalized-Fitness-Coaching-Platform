@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Training Plans</title>
+  <script src="/static/script/trainingPlan.js"></script>
+  <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="/static/style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <script>
+    function toggleAnswer(event) {
+        const answer = event.target.nextElementSibling;
+        answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
+    }
+</script>
+  <nav class="menu">
+    <ul>
+      <li><a href="#">User Profile</a></li>
+      <li><a href="training.html">Training</a></li>
+      <li><a href="videos.html">Videos</a></li> 
+      <li><a href="#groups">Groups</a></li> 
+      <li>
+        <button id="logoutButton">Logout</button>
+      </li>
+    </ul>
+  </nav>
+  <div class="quote-container">
+    <h2 class="quote-container__header">Quote of the Day</h2>
+    <p class="quote-container__text" id="random-quote"></p>
+</div>
+  <section class="profile">
+    <div class="profile__information" id="profile-display">
+          <h2 class="profile__information-title">Displaying Personal Information</h2>
+          <p class="profile__information-name">Name: <span id="display-name"></span></p>
+          <p class="profile__information-surname">Surname: <span id="display-surname"></span></p>
+          <p class="profile__information-email">Email: <span id="display-email"></span></p>
+          <p class="profile__information-date-of-birth">Date of Birth: <span id="display-birthdate"></span></p>
+          <p class="profile__information-phone-number">Phone number: <span id="display-phone-number"></span></p>
+          <p class="profile__information-gender">Gender: <span id="display-gender"></span></p>
+          <p class="profile__information-role">Role: <span id="display-role"></span></p>
+          <button class="profile_information-button" id="edit-profile">Edit Personal Information</button>
+          <button class="profile_further-information-button" id="add-profile">Additional Information</button>
+      
+    </div>
+    <div class="profile__client-information" id="client-info"></div>
+    <div class="profile__trainer-information" id="trainer-info"></div>
+    <div id="edit-profile-form" class="profile__information-change" style="display: none;">
+      <h2 class="profile__information-title">Editing Personal Information</h2>
+      <form class="profile__information-form" id="profile-form">
+          <label class="profile__information-label" for="new-name">Name:</label>
+          <input class="profile__information-input" type="text" id="new-name" name="new-name"><br>
+
+          <label class="profile__information-label" for="new-surname">Surname:</label>
+          <input class="profile__information-input" type="text" id="new-surname" name="new-surname"><br>
+
+          <label class="profile__information-label" for="new-email">Email:</label>
+          <input class="profile__information-input" type="email" id="new-email" name="new-email"><br>
+
+          <label class="profile__information-label" for="new-birthdate">Date of Birth:</label>
+          <input class="profile__information-input" type="text" id="new-birthdate" name="new-birthdate"><br>
+
+          <label class="profile__information-label" for="edit-phone-number">Phone number:</label>
+          <input class="profile__information-input" type="text" id="edit-phone-number" name="edit-phone-number"><br><br>
+        
+          <label class="profile__information-label" for="edit-gender">Gender:</label>
+          <select class="profile__information-select" id="edit-gender" name="edit-gender">
+            <option class="select-option" value="male">Male</option>
+            <option class="select-option" value="female">Female</option>
+            <option class="select-option" value="other">Other</option>
+        </select><br><br>
+
+          <input class="profile__information-submit" type="submit" value="Save">
+          <button class="profile_information-button" id="cancel-edit">Cancel</button>
+
+      </form>
+  </div>
+  
+    <div class="profile_form-role" id="role-selection" >
+      <h2>Select Your Role:</h2>
+      <button class="role-button" data-role="client">Client</button>
+      <button class="role-button" data-role="trainer">Trainer</button>
+    </div>
+    <form class="profile_form" id="client-profile-form" action="/client-profile" method="POST" style="display: none;">
+      <label class="profile_form-label" for="weight">Weight:</label>
+      <input class="profile_form-input" type="text" id="weight" name="weight" required><br><br>
+
+      <label class="profile_form-label" for="height">Height:</label>
+      <input class="profile_form-input" type="text" id="height" name="height" required><br><br>
+
+      <label class="profile_form-label" for="strength-level">Strength Level:</label>
+      <select id="strength-level" name="strength-level" required>
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+      </select><br><br>
+
+      <label class="profile_form-label" for="endurance-level">Endurance Level:</label>
+      <select id="endurance-level" name="endurance-level" required>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+      </select><br><br>
+
+      <label class="profile_form-label" for="flexibility-level">Flexibility Level:</label>
+      <select id="flexibility-level" name="flexibility-level" required>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+      </select><br><br>
+
+      <label class="profile_form-label" for="training-goals">Training Goals:</label><br>
+        <div id="specializations-container-client"></div><br><br>
+      <button class="profile_form-button" type="submit">Save</button>
+      <button class="profile_form-button" id="cancel-profile">Cancel</button>
+
+  </form>
+  <form class="profile_form" id="trainer-profile-form" action="/trainer-profile" method="POST" style="display: none;">
+    <label class="profile_form-label">Specialization:</label><br>
+
+    <div id="specializations-container-trainer"></div><br><br>
+
+    <label class="profile_form-label" for="trainer-experience">Experience (in years):</label>
+    <input class="profile_form-input" type="number" id="trainer-experience" name="trainer-experience" min="0" required><br><br>
+
+    <label class="profile_form-label" for="trainer-bio">About Me:</label><br>
+    <textarea class="profile_form-textarea" id="trainer-bio" name="trainer-bio" rows="4" cols="50" required></textarea><br>
+
+    <button class="profile_form-button" type="submit">Save</button>
+    <button class="profile_form-button" id="cancel-profile">Cancel</button>
+
+  </form>
+  
+  </section>
+  <div class="trainer-searching">
+    <h1 class="trainer-searching_title">Find a Trainer</h1>
+    <button class="trainer-searching_button" id="search-trainer-btn">Search for a Trainer</button>
+    <ul class="trainer-searching_list" id="trainer-list"></ul>
+</div>
+
+<div id="client-list"></div>
+<div id="client-info-container"></div>
+
+
+<div class="goal" id="goal-form" style="display: none;">
+  <h3 class="goal__header">Goal Setting</h3>
+  <form class="goal__form" id="set-goal-form">
+      <label class="goal__form-label" for="goal-description">Goal Description:</label>
+      <textarea class="goal__form-intut" id="goal-description" required></textarea>
+      
+      <label class="goal__form-label" for="goal-template">Goal Template:</label>
+      <select class="goal__form-select" id="goal-template">
+      </select>
+
+      <button class="goal__form-button" type="submit">Set Goal</button>
+  </form>
+</div>
+
+<div id="goal-list"></div>
+
+<div class="container" id="groups">
+  <h2>My Groups</h2>
+    <ul id="groupList">
+        <!-- Сюди буде виводитися список груп -->
+    </ul>
+    <button id="joinGroupsButton">Join Group Chats</button>
+  
+</div>
+
+<div class="faq" id="faq">
+  <h2 class="faq__header">Frequently Asked Questions</h2>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">How can I request training for a specific trainer?</h3>
+      <p class="faq__answer">To request training for a particular trainer, navigate to their profile and click on the "Request Training" button.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">How do I view information about clients for a specific trainer?</h3>
+      <p class="faq__answer">To view client information for a particular trainer, go to the trainer's profile page and click on the "View Clients" button.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">What payment methods are accepted?</h3>
+      <p class="faq__answer">We accept various payment methods, including credit/debit cards, PayPal, and bank transfers. You can choose the most convenient option during the checkout process.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">Is there a free trial available?</h3>
+      <p class="faq__answer">Yes, we offer a free trial period for new users. During this time, you can explore our platform and its features before committing to a subscription.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">How can I cancel my subscription?</h3>
+      <p class="faq__answer">To cancel your subscription, please log in to your account, go to the settings or subscription page, and follow the instructions provided.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">Do you offer personalized training plans?</h3>
+      <p class="faq__answer">Yes, we provide personalized training plans tailored to your fitness goals, preferences, and level of experience.</p>
+  </div>
+</div>
+
+<div class="faq" id="troubleshooting">
+  <h2 class="faq__header">Troubleshooting Guide</h2>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">Problem: Unable to find a client or trainer.</h3>
+      <p class="faq__answer">Ensure that you have entered the correct user ID. If the issue persists, please refresh the page.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">Problem: Information about a client or trainer is not displaying.</h3>
+      <p class="faq__answer">Check your internet connection and try refreshing the page. If the issue persists, please contact support.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">Problem: Unable to submit a training request.</h3>
+      <p class="faq__answer">Make sure all required fields are filled out correctly. If the problem persists, try clearing your browser's cache and cookies or using a different browser.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">Problem: Video tutorials are not playing.</h3>
+      <p class="faq__answer">Check your internet connection and ensure that your browser supports the video format. You may also try updating your browser or using a different device.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">Problem: Unable to access my account.</h3>
+      <p class="faq__answer">Make sure you are using the correct email and password combination. If you've forgotten your password, use the "Forgot Password" option to reset it.</p>
+  </div>
+  <div class="faq__item">
+      <h3 class="faq__question" onclick="toggleAnswer(event)">Problem: Error messages during checkout.</h3>
+      <p class="faq__answer">Double-check your payment information and ensure that your billing address matches the one associated with your payment method. If the problem persists, try using a different payment method or contact your bank.</p>
+  </div>
+</div>
+
+<div class="contact" id="contact">
+  <h2 class="contact__header">Contact Us</h2>
+  <p class="contact__text">If you have any questions or feedback, please feel free to reach out to us:</p>
+  <ul class="contact_list">
+      <li class="contact__list-email">Email: support@yourfitnessplatform.com</li>
+      <li class="contact__list-number">Phone: 1-800-123-4567</li>
+  </ul>
+
+</div>
+<div class="feedback">
+  <h1 class="feedback__header">Leave your feedback</h1>
+    <form class="feedback__form" id="feedbackForm">     
+        <label class="feedback__form-label" for="rating">Rating</label>
+        <div class="feedback__form-rate" id="ratingStars">
+            <span class="star" data-rating="1">☆</span>
+            <span class="star" data-rating="2">☆</span>
+            <span class="star" data-rating="3">☆</span>
+            <span class="star" data-rating="4">☆</span>
+            <span class="star" data-rating="5">☆</span>
+        </div><br><br>
+        
+        <label class="feedback__form-label" for="comments">Comments:</label><br>
+        <textarea class="feedback__form-text" id="comments" name="comments" rows="4" cols="50"></textarea><br><br>
+        
+        <button class="feedback__form-btn" type="submit">Submit Feedback</button>
+    </form>
+</div>
+<script  type="module" src="/static/script/profile.js"></script>
+
+<script src="/static/script/logout.js"></script>
+
+</body>
+</html>

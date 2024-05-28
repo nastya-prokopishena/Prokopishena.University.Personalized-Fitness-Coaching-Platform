@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="/static/style.css"> 
+    <script src="/static/script/form.js"></script> 
+    <script src="/static/script/registration.js"></script> 
+   
+    <script src="/static/script/registrationGoogle.js"></script> 
+    <script src="/static/script/login.js"></script>
+    
+</head>
+<body>
+    <div class="login">
+        <h1 class="login__title">Log in</h1>
+        <p class="login__subtitle">For school accounts, please go to your school login page. Look up your school code.</p>
+        <div class="login__options">
+          <button class="login__button login__button--google" onclick="signInWithGoogle('login')">Google</button>
+        </div>
+        <form class="login__form" action="/login" method="post">
+          
+          <div class="login__form-group">
+            <label class="login__label" for="login_email">Email</label>
+            <input class="login__input" id="login_email" type="email" />
+          </div>
+          <div class="login__form-group">
+            <label class="login__label" for="login_password">Password</label>
+            <input class="login__input" id="login_password" type="password" autocomplete="current-password"/>
+          </div>
+          <div class="login__form-group">
+            <button class="login__button" id="login-link" type="submit">Log in</button>
+          </div>
+        </form>
+        <div class="login__links">
+          <a class="login__link" id="sign-up-link" href="#">Don't have an account? Sign up</a>
+          <a class="login__link" href="#">Forgot password?</a>
+        </div>
+      </div>
+    <div class="sign-up">
+        <h1 class="sign-up__title">Sign up</h1>
+        <form class="sign-up__form" action="/register" method="POST">
+          
+          <div class="sign-up__options">
+            <a class="sign-up__link" id="sign-up-as-coach-link" ref="#">Sign up as a coach? Use this form.</a>
+            <a class="sign-up__link" id="sign-up-as-customer-link" href="#">Sign up with as comtomer.</a>
+          </div>
+          <div class="sign-up__form-group">
+            <button class="sign-up__button sign-up__button--google google-sign-in" onclick="signInWithGoogle('signup')">Google</button>
+          </div>
+          <div class="sign-up__form-group">
+            <input class="sign-up__input" id="signup_name" type="text" name="name" placeholder="First Name">
+          </div>
+          <div class="sign-up__form-group">
+            <input class="sign-up__input" id="signup_surname" type="text" name="surname" placeholder="Last Name">
+          </div>
+          <div class="sign-up__form-group">
+            <input class="sign-up__input" id="signup_email" type="email" name="email" placeholder="Email" autocomplete="username">
+          </div>
+          <div class="sign-up__form-group">
+            <input class="sign-up__input" id="signup_password" type="password" name="password" placeholder="Password" autocomplete="current-password">
+          </div>
+          <div class="sign-up__form-group">
+            <input class="sign-up__input" id="signup_dob" type="date" name="date_of_birth" placeholder="Date of Birth">
+          </div>
+        
+          <div class="sign-up__form-group">
+            <select class="sign-up__input" id="signup_gender" name="gender">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        
+          <div class="sign-up__form-group">
+            <input class="sign-up__input" id="signup_phone" type="tel" name="phone_number" placeholder="Phone Number">
+          </div>
+        
+          <div class="sign-up__form-group">
+            <button class="sign-up__button" type="submit">Sign up</button>
+          </div>
+          <div class="sign-up__form-group">
+            <div class="sign-up__checkbox-container">
+              <input class="sign-up__checkbox" id="terms" type="checkbox" />
+              <label class="sign-up__checkbox-label" for="terms">I agree with edclub terms of use and privacy policy.</label>
+            </div>
+          </div>
+        </form>
+        <div class="sign-up__footer">
+          <span class="sign-up__footer-text">Already have an account?</span>
+          <a class="sign-up__footer-link" id="login-form-link" href="#">Log in</a>
+        </div>
+      </div>
+
+
+    
+</body>
+</html>
