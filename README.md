@@ -519,3 +519,7 @@ Based on the performance testing results:
     - Regularly update the platform based on ongoing user feedback.
     - Monitor market trends and adapt features to stay competitive.
 
+## Anti-Lab 2
+### Denis Grigoriychuk
+- **Project link** https://github.com/gr1gor1ychuk/Hryhoriichuk.University.Instagram
+- **Pull request link** https://github.com/gr1gor1ychuk/Prokopishena.University.Personalized-Fitness-Coaching-Platform/pull/1
