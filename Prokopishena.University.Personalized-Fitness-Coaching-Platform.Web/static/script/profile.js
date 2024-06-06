@@ -7,57 +7,6 @@ document.addEventListener("DOMContentLoaded", async function() {
     const goalForm = document.getElementById("goal-form");
     const goalList = document.getElementById("goal-list");
    
-    
-    const fetchAndDisplayGroups = async (userId) => {
-        try {
-            if (!userId) {
-                console.error('userId не знайдено в localStorage');
-                return;
-            }
-
-            // Виконати запит до сервера
-            const response = await fetch(`/user/${userId}/groups`);
-            if (!response.ok) {
-                throw new Error('Відповідь сервера не в порядку');
-            }
-
-            // Отримати дані в форматі JSON
-            const groups = await response.json();
-
-            // Отримати посилання на елемент <ul>
-            const groupList = document.getElementById('groupList');
-            if (!groupList) {
-                console.error('Елемент з id "groupList" не знайдено в DOM');
-                return;
-            }
-
-            groupList.innerHTML = '';
-
-            groups.forEach(group => {
-                const li = document.createElement('li');
-                li.textContent = `${group}: `;
-                groupList.appendChild(li);
-            });
-
-            if (groups.length === 0) {
-                console.log('Немає груп для відображення');
-            }
-        } catch (error) {
-            console.error('Помилка отримання груп:', error);
-        }
-    };
-
-    fetchAndDisplayGroups(userId);
-
-console.log('userId:', userId);
-
-// Додати обробник подій для кнопки "Join Group Chats"
-const joinGroupsButton = document.getElementById('joinGroupsButton');
-joinGroupsButton.addEventListener('click', () => {
-    // Перенаправлення на сторінку groups.html з передачею userId через параметр запиту
-    window.location.href = `groups.html?userId=${userId}`;
-});
-
     const getUserInfo = async (user_id) => {
         try {
             const response = await fetch(`/user/${user_id}`);
@@ -91,7 +40,6 @@ const getClientId = async (userId) => {
     try {
         const response = await fetch(`/get-client-id/${userId}`);
 
-        // Перевірка статусу відповіді
         if (!response.ok) {
             console.error(`Помилка отримання client_id: статус відповіді - ${response.status}`);
             throw new Error('Помилка отримання client_id');
@@ -99,7 +47,6 @@ const getClientId = async (userId) => {
 
         const data = await response.json();
         
-        // Перевірка, чи містить відповідь необхідне поле
         if (!data.client_id) {
             console.error('Відповідь не містить client_id');
             throw new Error('Відповідь не містить client_id');
@@ -119,7 +66,6 @@ const getTrainerId = async (userId) => {
     try {
         const response = await fetch(`/get-trainer-id/${userId}`);
 
-        // Перевірка статусу відповіді
         if (!response.ok) {
             console.error(`Помилка отримання trainer_id: статус відповіді - ${response.status}`);
             throw new Error('Помилка отримання trainer_id');
@@ -127,7 +73,6 @@ const getTrainerId = async (userId) => {
 
         const data = await response.json();
 
-        // Перевірка, чи містить відповідь необхідне поле
         if (!data.trainer_id) {
             console.error('Відповідь не містить trainer_id');
             throw new Error('Відповідь не містить trainer_id');

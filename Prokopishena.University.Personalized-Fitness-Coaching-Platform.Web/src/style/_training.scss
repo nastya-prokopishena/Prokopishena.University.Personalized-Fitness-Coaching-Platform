@@ -1,0 +1,296 @@
+
+.training-plan {
+    &__header {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #3e8e41;
+      color: grey;
+      text-align: center;
+    }
+  
+    &__list {
+      list-style: none;
+      padding: 0;
+      margin-left: 2.5%;
+      margin-right: 2.5%;
+  
+      & > li {
+        margin-bottom: 20px; 
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+    }
+  
+    &__title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      flex-grow: 1;
+    }
+  
+    &__exercise-list {
+      list-style: none;
+      padding: 0;
+
+  
+      & > .training-plan__exercise-item {
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        background-color: #fff;
+        cursor: pointer;
+        
+  
+        & .training-plan__exercise-header {
+          display: flex; 
+          align-items: center;
+          justify-content: space-between; // Distribute items with space in between
+        }
+  
+        & .training-plan__exercise-details {
+          display: none; 
+          padding: 10px;
+          border-radius: 3px;
+          margin-top: 5px;
+          background-color: #f1f1f1;
+        }
+      }
+    }
+  
+    &__item-header {
+      font-size: 13px;
+      text-transform: uppercase;
+      color: #45a049;
+      font-weight: bolder;
+      flex: 2;
+    }
+  
+    &__item-description {
+      font-size: 14px;
+      margin: 5px 0;
+    }
+  
+    &__item-repetitions,
+    &__item-sets {
+      font-size: 14px;
+      margin: 5px 0;
+      margin-left: 20px; 
+    }
+  
+    &__item-repetitions {
+      margin-right: 10px; 
+    }
+  }
+  
+  .recommendation {
+    &__header {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: grey;
+      text-align: center;
+    }
+  
+    &__list {
+      list-style: none;
+      padding: 0;
+  
+      & > li{
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        background-color: #fff;
+        cursor: pointer;
+        margin-left: 2.5%;
+        margin-right: 2.5%;
+      }
+    }
+  
+    &__item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+  
+    &__item-title {
+        font-size: 20px;
+        font-weight: bold;
+        flex-grow: 1;
+    }
+  
+    &__item-date {
+      font-size: 14px;
+      margin: 0;
+      color: #888;
+    }
+  
+    &__item-description {
+        font-size: 13px;
+        text-transform: uppercase;
+        color: #45a049;
+        font-weight: bolder;
+    }
+  }
+
+.plan-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.completed-status{
+    margin-left: auto; 
+}
+
+.progress {
+  width: 100%;
+  height: 20px; 
+  background-color: #f0f0f0; 
+  border-radius: 4px; 
+  margin-top: 5px; 
+}
+
+.progress-bar {
+  height: 100%; 
+  background-color: #4CAF50; 
+  border-radius: 4px; 
+  width: 0;
+  transition: width 0.3s ease-in-out; 
+}
+.complete-plan-button {
+    background-color: #45a049;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 5px 10px;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-right: 8px;
+    text-transform: uppercase;
+  &:hover {
+    background-color: darken(#45a049, 10%);
+  }
+}
+
+$primary-color: #4CAF50; 
+$border-radius: 5px;
+$input-border: 1px solid #ccc;
+$input-padding: 8px;
+$label-font-size: 14px;
+$button-font-size: 14px;
+$button-padding: 8px 16px;
+
+.plan-form {
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  text-align: center;
+  padding-top: 15px;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  padding-bottom: 15px;
+
+  &__client-label,
+  &__exercise-label,
+  &__repetitions-label,
+  &__sets-label {
+
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    color: #3e8e41;
+    font-size: 14px;
+    font-weight: bolder;
+  }
+
+  &__client-select,
+  .exerciseSelect,
+  .repetitions,
+  .sets {
+    padding: $input-padding;
+    margin-bottom: 5px;
+    border: $input-border;
+    border-radius: $border-radius;
+    font-size: 14px;
+  }
+  
+  &__exercise {
+    
+    align-items: center;
+    margin-bottom: 10px;
+
+    &-label, &-select, .repetitions, .sets {
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+
+    
+  }
+
+  &__exercise-btn,
+  &__create-plan-btn {
+    background-color: $primary-color;
+    color: #fff;
+    border: none;
+    border-radius: $border-radius;
+    padding: $button-padding;
+    font-size: $button-font-size;
+    cursor: pointer;
+    margin-right: 8px;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+}
+
+.recommendation-form {
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: $border-radius;
+  padding: 1rem;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  display: grid;
+  gap: 10px; 
+  justify-items: center; 
+  text-align: center;
+
+  &__client-label,
+  &__text-label {
+    text-transform: uppercase;
+    color: #3e8e41;
+    font-size: 14px;
+    font-weight: bolder;
+  }
+
+  &__client-select,
+  &__text {
+    width: 100%; 
+    padding: $input-padding;
+    border: $input-border;
+    border-radius: $border-radius;
+    font-size: 14px;
+  }
+
+  &__btn {
+    background-color: $primary-color;
+    color: #fff;
+    border: none;
+    border-radius: $border-radius;
+    padding: $button-padding;
+    font-size: $button-font-size;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+}

@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="/static/script/training.js"></script>
+    <script src="/static/script/nutrition.js"></script>
+    <script src="/static/script/client_training.js"></script>
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      .training-plan__exercise-details {
+          display: none;
+      }
+  </style>
 </head>
 <body>
     <nav class="menu">
@@ -18,25 +30,54 @@
           </li>
         </ul>
       </nav>
-      <form id="createPlanForm">
-        <label for="clientSelect">Оберіть клієнта:</label>
-        <select id="clientSelect" name="client_id">
-          <!-- Опції будуть додані динамічно з бази даних за допомогою JavaScript -->
+      <form class="plan-form" id="createPlan">
+        <label class="plan-form__client-label" for="clientSelect">Client:</label>
+        <select class="plan-form__client-select" id="clientSelect">
+          <option class="plan-form__client-option" value="">Select Client</option>
         </select>
-      
-        <label for="planDuration">Період виконання плану тренувань (у тижнях):</label>
-        <input type="number" id="planDuration" name="plan_duration" min="2" required>
-      
-        <label for="trainingsPerWeek">Кількість тренувань на тиждень:</label>
-        <input type="number" id="trainingsPerWeek" name="trainings_per_week" min="1" required>
-
-        <button type="button" id="confirmDataButton">Підтвердити дані</button>
-
-        <div id="trainingSessions">
-          <!-- Тут будуть динамічно додаватися вікна для планування кожного тренування -->
+        <div class="plan-form__exercise" id="exercisesContainer">
+          <label class="plan-form__exercise-label" for="exerciseSelect">Exercise:</label>
+          <select  class="exerciseSelect">
+            <option class="plan-form__exercise-optoin" value="">Select Exercise</option>
+          </select>
+          <label class="plan-form__repetitions-label" for="repetitions">Repetitions:</label>
+          <input type="number" class="repetitions" min="1">
+          <label class="plan-form__sets-label" for="sets">Sets:</label>
+          <input type="number" class="sets" min="1">
         </div>
-      
-        <button type="submit">Створити план тренувань</button>
+        <button class="plan-form__exercise-btn" type="button" id="addExercise">Add Exercise</button>
+        <button class="plan-form__create-plan-btn"  type="submit">Create Plan</button>
       </form>
+
+
+      <form class="recommendation-form" id="createRecommendation">
+        <label class="recommendation-form__client-label" for="clientSelectRecommendation">Client:</label>
+        <select class="recommendation-form__client-select" id="clientSelectRecommendation">
+            <option class="recommendation-form__client-option" value="">Select Client</option>
+        </select>
+        <label class="recommendation-form__text-label" for="recommendationText">Recommendation:</label>
+        <textarea class="recommendation-form__text" id="recommendationText" rows="4" cols="50"></textarea>
+        <button class="recommendation-form__btn" type="submit">Create Recommendation</button>
+    </form>
+
+    <div id="recommendationsList">
+        <h2>Nutrition Recommendations</h2>
+        <ul id="recommendationsContainer"></ul>
+    </div>
+
+    <div class="recommendation" id="clientRecommendationsList">
+      <h2 class="recommendation__header">Nutrition Recommendations</h2>
+      <ul class="recommendation__list" id="clientRecommendationsContainer"></ul>
+    </div>
+    
+    <div class="training-plan" id="clientTrainingPlansList">
+      <h2 class="training-plan__header">Training Plans</h2>
+      <ul class="training-plan__list" id="clientTrainingPlansContainer"></ul>
+
+    </div>
+
+<canvas id="overall-progress-chart"></canvas>
+
+    
 </body>
 </html>

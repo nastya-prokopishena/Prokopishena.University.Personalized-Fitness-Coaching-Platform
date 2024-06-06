@@ -228,14 +228,981 @@ table {
   text-decoration: underline;
 }
 
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+.menu {
+  background-color: #4CAF50;
+  padding: 10px;
+  height: 4rem;
+  display: flex;
+  padding: 10px 0px;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;
+}
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.menu ul li {
+  margin-right: 20px;
+}
+.menu ul li:last-child {
+  margin-right: 0;
+}
+.menu ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.menu ul li a:hover {
+  text-decoration: underline;
+}
+
+body {
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 0;
+}
+
+section {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+section.profile {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 2rem;
+}
+
+.profile__information {
+  width: 40%;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-right: 20px;
+}
+
+.profile__information-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.profile__information-change {
+  width: 25%;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-right: 20px;
+}
+
+.profile__information-name,
+.profile__information-surname,
+.profile__information-email,
+.profile__information-date-of-birth,
+.profile__information-phone-number,
+.profile__information-gender,
+.profile__information-role {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.profile__information-name span,
+.profile__information-surname span,
+.profile__information-email span,
+.profile__information-date-of-birth span,
+.profile__information-phone-number span,
+.profile__information-gender span,
+.profile__information-role span {
+  font-weight: bold;
+}
+
+.profile__information-input {
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.profile_information-button,
+.profile__information-submit,
+.role-button,
+.profile_further-information-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+.profile_information-button:hover,
+.profile__information-submit:hover,
+.role-button:hover,
+.profile_further-information-button:hover {
+  background-color: #45a049;
+}
+
+.profile__information-change {
+  display: none;
+}
+
+.profile__client-information {
+  width: 25%;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-right: 20px;
+  height: -moz-max-content;
+  height: max-content;
+}
+.profile__client-information p {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 300;
+}
+.profile__client-information h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.profile_form-role,
+.profile_form {
+  width: 27%; /* Adjust width as needed */
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile_form-role {
+  z-index: 1;
+  text-align: center;
+}
+
+.profile_form-label {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.profile_form-input,
+.profile_form-textarea {
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.profile_form-textarea {
+  resize: vertical;
+}
+
+.profile_form-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.profile_form-button:hover {
+  background-color: #45a049;
+}
+
+.trainer-item {
+  margin-bottom: 20px;
+}
+.trainer-item div {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+}
+.trainer-item div h3 {
+  margin-top: 0;
+}
+.trainer-item div p {
+  margin: 5px 0;
+}
+.trainer-item div strong {
+  font-weight: bold;
+}
+
+.trainer-searching {
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-left: 35px;
+  width: 38%;
+}
+.trainer-searching_title {
+  color: #45a049;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.trainer-searching_button {
+  background-color: #45a049;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 10px 20px;
+  text-transform: uppercase;
+}
+.trainer-searching_button:hover {
+  background-color: #367c39;
+}
+.trainer-searching_list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#client-list {
+  margin-top: 50px;
+}
+
+#nutritionModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+#nutritionModal form {
+  display: flex;
+  flex-direction: column;
+}
+#nutritionModal form h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+#nutritionModal form input[type=hidden] {
+  display: none;
+}
+#nutritionModal form textarea {
+  resize: vertical;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  height: auto;
+}
+#nutritionModal form button {
+  background-color: #45a049;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  font-size: 14px;
+  margin-top: 10px;
+}
+#nutritionModal form button:hover {
+  background-color: #367c39;
+}
+#nutritionModal form button:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.client-item {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease-out;
+}
+.client-item:hover {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.client-item button {
+  background-color: #45a049;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 5px 10px;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-right: 8px;
+  text-transform: uppercase;
+}
+.client-item button:hover {
+  background-color: #367c39;
+}
+.client-item .client-additional-info {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.trainer-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+.trainer-list h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.trainer-list p {
+  margin-bottom: 5px;
+}
+
+.trainer-item {
+  background-color: #fff;
+  border-radius: 3px;
+  padding: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease-out;
+}
+.trainer-item:hover {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.train-btn {
+  background-color: #45a049;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 5px 10px;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-right: 8px;
+  text-transform: uppercase;
+}
+.train-btn:hover {
+  background-color: #367c39;
+}
+
+.progress-ring {
+  display: inline-block;
+  margin-right: 1rem;
+}
+.progress-ring .progress-ring-circle {
+  stroke-dasharray: 314;
+  stroke-dashoffset: 314;
+  transition: stroke-dashoffset 0.5s ease-out;
+  color: #367c39;
+}
+[data-progress]:not([data-progress="0"]) ~ .progress-ring .progress-ring .progress-ring-circle {
+  stroke-dashoffset: calc(314 - 314 * progress/100);
+}
+
+#goal-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  width: 96%;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-bottom: 60px;
+}
+#goal-list .goal-item {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  text-align: center;
+}
+#goal-list .goal-item p {
+  margin: 0;
+}
+#goal-list .goal-item .start-goal-btn,
+#goal-list .goal-item .complete-goal-btn {
+  background-color: #45a049;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 5px 10px;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-right: 8px;
+  text-transform: uppercase;
+}
+#goal-list .goal-item .start-goal-btn:hover,
+#goal-list .goal-item .complete-goal-btn:hover {
+  background-color: #367c39;
+}
+#goal-list .goal-item .start-goal-btn:disabled,
+#goal-list .goal-item .complete-goal-btn:disabled {
+  background-color: #173518;
+  cursor: not-allowed;
+}
+
+.goal {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  width: 96%;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-bottom: 60px;
+}
+.goal__header {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.goal__form {
+  display: flex;
+  flex-direction: column;
+}
+.goal__form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.goal__form-input, .goal__form-select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+.goal__form-button {
+  background-color: #45a049;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 5px 10px;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-right: 8px;
+  text-transform: uppercase;
+}
+.goal__form-button:hover {
+  background-color: #367c39;
+}
+
+.faq {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+.faq__header {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  color: #45a049;
+}
+.faq__item {
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+.faq__item:hover {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.faq__item .faq__question {
+  color: #333;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+.faq__item .faq__answer {
+  padding-left: 1rem;
+  display: none;
+}
+.faq__header, .faq__question {
+  font-weight: bold;
+}
+
+.contact {
+  text-align: center;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+.contact:hover {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.contact__header {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  color: #45a049;
+  font-weight: bold;
+}
+.contact__text {
+  margin-bottom: 1rem;
+}
+.contact_list {
+  list-style: none;
+  padding: 0;
+}
+.contact_list li {
+  margin-bottom: 0.5rem;
+}
+
+.quote-container {
+  text-align: center;
+  margin-top: 20px;
+}
+.quote-container__header {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.quote-container__text {
+  text-transform: uppercase;
+}
+
+.feedback {
+  text-align: center;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+.feedback:hover {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.feedback__header {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  color: #45a049;
+  font-weight: bold;
+}
+.feedback__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.feedback__form-label {
+  font-size: 18px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  font-style: italic;
+}
+.feedback__form-rate {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+.feedback .star {
+  font-size: 50px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.feedback .star:hover {
+  color: #45a049;
+}
+.feedback__form-text {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  text-transform: uppercase;
+}
+.feedback__form-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+.feedback__form-btn:hover {
+  background-color: #3e8e41;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+}
+
+.menu {
+  background-color: #4CAF50;
+  padding: 10px;
+  height: 4rem;
+  display: flex;
+  padding: 10px 0px;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;
+  margin-bottom: 30px;
+}
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.menu ul li {
+  margin-right: 20px;
+}
+.menu ul li:last-child {
+  margin-right: 0;
+}
+.menu ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.menu ul li a:hover {
+  text-decoration: underline;
+}
+
+.video-item {
+  display: inline-block;
+  margin: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.video-item:hover {
+  color: #4CAF50;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.video-title {
+  text-decoration: none;
+  text-align: center;
+}
+
+.switch-button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.switch-button-container button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  background-color: #ccc;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.switch-button-container button:hover {
+  background-color: #4CAF50;
+}
+
+.training-plan__header {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #3e8e41;
+  color: grey;
+  text-align: center;
+}
+.training-plan__list {
+  list-style: none;
+  padding: 0;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}
+.training-plan__list > li {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+.training-plan__title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  flex-grow: 1;
+}
+.training-plan__exercise-list {
+  list-style: none;
+  padding: 0;
+}
+.training-plan__exercise-list > .training-plan__exercise-item {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  background-color: #fff;
+  cursor: pointer;
+}
+.training-plan__exercise-list > .training-plan__exercise-item .training-plan__exercise-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.training-plan__exercise-list > .training-plan__exercise-item .training-plan__exercise-details {
+  display: none;
+  padding: 10px;
+  border-radius: 3px;
+  margin-top: 5px;
+  background-color: #f1f1f1;
+}
+.training-plan__item-header {
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #45a049;
+  font-weight: bolder;
+  flex: 2;
+}
+.training-plan__item-description {
+  font-size: 14px;
+  margin: 5px 0;
+}
+.training-plan__item-repetitions, .training-plan__item-sets {
+  font-size: 14px;
+  margin: 5px 0;
+  margin-left: 20px;
+}
+.training-plan__item-repetitions {
+  margin-right: 10px;
+}
+
+.recommendation__header {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: grey;
+  text-align: center;
+}
+.recommendation__list {
+  list-style: none;
+  padding: 0;
+}
+.recommendation__list > li {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  background-color: #fff;
+  cursor: pointer;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}
+.recommendation__item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.recommendation__item-title {
+  font-size: 20px;
+  font-weight: bold;
+  flex-grow: 1;
+}
+.recommendation__item-date {
+  font-size: 14px;
+  margin: 0;
+  color: #888;
+}
+.recommendation__item-description {
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #45a049;
+  font-weight: bolder;
+}
+
+.plan-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.completed-status {
+  margin-left: auto;
+}
+
+.progress {
+  width: 100%;
+  height: 20px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #4CAF50;
+  border-radius: 4px;
+  width: 0;
+  transition: width 0.3s ease-in-out;
+}
+
+.complete-plan-button {
+  background-color: #45a049;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 5px 10px;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-right: 8px;
+  text-transform: uppercase;
+}
+.complete-plan-button:hover {
+  background-color: #367c39;
+}
+
+.plan-form {
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  text-align: center;
+  padding-top: 15px;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  padding-bottom: 15px;
+}
+.plan-form__client-label, .plan-form__exercise-label, .plan-form__repetitions-label, .plan-form__sets-label {
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  color: #3e8e41;
+  font-size: 14px;
+  font-weight: bolder;
+}
+.plan-form__client-select,
+.plan-form .exerciseSelect,
+.plan-form .repetitions,
+.plan-form .sets {
+  padding: 8px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+.plan-form__exercise {
+  align-items: center;
+  margin-bottom: 10px;
+}
+.plan-form__exercise-label, .plan-form__exercise-select, .plan-form__exercise .repetitions, .plan-form__exercise .sets {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.plan-form__exercise-btn, .plan-form__create-plan-btn {
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+.plan-form__exercise-btn:hover, .plan-form__create-plan-btn:hover {
+  background-color: #3d8b40;
+}
+
+.recommendation-form {
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  text-align: center;
+}
+.recommendation-form__client-label, .recommendation-form__text-label {
+  text-transform: uppercase;
+  color: #3e8e41;
+  font-size: 14px;
+  font-weight: bolder;
+}
+.recommendation-form__client-select, .recommendation-form__text {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+.recommendation-form__btn {
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.recommendation-form__btn:hover {
+  background-color: #3d8b40;
+}
+
 @font-face {
-  font-family: "Podkova-Regular";
+  font-family: "Montserrat", sans-serif;
   src: url("/static/fonts/Podkova-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 body {
-  font-family: "Podkova", serif;
+  font-family: "Montserrat", sans-serif;
   overflow-x: hidden;
 }
 body .sign-up {

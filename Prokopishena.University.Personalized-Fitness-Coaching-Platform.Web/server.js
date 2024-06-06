@@ -17,20 +17,17 @@ const GoalTemplate = require('../Prokopishena.University.Personalized-Fitness-Co
 const Goal = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Goal')
 const InstructionVideo = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/InstructionVideo')
 const Quote = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Quote')
-const Group = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Group')
-const UserGroup = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/UserGroup')
-const GroupMessage = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/GroupMessage')
 const Feedback = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Feedback')
 const TrainingExercise = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/TrainingExercise')
 const Exercise = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/Exercise')
 const TrainingPlan = require("../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/TrainingPlan")
-const TrainingSession = require("../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Models/TrainingSession")
 const PORT = process.env.PORT || 3000;
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 const winston = require('winston');
 const nodemailer = require('nodemailer');
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -123,11 +120,9 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Something went wrong. Please try again.' });
   }
 });
-// Create client route
 app.post('/logout', async (req, res) => {
   try {
     if (req.session) {
-      // видалення об'єкту сесії
       req.session.destroy(function (err) {
         if (err) {
           console.error(err);
@@ -170,7 +165,6 @@ app.post('/create-trainer', async (req, res) => {
   }
 });
 
-// Get user by user_id route
 app.get('/user/:user_id', async (req, res) => {
   try {
     const userId = req.params.user_id;
@@ -195,7 +189,6 @@ app.get('/user/:user_id', async (req, res) => {
   }
 });
 
-// Get user role by user_id route
 app.get('/user-role/:user_id', async (req, res) => {
   try {
     const userId = req.params.user_id;
@@ -247,7 +240,6 @@ app.post('/update-user', async (req, res) => {
 app.get('/get-client-id/:user_id', async (req, res) => {
   const userId = req.params.user_id;
   try {
-      // Отримати client_id за допомогою user_id з бази даних
       const client = await Client.findOne({ where: { user_id: userId } });
       if (!client) {
           throw new Error('Клієнт не знайдений для цього користувача');
@@ -568,7 +560,18 @@ app.post('/nutrition-recommendations', async (req, res) => {
 
 app.get('/nutrition-recommendations', async (req, res) => {
   try {
-    const recommendations = await NutritionRecommendation.findAll();
+    const recommendations = await NutritionRecommendation.findAll({
+      include: [{
+        model: Client,
+        include: {
+          model: User,
+          attributes: ['name', 'surname'],
+        },
+        attributes: ['client_id'],
+      }],
+    });
+
+    console.log(recommendations); 
 
     res.json(recommendations);
   } catch (error) {
@@ -576,6 +579,9 @@ app.get('/nutrition-recommendations', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+
+
 
 app.delete('/nutrition-recommendations/:recommendationId', async (req, res) => {
   try {
@@ -593,6 +599,8 @@ app.delete('/nutrition-recommendations/:recommendationId', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+
 
 app.post('/api/goals', async (req, res) => {
   const { client_id, description, goal_template_id } = req.body;
@@ -641,7 +649,7 @@ app.put('/api/goals/:goal_id/start', async (req, res) => {
 
       const updatedGoal = await Goal.findByPk(goal_id);
 
-      res.status(200).json(updatedGoal); // Повернення JSON
+      res.status(200).json(updatedGoal); 
   } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -663,7 +671,7 @@ app.put('/api/goals/:goal_id/complete', async (req, res) => {
 
       const updatedGoal = await Goal.findByPk(goal_id);
 
-      res.status(200).json(updatedGoal); // Повернення JSON
+      res.status(200).json(updatedGoal); 
   } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -776,134 +784,6 @@ app.get('/random-quote', async (req, res) => {
   }
 });
 
-app.post('/groups', async (req, res) => {
-  try {
-    const { group_name, description } = req.body;
-    const group = await Group.create({ group_name, description });
-    res.status(201).json(group);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.get('/groups', async (req, res) => {
-  try {
-    const groups = await Group.findAll();
-    res.json(groups);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.put('/groups/:group_id', async (req, res) => {
-  try {
-    const { group_id } = req.params;
-    const { group_name, description } = req.body;
-    const group = await Group.findByPk(group_id);
-    if (!group) {
-      return res.status(404).json({ error: 'Group not found' });
-    }
-    await group.update({ group_name, description });
-    res.json(group);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.delete('/groups/:group_id', async (req, res) => {
-  try {
-    const { group_id } = req.params;
-    const group = await Group.findByPk(group_id);
-    if (!group) {
-      return res.status(404).json({ error: 'Group not found' });
-    }
-    await group.destroy();
-    res.status(204).end();
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-
-app.get('/user/:userId/groups', async (req, res) => {
-  try {
-    const userId = req.params.userId;
-
-    const userGroups = await UserGroup.findAll({
-      where: {
-        user_id: userId
-      }
-    });
-
-    const groupNames = [];
-
-    for (const userGroup of userGroups) {
-      const groupId = userGroup.group_id;
-      const group = await Group.findOne({
-        where: {
-          group_id: groupId
-        }
-      });
-      groupNames.push(group.group_name);
-    }
-
-    res.json(groupNames);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Помилка сервера' });
-  }
-});
-app.post('/join-group', async (req, res) => {
-  try {
-    const { user_id, group_id } = req.body;
-
-    const existingUserGroup = await UserGroup.findOne({ where: { user_id, group_id } });
-
-    if (existingUserGroup) {
-      return res.status(400).json({ error: 'User already belongs to this group' });
-    }
-
-    await UserGroup.create({
-      user_id,
-      group_id
-    });
-
-    res.status(201).json({ message: 'User added to group successfully' });
-  } catch (error) {
-    console.error('Error adding user to group:', error);
-    res.status(500).json({ error: 'Error adding user to group' });
-  }
-});
-app.get('/group-messages/:groupId', async (req, res) => {
-  try {
-      const groupId = req.params.groupId;
-      const messages = await GroupMessage.findAll({
-          where: {
-              group_id: groupId
-          }
-      });
-      res.json(messages);
-  } catch (error) {
-      console.error('Помилка отримання групових повідомлень:', error);
-      res.status(500).json({ error: 'Помилка отримання групових повідомлень' });
-  }
-});
-
-
-app.post('/send-message', async (req, res) => {
-  try {
-      const { messageText, groupId, userId } = req.body;
-      await GroupMessage.create({
-          group_id: groupId,
-          user_id: userId,
-          message_text: messageText
-      });
-      res.sendStatus(200); 
-  } catch (error) {
-      console.error('Error sending message:', error);
-      res.status(500).json({ error: 'Error sending message' });
-  }
-});
 
 app.post('/api/feedback', async (req, res) => {
   try {
@@ -929,88 +809,6 @@ app.get('/api/feedback', async (req, res) => {
   }
 });
 
-app.post('/training-plans', async (req, res) => {
-  try {
-    const { trainer_id, client_id, plan_duration, trainings_per_week } = req.body;
-    const newPlan = await TrainingPlan.create({
-      trainer_id,
-      client_id,
-      plan_duration,
-      trainings_per_week
-    });
-    res.status(201).json(newPlan);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Помилка при створенні плану тренувань' });
-  }
-});
-
-app.get('/training-plans/:planId', async (req, res) => {
-  try {
-    const planId = req.params.planId;
-    const plan = await TrainingPlan.findByPk(planId);
-    res.json(plan);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Помилка при отриманні плану тренувань' });
-  }
-});
-
-app.post('/training-plans', async (req, res) => {
-  const { trainer_id, client_id, plan_duration, trainings_per_week } = req.body;
-
-  try {
-    const trainingPlan = await TrainingPlan.create({
-      trainer_id: trainer_id,
-      client_id: client_id,
-      plan_duration: plan_duration,
-      trainings_per_week: trainings_per_week
-    });
-
-    res.status(201).json({ message: 'Training plan created successfully', plan_id: trainingPlan.plan_id });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Помилка при створенні плану тренувань' });
-  }
-});
-app.post('/training-sessions', async (req, res) => {
-  const { plan_id, training_sessions } = req.body;
-
-  try {
-    for (const session of training_sessions) {
-      const trainingSession = await TrainingSession.create({
-        plan_id: plan_id,
-        session_number: session.session_number
-      });
-
-      for (const exercise of session.exercises) {
-        await TrainingExercise.create({
-          session_id: trainingSession.session_id,
-          exercise_id: exercise.exercise_id,
-          repetitions: exercise.repetitions,
-        });
-      }
-    }
-
-    res.status(201).json({ message: 'Training sessions created successfully' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Помилка при створенні тренувальних сесій' });
-  }
-});
-
-
-app.get('/training-sessions/:sessionId', async (req, res) => {
-  try {
-    const sessionId = req.params.sessionId;
-    const session = await TrainingSession.findByPk(sessionId);
-    res.json(session);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Помилка при отриманні сесії тренувань' });
-  }
-});
-
 app.post('/exercises', async (req, res) => {
   try {
     const { exercise_name, description } = req.body;
@@ -1027,13 +825,122 @@ app.post('/exercises', async (req, res) => {
 
 app.get('/exercises', async (req, res) => {
   try {
-    const exercises = await Exercise.findAll({ attributes: ['exercise_id', 'exercise_name'] });
+    const exercises = await Exercise.findAll();
     res.json(exercises);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Помилка при отриманні списку вправ' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
   }
 });
+
+app.post('/trainer/:trainerId/clients/:clientId/plan', async (req, res) => {
+  const { trainerId, clientId } = req.params;
+  const { exercises } = req.body; 
+  try {
+    const trainingPlan = await TrainingPlan.create({ trainer_id: trainerId, client_id: clientId });
+
+    const trainingExercises = exercises.map(exercise => ({
+      plan_id: trainingPlan.plan_id,
+      exercise_id: exercise.exercise_id,
+      repetitions: exercise.repetitions,
+      sets: exercise.sets
+    }));
+
+    await TrainingExercise.bulkCreate(trainingExercises);
+
+    res.status(201).json({ message: 'Training plan created successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+Client.hasMany(TrainingPlan, { foreignKey: 'client_id' });
+TrainingPlan.belongsTo(Client, { foreignKey: 'client_id' });
+Trainer.hasMany(TrainingPlan, { foreignKey: 'trainer_id' });
+TrainingPlan.belongsTo(Trainer, { foreignKey: 'trainer_id' });
+TrainingPlan.hasMany(TrainingExercise, { foreignKey: 'plan_id' });
+TrainingExercise.belongsTo(TrainingPlan, { foreignKey: 'plan_id' });
+TrainingExercise.belongsTo(Exercise, { foreignKey: 'exercise_id' });
+
+app.get('/get-client-training-data/:user_id', async (req, res) => {
+  const userId = req.params.user_id;
+  try {
+    const client = await Client.findOne({ where: { user_id: userId } });
+    if (!client) {
+      throw new Error('Клієнт не знайдений для цього користувача');
+    }
+    
+    const trainingPlans = await TrainingPlan.findAll({
+      where: { client_id: client.client_id },
+      include: [{
+        model: TrainingExercise,
+        include: [Exercise] 
+      }]
+    });
+
+    if (!trainingPlans.length) {
+      throw new Error('Тренувальні плани не знайдені для цього клієнта');
+    }
+
+    res.json(trainingPlans);
+  } catch (error) {
+    console.error('Помилка отримання даних:', error);
+    res.status(500).json({ error: 'Помилка отримання даних' });
+  }
+});
+
+app.get('/get-client-nutrition-data/:user_id', async (req, res) => {
+  const userId = req.params.user_id;
+  try {
+    const client = await Client.findOne({ where: { user_id: userId } });
+    if (!client) {
+      throw new Error('Клієнт не знайдений для цього користувача');
+    }
+
+    const nutritionRecommendations = await NutritionRecommendation.findAll({
+      where: { client_id: client.client_id }
+    });
+
+    if (!nutritionRecommendations.length) {
+      throw new Error('Рекомендації по харчуванню не знайдені для цього клієнта');
+    }
+
+    res.json(nutritionRecommendations);
+  } catch (error) {
+    console.error('Помилка отримання даних:', error);
+    res.status(500).json({ error: 'Помилка отримання даних' });
+  }
+});
+
+app.put('/complete-training-plan/:plan_id', async (req, res) => {
+  const planId = req.params.plan_id;
+  try {
+      const plan = await TrainingPlan.findByPk(planId);
+      if (!plan) {
+          return res.status(404).json({ error: 'Тренувальний план не знайдено' });
+      }
+      plan.status = 'completed';
+      await plan.save();
+      res.json({ message: 'Тренувальний план підтверджено' });
+  } catch (error) {
+      console.error('Помилка оновлення статусу:', error);
+      res.status(500).json({ error: 'Помилка оновлення статусу' });
+  }
+});
+
+app.put('/update-exercise-status/:exerciseId', async (req, res) => {
+  const { exerciseId } = req.params; 
+  const { status } = req.body;
+
+  try {
+      await TrainingExercise.update({ status: status }, { where: { training_exercise_id: exerciseId } });
+      res.sendStatus(200);
+  } catch (error) {
+      res.status(500).json({ error: `Помилка оновлення статусу вправи: ${error.message}` });
+  }
+});
+
 
 // Static file handler for public resources
 app.use(express.static(path.join(__dirname, 'public')));
