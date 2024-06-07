@@ -1,7 +1,7 @@
-// Models/NutritionRecommendation.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../Prokopishena.University.Personalized-Fitness-Coaching-Platform.Core/db');
-const TrainingRequest = require('./TrainingRequest');
+const User = require('./User'); 
+const Client = require('./Client');
 
 const NutritionRecommendation = sequelize.define('NutritionRecommendation', {
   recommendation_id: {
@@ -11,7 +11,11 @@ const NutritionRecommendation = sequelize.define('NutritionRecommendation', {
   },
   client_id: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
+    references: {
+      model: Client,
+      key: 'client_id'
+    }
   },
   trainer_id: {
     type: DataTypes.INTEGER,
@@ -29,5 +33,8 @@ const NutritionRecommendation = sequelize.define('NutritionRecommendation', {
   tableName: 'nutrition_recommendations',
   timestamps: false
 });
+
+NutritionRecommendation.belongsTo(Client, { foreignKey: 'client_id', as: 'client' });
+Client.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
 
 module.exports = NutritionRecommendation;

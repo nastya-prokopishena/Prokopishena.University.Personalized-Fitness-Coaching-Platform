@@ -87,6 +87,8 @@
   }
   
   .recommendation {
+    margin-top: 2.5%;
+    &__header-trainer,
     &__header {
       font-size: 24px;
       font-weight: bold;
@@ -136,6 +138,20 @@
         color: #45a049;
         font-weight: bolder;
     }
+    &__delete-button{
+    background-color: #45a049;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 5px 10px;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-right: 8px;
+    text-transform: uppercase;
+    &:hover {
+      background-color: darken(#45a049, 10%);
+    }
+  }
   }
 
 .plan-header {
@@ -198,6 +214,13 @@ $button-padding: 8px 16px;
   margin-right: 2.5%;
   padding-bottom: 15px;
 
+  &__header{
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: grey;
+    text-align: center;
+  }
   &__client-label,
   &__exercise-label,
   &__repetitions-label,
@@ -263,6 +286,13 @@ $button-padding: 8px 16px;
   justify-items: center; 
   text-align: center;
 
+  &__header{
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: grey;
+    text-align: center;
+  }
   &__client-label,
   &__text-label {
     text-transform: uppercase;

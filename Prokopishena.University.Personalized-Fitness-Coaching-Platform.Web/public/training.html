@@ -21,50 +21,16 @@
 <body>
     <nav class="menu">
         <ul>
-          <li><a href="#">User Profile</a></li>
+          <li><a href="trainingPlans.html">User Profile</a></li>
           <li><a href="training.html">Training</a></li>
           <li><a href="videos.html">Videos</a></li> 
-          <li><a href="#groups">Groups</a></li> 
-          <li>
+          <!--<li><a href="#groups">Groups</a></li> 
+           <li>
             <button id="logoutButton">Logout</button>
-          </li>
+          </li>-->
         </ul>
       </nav>
-      <form class="plan-form" id="createPlan">
-        <label class="plan-form__client-label" for="clientSelect">Client:</label>
-        <select class="plan-form__client-select" id="clientSelect">
-          <option class="plan-form__client-option" value="">Select Client</option>
-        </select>
-        <div class="plan-form__exercise" id="exercisesContainer">
-          <label class="plan-form__exercise-label" for="exerciseSelect">Exercise:</label>
-          <select  class="exerciseSelect">
-            <option class="plan-form__exercise-optoin" value="">Select Exercise</option>
-          </select>
-          <label class="plan-form__repetitions-label" for="repetitions">Repetitions:</label>
-          <input type="number" class="repetitions" min="1">
-          <label class="plan-form__sets-label" for="sets">Sets:</label>
-          <input type="number" class="sets" min="1">
-        </div>
-        <button class="plan-form__exercise-btn" type="button" id="addExercise">Add Exercise</button>
-        <button class="plan-form__create-plan-btn"  type="submit">Create Plan</button>
-      </form>
-
-
-      <form class="recommendation-form" id="createRecommendation">
-        <label class="recommendation-form__client-label" for="clientSelectRecommendation">Client:</label>
-        <select class="recommendation-form__client-select" id="clientSelectRecommendation">
-            <option class="recommendation-form__client-option" value="">Select Client</option>
-        </select>
-        <label class="recommendation-form__text-label" for="recommendationText">Recommendation:</label>
-        <textarea class="recommendation-form__text" id="recommendationText" rows="4" cols="50"></textarea>
-        <button class="recommendation-form__btn" type="submit">Create Recommendation</button>
-    </form>
-
-    <div id="recommendationsList">
-        <h2>Nutrition Recommendations</h2>
-        <ul id="recommendationsContainer"></ul>
-    </div>
-
+      
     <div class="recommendation" id="clientRecommendationsList">
       <h2 class="recommendation__header">Nutrition Recommendations</h2>
       <ul class="recommendation__list" id="clientRecommendationsContainer"></ul>
@@ -76,7 +42,43 @@
 
     </div>
 
-<canvas id="overall-progress-chart"></canvas>
+    <form class="plan-form" id="createPlan">
+      <h2 class="plan-form__header">Create New Training Plan</h2>
+      <label class="plan-form__client-label" for="clientSelect">Client:</label>
+      <select class="plan-form__client-select" id="clientSelect">
+        <option class="plan-form__client-option" value="">Select Client</option>
+      </select>
+      <div class="plan-form__exercise" id="exercisesContainer">
+        <label class="plan-form__exercise-label" for="exerciseSelect">Exercise:</label>
+        <select  class="exerciseSelect">
+          <option class="plan-form__exercise-optoin" value="">Select Exercise</option>
+        </select>
+        <label class="plan-form__repetitions-label" for="repetitions">Repetitions:</label>
+        <input type="number" class="repetitions" min="1">
+        <label class="plan-form__sets-label" for="sets">Sets:</label>
+        <input type="number" class="sets" min="1">
+      </div>
+      <button class="plan-form__exercise-btn" type="button" id="addExercise">Add Exercise</button>
+      <button class="plan-form__create-plan-btn"  type="submit">Create Plan</button>
+    </form>
+
+
+    <form class="recommendation-form" id="createRecommendation">
+      <h2 class="recommendation-form__header">Create New Nutrition Recommendation</h2>
+      <label class="recommendation-form__client-label" for="clientSelectRecommendation">Client:</label>
+      <select class="recommendation-form__client-select" id="clientSelectRecommendation">
+          <option class="recommendation-form__client-option" value="">Select Client</option>
+      </select>
+      <label class="recommendation-form__text-label" for="recommendationText">Recommendation:</label>
+      <textarea class="recommendation-form__text" id="recommendationText" rows="4" cols="50"></textarea>
+      <button class="recommendation-form__btn" type="submit">Create Recommendation</button>
+  </form>
+
+  <div class="recommendation" id="recommendationsList">
+    <h2 class="recommendation__header-trainer">Nutrition Recommendations</h2>
+    <ul id="recommendationsContainer" class="recommendation__list"></ul>
+  </div>
+  
 
     
 </body>

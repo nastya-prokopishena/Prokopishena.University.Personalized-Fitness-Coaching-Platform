@@ -425,7 +425,7 @@ section.profile {
   display: none;
 }
 
-.profile__client-information {
+.profile__trainer-information, .profile__client-information {
   width: 25%;
   background-color: #fff;
   padding: 1rem;
@@ -433,16 +433,13 @@ section.profile {
   -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
           box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   margin-right: 20px;
-  height: -webkit-max-content;
-  height: -moz-max-content;
-  height: max-content;
 }
-.profile__client-information p {
+.profile__trainer-information p, .profile__client-information p {
   font-size: 1rem;
   margin-bottom: 0.5rem;
   font-weight: 300;
 }
-.profile__client-information h2 {
+.profile__trainer-information h2, .profile__client-information h2 {
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
   text-transform: uppercase;
@@ -549,6 +546,8 @@ section.profile {
 
 #client-list {
   margin-top: 50px;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
 }
 
 #nutritionModal {
@@ -640,6 +639,9 @@ section.profile {
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid #ccc;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .trainer-list {
@@ -1159,7 +1161,10 @@ section.profile {
   margin-right: 10px;
 }
 
-.recommendation__header {
+.recommendation {
+  margin-top: 2.5%;
+}
+.recommendation__header-trainer, .recommendation__header {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -1209,6 +1214,20 @@ section.profile {
   text-transform: uppercase;
   color: #45a049;
   font-weight: bolder;
+}
+.recommendation__delete-button {
+  background-color: #45a049;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 5px 10px;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-right: 8px;
+  text-transform: uppercase;
+}
+.recommendation__delete-button:hover {
+  background-color: #367c39;
 }
 
 .plan-header {
@@ -1270,6 +1289,13 @@ section.profile {
   margin-right: 2.5%;
   padding-bottom: 15px;
 }
+.plan-form__header {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: grey;
+  text-align: center;
+}
 .plan-form__client-label, .plan-form__exercise-label, .plan-form__repetitions-label, .plan-form__sets-label {
   text-transform: uppercase;
   margin-bottom: 4px;
@@ -1322,6 +1348,13 @@ section.profile {
   display: grid;
   gap: 10px;
   justify-items: center;
+  text-align: center;
+}
+.recommendation-form__header {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: grey;
   text-align: center;
 }
 .recommendation-form__client-label, .recommendation-form__text-label {

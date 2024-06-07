@@ -558,30 +558,32 @@ app.post('/nutrition-recommendations', async (req, res) => {
 });
 
 
-app.get('/nutrition-recommendations', async (req, res) => {
+app.get('/nutrition-recommendations/:trainer_id', async (req, res) => {
+  const trainerId = req.params.trainer_id;
+
   try {
-    const recommendations = await NutritionRecommendation.findAll({
-      include: [{
-        model: Client,
-        include: {
-          model: User,
-          attributes: ['name', 'surname'],
-        },
-        attributes: ['client_id'],
-      }],
-    });
+      const recommendations = await NutritionRecommendation.findAll({
+          where: {
+              trainer_id: trainerId
+          },
+          include: {
+              model: Client,
+              as: 'client',
+              include: {
+                  model: User,
+                  as: 'user',
+                  attributes: ['name', 'surname']
+              },
+              attributes: ['client_id']
+          }
+      });
 
-    console.log(recommendations); 
-
-    res.json(recommendations);
+      res.json(recommendations);
   } catch (error) {
-    console.error('Error fetching nutrition recommendations:', error);
-    res.status(500).json({ error: 'Internal server error' });
+      console.error('Error fetching nutrition recommendations:', error);
+      res.status(500).json({ error: 'Internal server error' });
   }
 });
-
-
-
 
 app.delete('/nutrition-recommendations/:recommendationId', async (req, res) => {
   try {

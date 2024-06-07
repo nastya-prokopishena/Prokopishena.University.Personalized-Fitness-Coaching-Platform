@@ -131,7 +131,6 @@ const displayTrainerInfo = async (userId) => {
         const response = await fetch(`/trainer/${userId}`);
         const trainerInfo = await response.json();
 
-        // Відображення інформації про тренера в div з id="trainer-info"
         document.getElementById('trainer-info').innerHTML = `
             <h2>Trainer Information</h2>
             <p>Specialization: ${trainerInfo.specialization}</p>
@@ -142,22 +141,25 @@ const displayTrainerInfo = async (userId) => {
     }
 };
 
+fetch(`/user-role/${userId}`)
+    .then(response => response.json())
+    .then(data => {
+        const userRole = data.role;
 
-// Визначення ролі користувача і відображення відповідної інформації
-try {
-    const response = await fetch(`/user-role/${userId}`);
-    const data = await response.json();
-    const userRole = data.role;
-
-    if (userRole === 'Client') {
-        displayClientInfo(userId);
-        
-    } else if (userRole === 'Trainer') {
-        displayTrainerInfo(userId);
-    }
-} catch (error) {
-    console.error('Error getting user role:', error);
-}
+        if (userRole === 'Client') {
+            document.getElementById('client-info').style.display = 'block';
+            document.getElementById('trainer-info').style.display = 'none';
+            displayClientInfo(userId); 
+        } else if (userRole === 'Trainer') {
+            document.getElementById('client-info').style.display = 'none';
+            document.getElementById('trainer-info').style.display = 'block';
+            displayTrainerInfo(userId); 
+        } else {
+            document.getElementById('client-info').style.display = 'none';
+            document.getElementById('trainer-info').style.display = 'none';
+        }
+    })
+    .catch(error => console.error(error));
 
 const displayClientsForTrainer = async (trainerId) => {
     try {
@@ -178,17 +180,14 @@ const displayClientsForTrainer = async (trainerId) => {
         clientContainer.innerHTML = '';
 
         clients.forEach(client => {
-            // Створення елемента для кожного клієнта
             const clientDiv = document.createElement('div');
             clientDiv.classList.add('client-item');
             clientDiv.setAttribute('data-client-id', client.client_id);
 
-            // Ім'я та прізвище клієнта
             const clientNameElement = document.createElement('p');
             clientNameElement.innerText = `Name: ${client.name} ${client.surname}`;
             clientDiv.appendChild(clientNameElement);
 
-            // Створення додаткової інформації про клієнта
             const additionalInfoDiv = document.createElement('div');
             additionalInfoDiv.classList.add('client-additional-info');
             additionalInfoDiv.style.display = 'none';
@@ -211,70 +210,10 @@ const displayClientsForTrainer = async (trainerId) => {
             button.addEventListener('click', toggleClientInfo);
             clientDiv.appendChild(button);
 
-            // Створення кнопки для відкриття форми рекомендацій
-            const nutritionsButton = document.createElement('button');
-            nutritionsButton.textContent = 'Nutritions';
-            nutritionsButton.addEventListener('click', () => openNutritionsForm(client));
-            clientDiv.appendChild(nutritionsButton);
-
             clientContainer.appendChild(clientDiv);
         });
     } catch (error) {
         console.error('Error fetching clients for trainer:', error);
-    }
-};
-
-const openNutritionsForm = async (client) => {
-    const clientId = client.client_id;
-    const clientDiv = document.querySelector(`div[data-client-id="${clientId}"]`);
-    
-    if (clientDiv) {
-        // Перевіряємо, чи вже створено форму
-        if (clientDiv.querySelector('form')) {
-            console.log('Nutritions form already exists');
-            return;
-        }
-
-        // Створюємо форму
-        const form = document.createElement('form');
-        form.style.display = 'block'; // Показуємо форму при відкритті
-        form.innerHTML = `
-            <label for="recommendation_text">Enter Nutrition Recommendation:</label><br>
-            <textarea id="recommendation_text" name="recommendation_text" rows="4" cols="50"></textarea><br>
-            <button type="button">Send Recommendation</button>
-        `;
-        clientDiv.appendChild(form);
-
-        form.querySelector('button').addEventListener('click', async () => {
-            const recommendationText = form.querySelector('#recommendation_text').value;
-            const userId = localStorage.getItem('user_id');
-            const trainerId = await getTrainerId(userId);
-
-            try {
-                const response = await fetch('/nutrition-recommendations', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        client_id: clientId,
-                        trainer_id: trainerId,
-                        recommendation_text: recommendationText
-                    })
-                });
-
-                if (!response.ok) {
-                    console.error('Error sending recommendation');
-                    return;
-                }
-
-                form.querySelector('#recommendation_text').value = '';
-            } catch (error) {
-                console.error('Error sending recommendation:', error);
-            }
-        });
-    } else {
-        console.error('Client div not found');
     }
 };
 
@@ -362,7 +301,6 @@ const getGoals = async (clientId) => {
         document.getElementById('display-role').innerText = userRole;
 
         if (userRole === 'Client') {
-            // Show the goal setting form
             goalForm.style.display = 'block';
 
             const goalTemplateSelect = document.getElementById('goal-template');
@@ -667,7 +605,7 @@ fetchSpecializations();
 document.getElementById('client-profile-form').addEventListener('submit', async function(event) {
     event.preventDefault();
     await fetchSpecializations();
-    const userId = localStorage.getItem('user_id'); // Переміщаємо отримання userId в середину функції
+    const userId = localStorage.getItem('user_id'); 
     const SelectedTrainingGoals = Array.from(document.querySelectorAll('input[name="specializations[]"]:checked')).map(checkbox => checkbox.value).join(',');
 
     try {
@@ -679,7 +617,7 @@ document.getElementById('client-profile-form').addEventListener('submit', async 
             endurance_level: document.getElementById('endurance-level').value,
             flexibility_level: document.getElementById('flexibility-level').value,
             training_goals: SelectedTrainingGoals,
-            user_id: userId // Виправлено user_id на userId
+            user_id: userId 
         };
 
         const response = await fetch('/client-profile', {
@@ -917,9 +855,7 @@ function getRandomQuote() {
             const lastDisplayedQuote = localStorage.getItem(STORAGE_KEY);
             const today = new Date().toDateString();
             if (lastDisplayedQuote === null || JSON.parse(lastDisplayedQuote).date !== today) {
-                // Оновити HTML-вміст випадковою цитатою
                 quoteElement.textContent = data.quote_text;
-                // Зберегти дані про останню відображену цитату в локальному сховищі
                 const quoteData = {
                     text: data.quote_text,
                     date: today

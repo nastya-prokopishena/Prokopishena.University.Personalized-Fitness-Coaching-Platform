@@ -28,7 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 alert('Account created successfully!');
+                signUpForm.reset();
                 console.log(data);
+
             } else {
                 if (data && data.message) {
                     alert('Error creating account: ' + data.message);

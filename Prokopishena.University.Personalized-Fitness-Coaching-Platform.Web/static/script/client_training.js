@@ -10,10 +10,10 @@ document.addEventListener("DOMContentLoaded", function() {
       } else {
         document.getElementById('clientRecommendationsList').style.display = 'none';
         document.getElementById('clientTrainingPlansList').style.display = 'none';
-
       }
     })
     .catch(error => console.error(error));
+    
     if (userId) {
         fetch(`/get-client-training-data/${userId}`)
             .then(response => response.json())
@@ -24,8 +24,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 displayTrainingPlans(data);
             })
             .catch(error => {
-                console.error('Помилка отримання даних:', error);
-                document.getElementById('clientTrainingPlansList').innerHTML = `<p>${error.message}</p>`;
+                console.error('Error fetching training data:', error);
+                document.querySelector('.training-plan__header').innerText = 'You have no training plans yet.';
             });
 
         fetch(`/get-client-nutrition-data/${userId}`)
@@ -37,12 +37,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 displayNutritionRecommendations(data);
             })
             .catch(error => {
-                console.error('Помилка отримання даних:', error);
-                document.getElementById('clientRecommendationsList').innerHTML = `<p>${error.message}</p>`;
+                console.error('Error fetching nutrition data:', error);
+                document.querySelector('.recommendation__header').innerText = 'You have no nutrition recommendations yet.';
             });
     } else {
-        document.getElementById('clientTrainingPlansList').innerHTML = '<p>userId не знайдено в localStorage</p>';
-        document.getElementById('clientRecommendationsList').innerHTML = '<p>userId не знайдено в localStorage</p>';
+        document.querySelector('.training-plan__header').innerText = 'userId not found in localStorage';
+        document.querySelector('.recommendation__header').innerText = 'userId not found in localStorage';
     }
 });
 
@@ -87,11 +87,14 @@ function displayOverallProgressChart(overallProgress) {
     });
 }
 
-
-
 function displayTrainingPlans(plans) {
     const container = document.getElementById('clientTrainingPlansContainer');
     container.innerHTML = ''; 
+
+    if (plans.length === 0) {
+        document.querySelector('.training-plan__header').innerText = 'You have no training plans yet.';
+        return;
+    }
 
     plans.forEach((plan, index) => {
         const progress = calculateProgress(plan);
@@ -138,17 +141,17 @@ function displayTrainingPlans(plans) {
                     document.location.reload(true);
                 })
                 .catch(error => {
-                    console.error('Помилка підтвердження плану:', error);
+                    console.error('Error completing plan:', error);
                 });
         });
     });
+
     document.querySelectorAll('.plan-header').forEach(title => {
         title.addEventListener('click', function() {
             const list = this.nextElementSibling;
             list.style.display = list.style.display === 'none' ? 'block' : 'none';
         });
     });
-
 
     document.querySelectorAll('.training-plan__exercise-item').forEach(item => {
         item.addEventListener('click', function(event) {
@@ -181,40 +184,43 @@ function displayTrainingPlans(plans) {
                 updateProgressBar(planId, progressBar);
             })
             .catch(error => {
-                console.error('Помилка зміни статусу вправи:', error);
+                console.error('Error updating exercise status:', error);
             });
         });
     });
-    
+
     async function updateProgressBar(planId, progressBar) {
         try {
             const response = await fetch(`/get-plan/${planId}`);
             if (!response.ok) {
-                throw new Error('Помилка отримання даних плану');
+                throw new Error('Error fetching plan data');
             }
             const plan = await response.json();
-    
+
             const progress = calculateProgress(plan);
-    
+
             progressBar.style.width = `${progress}%`;
         } catch (error) {
-            console.error('Помилка оновлення прогрес-бару:', error);
+            console.error('Error updating progress bar:', error);
         }
     }
-    
-    
+
     function calculateProgress(plan) {
         const totalExercises = plan.TrainingExercises.length;
         const completedExercises = plan.TrainingExercises.filter(exercise => exercise.status === 'completed').length;
         const progress = (completedExercises / totalExercises) * 100;
         return progress.toFixed(2); 
     }
-    
-    
 }
+
 function displayNutritionRecommendations(recommendations) {
     const container = document.getElementById('clientRecommendationsContainer');
     container.innerHTML = ''; 
+
+    if (recommendations.length === 0) {
+        document.querySelector('.recommendation__header').innerText = 'You have no nutrition recommendations yet.';
+        return;
+    }
 
     recommendations.forEach((recommendation, index) => {
         const recommendationItem = document.createElement('li');

@@ -147,6 +147,7 @@ section.profile {
     display: none;
 }
 .profile {
+  &__trainer-information,
   &__client-information{
     width: 25%;
     background-color: #fff;
@@ -154,7 +155,6 @@ section.profile {
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-right: 20px;
-    height: max-content;
     p{
       font-size: 1rem;
       margin-bottom: 0.5rem;
@@ -277,6 +277,8 @@ section.profile {
   
   #client-list {
     margin-top: 50px;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
   }
   #nutritionModal {
     position: fixed;
@@ -340,7 +342,7 @@ section.profile {
     position: relative;
     overflow: hidden;
     transition: box-shadow 0.2s ease-out;
-
+    
   
     &:hover {
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -365,6 +367,7 @@ section.profile {
       margin-top: 10px;
       padding-top: 10px;
       border-top: 1px solid #ccc;
+      display: flex;
     }
   }
 
